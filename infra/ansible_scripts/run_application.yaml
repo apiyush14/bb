@@ -2,5 +2,7 @@
  name: Run Application
  hosts: webservers
  tasks:
+   - name: Stop Application
+     shell: curl -X POST localhost:port/actuator/shutdown
    - name: Run Application
      shell: nohup java -jar /home/osboxes/.jenkins/workspace/onehealthpipeline/target/onehealth-0.0.1-SNAPSHOT.jar &
