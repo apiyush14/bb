@@ -9,6 +9,6 @@ public class TestRestController {
 	@GetMapping(path="/helloworld")
 	public String testMethod()
 	{
-		return "Hello World!!!";
+		return "Hello World From One Health!!!";
 	}
 }
