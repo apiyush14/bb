@@ -1,6 +1,6 @@
 -
  name: Run Application
- hosts: mysql
+ hosts: target
  tasks:
    - name: Run Application
      shell: java -jar /home/osboxes/.jenkins/workspace/onehealthpipeline/target/onehealth-0.0.1-SNAPSHOT.jar
