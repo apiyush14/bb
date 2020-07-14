@@ -1,6 +1,6 @@
 -
  name: Deploy MySQL
- hosts: mysql
+ hosts: dbservers
  vars:
    mysql_root_password: Nexeas@18
  tasks:
