@@ -3,7 +3,7 @@
  hosts: webservers
  tasks:
    - name: Stop Application
-     shell: curl -X POST "{{ansible_host}}":7001/actuator/shutdown
+     shell: curl -X POST {{ansible_host}}:7001/actuator/shutdown
      ignore_errors: True
    - name: Run Application
      shell: nohup java -jar /home/osboxes/.jenkins/workspace/onehealthpipeline/target/onehealth-0.0.1-SNAPSHOT.jar &
