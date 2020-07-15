@@ -1,0 +1,8 @@
+---
+- hosts: webservers
+  tasks:
+  - name: Installing Basic Tools
+    become: yes
+    apt:
+      name: ['openjdk-8-jdk', 'maven', 'curl']
+      state: present

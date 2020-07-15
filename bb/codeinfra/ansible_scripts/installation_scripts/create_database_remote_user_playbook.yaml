@@ -1,0 +1,16 @@
+-
+ name: Create Database Remote User
+ hosts: dbservers
+ tasks:
+   - name: Create root user
+     become: yes
+     command: sudo mysql --skip-column-names --execute "CREATE USER IF NOT EXISTS 'root'@'%' IDENTIFIED BY 'Nexeas@18'"
+   - name: Grant Privileges to root user
+     become: yes
+     command: sudo mysql --skip-column-names --execute "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%'"
+   - name: Create new user
+     become: yes
+     command: sudo mysql --skip-column-names --execute "CREATE USER IF NOT EXISTS 'testuser'@'%' IDENTIFIED BY 'Nexeas@18'"
+   - name: Grant privileges to user
+     become: yes
+     command: sudo mysql --skip-column-names --execute "GRANT ALL PRIVILEGES ON *.* TO 'testuser'@'%'"
