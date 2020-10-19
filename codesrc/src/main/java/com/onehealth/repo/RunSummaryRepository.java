@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.onehealth.entities.RunSummary;
 
 @Repository
-public interface RunSummaryRepository extends JpaRepository<RunSummary, Integer> {
+public interface RunSummaryRepository extends JpaRepository<RunSummary, String> {
 
 }

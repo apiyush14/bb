@@ -2,9 +2,10 @@ package com.onehealth.model;
 
 import java.util.List;
 
+import com.onehealth.core.model.BaseRequestProcessorInput;
 import com.onehealth.entities.RunDetails;
 
-public class AddRunDetailsRequest {
+public class AddRunDetailsRequest extends BaseRequestProcessorInput{
  private List<RunDetails> runDetailsList;
 
 public List<RunDetails> getRunDetailsList() {

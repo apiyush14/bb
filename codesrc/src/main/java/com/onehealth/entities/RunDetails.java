@@ -1,21 +1,29 @@
 package com.onehealth.entities;
 
+import java.sql.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name="RUN_DETAILS")
+@IdClass(RunDetailsId.class)
 public class RunDetails {
 
  @Column(name="RUN_ID")
- @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
- private int runId;
+ @Id
+ private Integer runId;
 	
  @Column(name="USER_ID")
+ @Id
  private String userId;
  
  @Column(name="PARTITION_KEY")
@@ -25,16 +33,16 @@ public class RunDetails {
  private String runTotalTime;
  
  @Column(name="RUN_DISTANCE")
- private String runDistance;
+ private Double runDistance;
  
  @Column(name="RUN_PACE")
- private String runPace;
+ private Double runPace;
  
  @Column(name="RUN_CALORIES_BURNT")
- private String runCaloriesBurnt;
+ private Double runCaloriesBurnt;
  
  @Column(name="RUN_CREDITS")
- private String runCredits;
+ private Double runCredits;
  
  @Column(name="RUN_DATE")
  private String runDate;
@@ -48,11 +56,19 @@ public class RunDetails {
  @Column(name="RUN_TRACK_SNAP_URL")
  private String runTrackSnapUrl;
 
-public int getRunId() {
+ @CreationTimestamp
+ @Column(name="CREATED_DATE")
+ private Date createdDate;
+ 
+ @UpdateTimestamp
+ @Column(name="UPDATED_DATE")
+ private Date updatedDate;
+
+public Integer getRunId() {
 	return runId;
 }
 
-public void setRunId(int runId) {
+public void setRunId(Integer runId) {
 	this.runId = runId;
 }
 
@@ -80,35 +96,35 @@ public void setRunTotalTime(String runTotalTime) {
 	this.runTotalTime = runTotalTime;
 }
 
-public String getRunDistance() {
+public Double getRunDistance() {
 	return runDistance;
 }
 
-public void setRunDistance(String runDistance) {
+public void setRunDistance(Double runDistance) {
 	this.runDistance = runDistance;
 }
 
-public String getRunPace() {
+public Double getRunPace() {
 	return runPace;
 }
 
-public void setRunPace(String runPace) {
+public void setRunPace(Double runPace) {
 	this.runPace = runPace;
 }
 
-public String getRunCaloriesBurnt() {
+public Double getRunCaloriesBurnt() {
 	return runCaloriesBurnt;
 }
 
-public void setRunCaloriesBurnt(String runCaloriesBurnt) {
+public void setRunCaloriesBurnt(Double runCaloriesBurnt) {
 	this.runCaloriesBurnt = runCaloriesBurnt;
 }
 
-public String getRunCredits() {
+public Double getRunCredits() {
 	return runCredits;
 }
 
-public void setRunCredits(String runCredits) {
+public void setRunCredits(Double runCredits) {
 	this.runCredits = runCredits;
 }
 
@@ -142,6 +158,33 @@ public String getRunTrackSnapUrl() {
 
 public void setRunTrackSnapUrl(String runTrackSnapUrl) {
 	this.runTrackSnapUrl = runTrackSnapUrl;
+}
+
+@Override
+public int hashCode() {
+	final int prime = 31;
+	int result = 1;
+	result = prime * result + (userId +"_"+runId).hashCode();
+	return result;
+}
+
+@Override
+public boolean equals(Object obj) {
+	if (this == obj)
+		return true;
+	if (obj == null)
+		return false;
+	if (getClass() != obj.getClass())
+		return false;
+	RunDetails other = (RunDetails) obj;
+	if (runId != other.runId)
+		return false;
+	if (userId == null) {
+		if (other.userId != null)
+			return false;
+	} else if (!(userId+"_"+runId).equals((other.userId+"_"+runId)))
+		return false;
+	return true;
 }
 
 }
