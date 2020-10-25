@@ -1,31 +1,32 @@
 package com.onehealth.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 
-public class RunDetailsId implements Serializable{
+public class RunDetailsId implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private int runId;
+	private Date runStartDateTime;
 	private String userId;
-	
+
 	public RunDetailsId() {
-		
+
 	}
-	
-	public RunDetailsId(int runId, String userId) {
+
+	public RunDetailsId(Date runStartDateTime, String userId) {
 		super();
-		this.runId = runId;
+		this.runStartDateTime = runStartDateTime;
 		this.userId = userId;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (userId +"_"+runId).hashCode();
+		result = prime * result + (userId + "_" + runStartDateTime).hashCode();
 		return result;
 	}
 
@@ -38,12 +39,10 @@ public class RunDetailsId implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		RunDetailsId other = (RunDetailsId) obj;
-		if (runId != other.runId)
-			return false;
 		if (userId == null) {
 			if (other.userId != null)
 				return false;
-		} else if (!(userId+"_"+runId).equals((other.userId+"_"+runId)))
+		} else if (!(userId + "_" + runStartDateTime).equals((other.userId + "_" + runStartDateTime)))
 			return false;
 		return true;
 	}

@@ -1,5 +1,6 @@
 package com.onehealth.processors;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -37,8 +38,9 @@ public class AddRunsRequestProcessor extends RequestProcessor<AddRunDetailsReque
 	@Override
 	public void preProcess(AddRunDetailsRequest request) {
 		List<RunDetailsId> listOfIds=new ArrayList<RunDetailsId>();
+		
 		request.getRunDetailsList().stream().forEach(run->{
-			listOfIds.add(new RunDetailsId(run.getRunId(), request.getUserId()));
+			listOfIds.add(new RunDetailsId(new Timestamp(Math.round((double)run.getRunStartDateTime().getTime()/1000)*1000), request.getUserId()));
 		});
 		request.getRunDetailsList().removeAll(runDetailsRepository.findAllById(listOfIds));
 		super.preProcess(request);

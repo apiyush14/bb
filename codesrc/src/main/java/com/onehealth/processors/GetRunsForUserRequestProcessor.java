@@ -40,11 +40,11 @@ public class GetRunsForUserRequestProcessor extends RequestProcessor<GetRunsForU
 		List<RunDetails> runDetailsList;
 
 		if (Objects.isNull(request.getPageNumber())) {
-			runDetailsList = runDetailsRepository.findAll(runDetailsQueryExample, Sort.by("runId"));
+			runDetailsList = runDetailsRepository.findAll(runDetailsQueryExample, Sort.by("runStartDateTime"));
 		} else {
 			// TODO Configure correct page size
 			PageRequest pageRequest = PageRequest.of(Integer.parseInt(request.getPageNumber()), 3,
-					Sort.by("runId").descending());
+					Sort.by("runStartDateTime").descending());
 			Page<RunDetails> page = runDetailsRepository.findAll(runDetailsQueryExample, pageRequest);
 			runDetailsList = page.getContent();
 		}

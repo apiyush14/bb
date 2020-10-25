@@ -1,6 +1,7 @@
 package com.onehealth.entities;
 
-import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,14 +14,15 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 @Table(name="RUN_DETAILS")
 @IdClass(RunDetailsId.class)
 public class RunDetails {
 
  @Column(name="RUN_ID")
- @Id
- private Integer runId;
+ private Long runId;
 	
  @Column(name="USER_ID")
  @Id
@@ -44,6 +46,12 @@ public class RunDetails {
  @Column(name="RUN_CREDITS")
  private Double runCredits;
  
+ @Id
+ @Column(name="RUN_START_DATE_TIME")
+ @Temporal(value=TemporalType.TIMESTAMP)
+ @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+ private Date runStartDateTime;
+
  @Column(name="RUN_DATE")
  private String runDate;
  
@@ -58,17 +66,19 @@ public class RunDetails {
 
  @CreationTimestamp
  @Column(name="CREATED_DATE")
+ @Temporal(value=TemporalType.TIMESTAMP)
  private Date createdDate;
  
  @UpdateTimestamp
  @Column(name="UPDATED_DATE")
+ @Temporal(value=TemporalType.TIMESTAMP)
  private Date updatedDate;
 
-public Integer getRunId() {
+public Long getRunId() {
 	return runId;
 }
 
-public void setRunId(Integer runId) {
+public void setRunId(Long runId) {
 	this.runId = runId;
 }
 
@@ -128,6 +138,14 @@ public void setRunCredits(Double runCredits) {
 	this.runCredits = runCredits;
 }
 
+public Date getRunStartDateTime() {
+	return runStartDateTime;
+}
+
+public void setRunStartDateTime(Date runStartDateTime) {
+	this.runStartDateTime = runStartDateTime;
+}
+
 public String getRunDate() {
 	return runDate;
 }
@@ -164,7 +182,7 @@ public void setRunTrackSnapUrl(String runTrackSnapUrl) {
 public int hashCode() {
 	final int prime = 31;
 	int result = 1;
-	result = prime * result + (userId +"_"+runId).hashCode();
+	result = prime * result + (userId +"_"+new Timestamp(runStartDateTime.getTime())).hashCode();
 	return result;
 }
 
@@ -177,12 +195,10 @@ public boolean equals(Object obj) {
 	if (getClass() != obj.getClass())
 		return false;
 	RunDetails other = (RunDetails) obj;
-	if (runId != other.runId)
-		return false;
 	if (userId == null) {
 		if (other.userId != null)
 			return false;
-	} else if (!(userId+"_"+runId).equals((other.userId+"_"+runId)))
+	} else if (!(userId+"_"+new Timestamp(Math.round((double)this.getRunStartDateTime().getTime()/1000)*1000)).equals((other.userId+"_"+new Timestamp(other.runStartDateTime.getTime()))))
 		return false;
 	return true;
 }
