@@ -1,7 +1,6 @@
 package com.onehealth.entities;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class RunDetailsId implements Serializable {
 	/**
@@ -9,16 +8,16 @@ public class RunDetailsId implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private Date runStartDateTime;
+	private Long runId;
 	private String userId;
 
 	public RunDetailsId() {
 
 	}
 
-	public RunDetailsId(Date runStartDateTime, String userId) {
+	public RunDetailsId(Long runId, String userId) {
 		super();
-		this.runStartDateTime = runStartDateTime;
+		this.runId = runId;
 		this.userId = userId;
 	}
 
@@ -26,7 +25,7 @@ public class RunDetailsId implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (userId + "_" + runStartDateTime).hashCode();
+		result = prime * result + (userId + "_" + runId).hashCode();
 		return result;
 	}
 
@@ -42,7 +41,7 @@ public class RunDetailsId implements Serializable {
 		if (userId == null) {
 			if (other.userId != null)
 				return false;
-		} else if (!(userId + "_" + runStartDateTime).equals((other.userId + "_" + runStartDateTime)))
+		} else if (!(userId + "_" + runId).equals((other.userId + "_" + other.runId)))
 			return false;
 		return true;
 	}

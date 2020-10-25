@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @IdClass(RunDetailsId.class)
 public class RunDetails {
 
+ @Id
  @Column(name="RUN_ID")
  private Long runId;
 	
@@ -46,7 +47,6 @@ public class RunDetails {
  @Column(name="RUN_CREDITS")
  private Double runCredits;
  
- @Id
  @Column(name="RUN_START_DATE_TIME")
  @Temporal(value=TemporalType.TIMESTAMP)
  @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
