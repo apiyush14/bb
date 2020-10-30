@@ -1,6 +1,5 @@
 package com.onehealth.entities;
 
-import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -182,7 +181,7 @@ public void setRunTrackSnapUrl(String runTrackSnapUrl) {
 public int hashCode() {
 	final int prime = 31;
 	int result = 1;
-	result = prime * result + (userId +"_"+new Timestamp(runStartDateTime.getTime())).hashCode();
+	result = prime * result + (userId +"_"+this.getRunId()).hashCode();
 	return result;
 }
 
@@ -198,7 +197,7 @@ public boolean equals(Object obj) {
 	if (userId == null) {
 		if (other.userId != null)
 			return false;
-	} else if (!(userId+"_"+new Timestamp(Math.round((double)this.getRunStartDateTime().getTime()/1000)*1000)).equals((other.userId+"_"+new Timestamp(other.runStartDateTime.getTime()))))
+	} else if (!(userId+"_"+this.getRunId()).equals((other.userId+"_"+other.getRunId())))
 		return false;
 	return true;
 }
