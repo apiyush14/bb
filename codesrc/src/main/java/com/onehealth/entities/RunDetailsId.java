@@ -3,9 +3,7 @@ package com.onehealth.entities;
 import java.io.Serializable;
 
 public class RunDetailsId implements Serializable {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 
 	private Long runId;

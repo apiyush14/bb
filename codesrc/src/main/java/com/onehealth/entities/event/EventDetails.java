@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -20,13 +21,14 @@ public class EventDetails {
  
  @Id
  @Column(name="EVENT_ID")
+ @GeneratedValue
  private Long eventId;
  
- @Column(name="EVENT_ORGANIZATION_FIRST_NAME")
+ @Column(name="EVENT_ORGANIZER_FIRST_NAME")
  private String eventOrganizerFirstName;
  
- @Column(name="EVENT_ORGANIZATION_LAST_NAME")
- private String eventOrganizerName;
+ @Column(name="EVENT_ORGANIZER_LAST_NAME")
+ private String eventOrganizerLastName;
  
  @Column(name="EVENT_ORGANIZER_CONTACT_NUMBER")
  private String eventOrganizerContactNumber;
@@ -39,12 +41,12 @@ public class EventDetails {
  
  @Column(name="EVENT_START_DATE")
  @Temporal(value=TemporalType.TIMESTAMP)
- @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+ @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss")
  private Date eventStartDate;
  
  @Column(name="EVENT_END_DATE")
  @Temporal(value=TemporalType.TIMESTAMP)
- @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+ @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss")
  private Date eventEndDate;
  
  @Column(name="EVENT_DISPLAY_PIC")
@@ -76,12 +78,12 @@ public void setEventOrganizerFirstName(String eventOrganizerFirstName) {
 	this.eventOrganizerFirstName = eventOrganizerFirstName;
 }
 
-public String getEventOrganizerName() {
-	return eventOrganizerName;
+public String getEventOrganizerLastName() {
+	return eventOrganizerLastName;
 }
 
-public void setEventOrganizerName(String eventOrganizerName) {
-	this.eventOrganizerName = eventOrganizerName;
+public void setEventOrganizerLastName(String eventOrganizerLastName) {
+	this.eventOrganizerLastName = eventOrganizerLastName;
 }
 
 public String getEventOrganizerContactNumber() {

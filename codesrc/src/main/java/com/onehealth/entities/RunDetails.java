@@ -24,8 +24,8 @@ public class RunDetails {
  @Column(name="RUN_ID")
  private Long runId;
 	
- @Column(name="USER_ID")
  @Id
+ @Column(name="USER_ID")
  private String userId;
  
  @Column(name="PARTITION_KEY")
