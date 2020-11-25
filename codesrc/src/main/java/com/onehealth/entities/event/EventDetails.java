@@ -1,11 +1,13 @@
 package com.onehealth.entities.event;
 
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -14,6 +16,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.onehealth.entities.event.registration.EventRegistrationDetails;
 
 @Entity
 @Table(name="EVENT_DETAILS")
@@ -61,6 +64,9 @@ public class EventDetails {
  @Column(name="UPDATED_DATE")
  @Temporal(value=TemporalType.TIMESTAMP)
  private Date updatedDate;
+ 
+ @OneToMany(mappedBy = "eventDetails")
+ private Set<EventRegistrationDetails> eventRegistrationDetails;
 
 public Long getEventId() {
 	return eventId;
@@ -149,5 +155,15 @@ public Date getUpdatedDate() {
 public void setUpdatedDate(Date updatedDate) {
 	this.updatedDate = updatedDate;
 }
- 
+
+public Set<EventRegistrationDetails> getEventRegistrationDetails() {
+	return eventRegistrationDetails;
+}
+
+public void setEventRegistrationDetails(Set<EventRegistrationDetails> eventRegistrationDetails) {
+	this.eventRegistrationDetails = eventRegistrationDetails;
+}
+
+
+
 }

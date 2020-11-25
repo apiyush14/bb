@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication
 @EnableAutoConfiguration
 @EnableConfigurationProperties
-@ComponentScan(basePackages= {"com.onehealth.services","com.onehealth.config","com.onehealth.processors"})
+@ComponentScan(basePackages= {"com.onehealth.services","com.onehealth.config","com.onehealth.processors","com.onehealth.auth"})
 @EntityScan(basePackages = {"com.onehealth.entities"})
 @EnableJpaRepositories(basePackages = {"com.onehealth.repo"})
 public class OnehealthApplication {

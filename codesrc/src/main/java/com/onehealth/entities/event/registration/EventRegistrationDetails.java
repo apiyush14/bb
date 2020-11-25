@@ -6,12 +6,18 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import com.onehealth.entities.event.EventDetails;
+import com.onehealth.entities.user.UserDetails;
 
 @Entity
 @Table(name="EVENT_REGISTRATION_DETAILS")
@@ -35,6 +41,16 @@ public class EventRegistrationDetails {
 	 @Column(name="UPDATED_DATE")
 	 @Temporal(value=TemporalType.TIMESTAMP)
 	 private Date updatedDate;
+	 
+	 @ManyToOne
+	 @MapsId("userId")
+	 @JoinColumn(name = "USER_ID",referencedColumnName = "USER_ID")
+	 private UserDetails userDetails;
+	 
+	 @ManyToOne
+	 @MapsId("eventId")
+	 @JoinColumn(name="EVENT_ID",referencedColumnName = "EVENT_ID")
+	 private EventDetails eventDetails;
 
 	public Long getEventId() {
 		return eventId;
@@ -66,6 +82,22 @@ public class EventRegistrationDetails {
 
 	public void setUpdatedDate(Date updatedDate) {
 		this.updatedDate = updatedDate;
+	}
+
+	public UserDetails getUserDetails() {
+		return userDetails;
+	}
+
+	public void setUserDetails(UserDetails userDetails) {
+		this.userDetails = userDetails;
+	}
+
+	public EventDetails getEventDetails() {
+		return eventDetails;
+	}
+
+	public void setEventDetails(EventDetails eventDetails) {
+		this.eventDetails = eventDetails;
 	}	
 	
 }

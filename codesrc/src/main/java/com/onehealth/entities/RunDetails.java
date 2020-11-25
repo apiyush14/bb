@@ -6,6 +6,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -14,6 +17,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.onehealth.entities.user.UserDetails;
 
 @Entity
 @Table(name="RUN_DETAILS")
@@ -72,6 +76,11 @@ public class RunDetails {
  @Column(name="UPDATED_DATE")
  @Temporal(value=TemporalType.TIMESTAMP)
  private Date updatedDate;
+ 
+ @ManyToOne
+ @MapsId("userId")
+ @JoinColumn(name="USER_ID",referencedColumnName = "USER_ID")
+ private UserDetails userDetails;
 
 public Long getRunId() {
 	return runId;
@@ -175,6 +184,30 @@ public String getRunTrackSnapUrl() {
 
 public void setRunTrackSnapUrl(String runTrackSnapUrl) {
 	this.runTrackSnapUrl = runTrackSnapUrl;
+}
+
+public Date getCreatedDate() {
+	return createdDate;
+}
+
+public void setCreatedDate(Date createdDate) {
+	this.createdDate = createdDate;
+}
+
+public Date getUpdatedDate() {
+	return updatedDate;
+}
+
+public void setUpdatedDate(Date updatedDate) {
+	this.updatedDate = updatedDate;
+}
+
+public UserDetails getUserDetails() {
+	return userDetails;
+}
+
+public void setUserDetails(UserDetails userDetails) {
+	this.userDetails = userDetails;
 }
 
 @Override

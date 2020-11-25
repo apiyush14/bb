@@ -5,10 +5,14 @@ import java.sql.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import com.onehealth.entities.user.UserDetails;
 
 @Entity
 @Table(name="RUN_SUMMARY")
@@ -46,6 +50,10 @@ public class RunSummary {
  @UpdateTimestamp
  @Column(name="UPDATED_DATE")
  private Date updatedDate;
+ 
+ @OneToOne
+ @JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID")
+ private UserDetails userDetails;
  
 public Date getCreatedDate() {
 	return createdDate;
@@ -127,7 +135,13 @@ public void setAverageCaloriesBurnt(Double averageCaloriesBurnt) {
 	this.averageCaloriesBurnt = averageCaloriesBurnt;
 }
 
+public UserDetails getUserDetails() {
+	return userDetails;
+}
 
- 
+public void setUserDetails(UserDetails userDetails) {
+	this.userDetails = userDetails;
+}
+
 
 }
