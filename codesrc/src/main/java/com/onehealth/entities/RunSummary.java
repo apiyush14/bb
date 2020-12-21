@@ -22,7 +22,7 @@ public class RunSummary {
  @Column(name="USER_ID")
  public String userId;
 
-@Column(name="PARTITION_KEY")
+ @Column(name="PARTITION_KEY")
  public String partitionKey;
  
  @Column(name="TOTAL_RUNS")

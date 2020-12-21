@@ -66,6 +66,9 @@ public class RunDetails {
  
  @Column(name="RUN_TRACK_SNAP_URL")
  private String runTrackSnapUrl;
+ 
+ @Column(name="EVENT_ID")
+ private Long eventId;
 
  @CreationTimestamp
  @Column(name="CREATED_DATE")
@@ -184,6 +187,14 @@ public String getRunTrackSnapUrl() {
 
 public void setRunTrackSnapUrl(String runTrackSnapUrl) {
 	this.runTrackSnapUrl = runTrackSnapUrl;
+}
+
+public Long getEventId() {
+	return eventId;
+}
+
+public void setEventId(Long eventId) {
+	this.eventId = eventId;
 }
 
 public Date getCreatedDate() {

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import com.onehealth.core.kafka.KafkaUtils;
 import com.onehealth.core.processor.RequestProcessor;
 import com.onehealth.entities.RunDetailsId;
 import com.onehealth.entities.RunSummary;
@@ -25,6 +26,9 @@ public class AddRunsRequestProcessor extends RequestProcessor<AddRunDetailsReque
 
 	@Autowired
 	RunSummaryRepository runSummaryRepository;
+	
+	@Autowired
+	KafkaUtils kafkaUtils;
 
 	@Override
 	public boolean isRequestValid(AddRunDetailsRequest request) throws Exception {
@@ -47,6 +51,7 @@ public class AddRunsRequestProcessor extends RequestProcessor<AddRunDetailsReque
 	@Override
 	public Boolean doProcessing(AddRunDetailsRequest request) throws Exception {
 		boolean status = addRunsAndUpdateSummary(request);
+		updateKafkaIfNeeded(request);
 		return status;
 	}
 
@@ -102,6 +107,11 @@ public class AddRunsRequestProcessor extends RequestProcessor<AddRunDetailsReque
 		existingRunSummary
 				.setAverageDistance(existingRunSummary.getTotalDistance() / existingRunSummary.getTotalRuns());
 		runSummaryRepository.save(existingRunSummary);
+	}
+
+	private void updateKafkaIfNeeded(AddRunDetailsRequest request) {
+		request.getRunDetailsList().parallelStream().filter(run -> run.getEventId() > 0)
+				.forEach(r -> kafkaUtils.sendMessage("EVENT_RUN_SUBMISSION", r.getEventId().toString()));
 	}
 
 }

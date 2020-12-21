@@ -16,6 +16,7 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.onehealth.entities.event.EventDetails;
 import com.onehealth.entities.user.UserDetails;
 
@@ -42,11 +43,13 @@ public class EventRegistrationDetails {
 	 @Temporal(value=TemporalType.TIMESTAMP)
 	 private Date updatedDate;
 	 
+	 @JsonIgnore
 	 @ManyToOne
 	 @MapsId("userId")
 	 @JoinColumn(name = "USER_ID",referencedColumnName = "USER_ID")
 	 private UserDetails userDetails;
 	 
+	 @JsonIgnore
 	 @ManyToOne
 	 @MapsId("eventId")
 	 @JoinColumn(name="EVENT_ID",referencedColumnName = "EVENT_ID")

@@ -28,7 +28,7 @@ public class AuthenticationFilterImpl extends OncePerRequestFilter {
 			throws ServletException, IOException {
 		try {
 			String path = request.getRequestURI();
-			if (path.contains("auth")
+			if (path.contains("auth") || path.contains("swagger") || path.contains("api-docs")
 					||path.contains("event-details/addEvent")
 					||path.contains("event-details/uploadEventDisplayImage")
 					||path.contains("event-details/getDisplayImage")) {

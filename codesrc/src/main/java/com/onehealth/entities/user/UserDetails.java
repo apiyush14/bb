@@ -9,6 +9,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.onehealth.entities.RunDetails;
 import com.onehealth.entities.RunSummary;
 import com.onehealth.entities.auth.UserAuthenticationDetails;
@@ -28,15 +29,19 @@ public class UserDetails {
 	@Column(name="USER_LAST_NAME")
 	private String userLastName;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="userDetails")
 	private Set<RunDetails> runDetails;
 	
+	@JsonIgnore
 	@OneToOne(mappedBy="userDetails")
 	private RunSummary runSummary;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="userDetails")
 	private Set<EventRegistrationDetails> eventRegistrationDetails;
 	
+	@JsonIgnore
 	@OneToOne(mappedBy = "userDetails")
 	private UserAuthenticationDetails userAuthenticationDetails;
 

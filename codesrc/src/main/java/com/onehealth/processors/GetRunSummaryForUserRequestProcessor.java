@@ -1,11 +1,14 @@
 package com.onehealth.processors;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import com.onehealth.core.model.BaseRequestProcessorInput;
 import com.onehealth.core.processor.RequestProcessor;
+import com.onehealth.entities.RunSummary;
 import com.onehealth.model.GetRunSummaryForUserResponse;
 import com.onehealth.repo.RunSummaryRepository;
 
@@ -27,7 +30,10 @@ public class GetRunSummaryForUserRequestProcessor
 	@Override
 	public GetRunSummaryForUserResponse doProcessing(BaseRequestProcessorInput request) throws Exception {
 		GetRunSummaryForUserResponse response = new GetRunSummaryForUserResponse();
-		response.setRunSummary(runSummaryRepository.findById(request.getUserId()).get());
+		Optional<RunSummary> runSummaryOptional= runSummaryRepository.findById(request.getUserId());
+		if(runSummaryOptional.isPresent()) {
+		  response.setRunSummary(runSummaryRepository.findById(request.getUserId()).get());
+		}
 		return response;
 	}
 

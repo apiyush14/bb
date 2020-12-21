@@ -44,12 +44,14 @@ public class EventDetails {
  
  @Column(name="EVENT_START_DATE")
  @Temporal(value=TemporalType.TIMESTAMP)
- @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss")
+ //@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss")
+ @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
  private Date eventStartDate;
  
  @Column(name="EVENT_END_DATE")
  @Temporal(value=TemporalType.TIMESTAMP)
- @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss")
+ //@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss")
+ @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
  private Date eventEndDate;
  
  @Column(name="EVENT_DISPLAY_PIC")
