@@ -28,7 +28,7 @@ public class AuthenticationFilterImpl extends OncePerRequestFilter {
 			throws ServletException, IOException {
 		try {
 			String path = request.getRequestURI();
-			if (path.contains("auth") || path.contains("swagger") || path.contains("api-docs")
+			if (path.contains("auth") || path.contains("swagger") || path.contains("api-docs") || path.contains("testMethod") || path.contains("dispatcherServlet")
 					||path.contains("event-details/addEvent")
 					||path.contains("event-details/uploadEventDisplayImage")
 					||path.contains("event-details/getDisplayImage")) {
@@ -38,7 +38,7 @@ public class AuthenticationFilterImpl extends OncePerRequestFilter {
 				String userId = request.getHeader("USER_ID");
 				String requestTimeStamp = request.getHeader("REQUEST_TIMESTAMP");
 
-				if (!isValid(userId, requestTimeStamp, xAuth)) {
+				if (userId!=null&&(!isValid(userId, requestTimeStamp, xAuth))) {
 					throw new SecurityException();
 				}
 

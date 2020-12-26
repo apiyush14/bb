@@ -26,7 +26,7 @@ public class AddRunsRequestProcessor extends RequestProcessor<AddRunDetailsReque
 
 	@Autowired
 	RunSummaryRepository runSummaryRepository;
-	
+
 	@Autowired
 	KafkaUtils kafkaUtils;
 
@@ -37,11 +37,11 @@ public class AddRunsRequestProcessor extends RequestProcessor<AddRunDetailsReque
 		}
 		return super.isRequestValid(request);
 	}
-	
+
 	@Override
 	public void preProcess(AddRunDetailsRequest request) {
-		List<RunDetailsId> listOfIds=new ArrayList<RunDetailsId>();
-		request.getRunDetailsList().stream().forEach(run->{
+		List<RunDetailsId> listOfIds = new ArrayList<RunDetailsId>();
+		request.getRunDetailsList().stream().forEach(run -> {
 			listOfIds.add(new RunDetailsId(run.getRunId(), request.getUserId()));
 		});
 		request.getRunDetailsList().removeAll(runDetailsRepository.findAllById(listOfIds));
@@ -110,8 +110,10 @@ public class AddRunsRequestProcessor extends RequestProcessor<AddRunDetailsReque
 	}
 
 	private void updateKafkaIfNeeded(AddRunDetailsRequest request) {
-		request.getRunDetailsList().parallelStream().filter(run -> run.getEventId() > 0)
-				.forEach(r -> kafkaUtils.sendMessage("EVENT_RUN_SUBMISSION", r.getEventId().toString()));
+		request.getRunDetailsList().parallelStream().filter(run -> run.getEventId() > 0).forEach(r -> {
+			String topicName = "EVENT_RUN_SUBMISSION_" + r.getEventId();
+			kafkaUtils.sendMessage(topicName, r);
+		});
 	}
 
 }

@@ -69,6 +69,9 @@ public class EventDetails {
  
  @OneToMany(mappedBy = "eventDetails")
  private Set<EventRegistrationDetails> eventRegistrationDetails;
+ 
+ @OneToMany(mappedBy = "eventDetails")
+ private Set<EventResultDetails> eventResultDetails;
 
 public Long getEventId() {
 	return eventId;
@@ -166,6 +169,12 @@ public void setEventRegistrationDetails(Set<EventRegistrationDetails> eventRegis
 	this.eventRegistrationDetails = eventRegistrationDetails;
 }
 
+public Set<EventResultDetails> getEventResultDetails() {
+	return eventResultDetails;
+}
 
+public void setEventResultDetails(Set<EventResultDetails> eventResultDetails) {
+	this.eventResultDetails = eventResultDetails;
+}
 
 }

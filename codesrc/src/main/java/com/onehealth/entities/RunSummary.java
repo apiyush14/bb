@@ -12,6 +12,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.onehealth.entities.user.UserDetails;
 
 @Entity
@@ -51,6 +52,7 @@ public class RunSummary {
  @Column(name="UPDATED_DATE")
  private Date updatedDate;
  
+ @JsonIgnore
  @OneToOne
  @JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID")
  private UserDetails userDetails;

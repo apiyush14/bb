@@ -13,6 +13,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.onehealth.entities.RunDetails;
 import com.onehealth.entities.RunSummary;
 import com.onehealth.entities.auth.UserAuthenticationDetails;
+import com.onehealth.entities.event.EventResultDetails;
 import com.onehealth.entities.event.registration.EventRegistrationDetails;
 
 @Entity
@@ -44,6 +45,10 @@ public class UserDetails {
 	@JsonIgnore
 	@OneToOne(mappedBy = "userDetails")
 	private UserAuthenticationDetails userAuthenticationDetails;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy="userDetails")
+	private Set<EventResultDetails> eventResultDetails;
 
 	public String getUserId() {
 		return userId;
@@ -100,5 +105,15 @@ public class UserDetails {
 	public void setUserAuthenticationDetails(UserAuthenticationDetails userAuthenticationDetails) {
 		this.userAuthenticationDetails = userAuthenticationDetails;
 	}
+
+	public Set<EventResultDetails> getEventResultDetails() {
+		return eventResultDetails;
+	}
+
+	public void setEventResultDetails(Set<EventResultDetails> eventResultDetails) {
+		this.eventResultDetails = eventResultDetails;
+	}
+	
+	
 	
 }
