@@ -14,8 +14,8 @@ import org.apache.kafka.streams.state.KeyValueIterator;
 import org.apache.kafka.streams.state.KeyValueStore;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.onehealth.entities.EventResultDetails;
 import com.onehealth.entities.RunDetails;
-import com.onehealth.entities.event.EventResultDetails;
 import com.onehealth.repo.EventResultDetailsRepository;
 
 public class EventRunsProcessor implements Processor<String, RunDetails> {

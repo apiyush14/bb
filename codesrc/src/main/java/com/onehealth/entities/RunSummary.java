@@ -13,7 +13,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.onehealth.entities.user.UserDetails;
 
 @Entity
 @Table(name="RUN_SUMMARY")

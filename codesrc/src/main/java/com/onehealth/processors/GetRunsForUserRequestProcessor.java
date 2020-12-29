@@ -13,8 +13,8 @@ import org.springframework.util.StringUtils;
 
 import com.onehealth.core.processor.RequestProcessor;
 import com.onehealth.entities.RunDetails;
-import com.onehealth.model.GetRunsForUserRequest;
-import com.onehealth.model.GetRunsForUserResponse;
+import com.onehealth.model.request.GetRunsForUserRequest;
+import com.onehealth.model.response.GetRunsForUserResponse;
 import com.onehealth.repo.RunDetailsRepository;
 
 @Component

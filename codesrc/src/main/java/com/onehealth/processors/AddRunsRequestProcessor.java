@@ -14,7 +14,7 @@ import com.onehealth.core.kafka.KafkaUtils;
 import com.onehealth.core.processor.RequestProcessor;
 import com.onehealth.entities.RunDetailsId;
 import com.onehealth.entities.RunSummary;
-import com.onehealth.model.AddRunDetailsRequest;
+import com.onehealth.model.request.AddRunDetailsRequest;
 import com.onehealth.repo.RunDetailsRepository;
 import com.onehealth.repo.RunSummaryRepository;
 

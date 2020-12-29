@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.onehealth.core.kafka.KafkaUtils;
+import com.onehealth.entities.EventResultDetails;
 import com.onehealth.entities.RunDetails;
-import com.onehealth.entities.event.EventResultDetails;
 
 @RestController
 public class TestRestController {

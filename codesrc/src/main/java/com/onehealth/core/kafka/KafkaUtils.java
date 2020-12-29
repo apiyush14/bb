@@ -31,8 +31,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
+import com.onehealth.entities.EventResultDetails;
 import com.onehealth.entities.RunDetails;
-import com.onehealth.entities.event.EventResultDetails;
 import com.onehealth.repo.EventResultDetailsRepository;
 
 @Component

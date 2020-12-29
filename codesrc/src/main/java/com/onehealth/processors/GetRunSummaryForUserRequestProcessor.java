@@ -9,7 +9,7 @@ import org.springframework.util.StringUtils;
 import com.onehealth.core.model.BaseRequestProcessorInput;
 import com.onehealth.core.processor.RequestProcessor;
 import com.onehealth.entities.RunSummary;
-import com.onehealth.model.GetRunSummaryForUserResponse;
+import com.onehealth.model.response.GetRunSummaryForUserResponse;
 import com.onehealth.repo.RunSummaryRepository;
 
 @Component

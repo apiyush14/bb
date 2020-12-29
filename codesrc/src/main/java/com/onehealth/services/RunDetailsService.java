@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.onehealth.core.service.BaseService;
-import com.onehealth.model.AddRunDetailsRequest;
-import com.onehealth.model.GetRunsForUserRequest;
+import com.onehealth.model.request.AddRunDetailsRequest;
+import com.onehealth.model.request.GetRunsForUserRequest;
 import com.onehealth.processors.AddRunsRequestProcessor;
 import com.onehealth.processors.GetRunsForUserRequestProcessor;
 

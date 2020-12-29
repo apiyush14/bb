@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.onehealth.entities.auth.UserAuthenticationDetails;
+import com.onehealth.entities.UserAuthenticationDetails;
 import com.onehealth.repo.UserAuthenticationDetailsRepository;
 import com.onehealth.utils.AuthenticationUtils;
 
