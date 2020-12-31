@@ -1,6 +1,8 @@
 package com.onehealth.processors;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,17 +14,26 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import com.onehealth.core.processor.RequestProcessor;
+import com.onehealth.entities.EventDetails;
+import com.onehealth.entities.EventResultDetails;
+import com.onehealth.entities.EventResultDetailsId;
 import com.onehealth.entities.RunDetails;
 import com.onehealth.model.request.GetRunsForUserRequest;
 import com.onehealth.model.response.GetRunsForUserResponse;
+import com.onehealth.repo.EventDetailsRepository;
+import com.onehealth.repo.EventResultDetailsRepository;
 import com.onehealth.repo.RunDetailsRepository;
 
 @Component
 public class GetRunsForUserRequestProcessor extends RequestProcessor<GetRunsForUserRequest, GetRunsForUserResponse> {
 
 	@Autowired
-	RunDetailsRepository runDetailsRepository;
-	
+	private RunDetailsRepository runDetailsRepo;
+	@Autowired
+	private EventDetailsRepository eventDetailsRepo;
+	@Autowired
+	private EventResultDetailsRepository eventResultDetailsRepo;
+
 	@Override
 	public boolean isRequestValid(GetRunsForUserRequest request) throws Exception {
 		if (StringUtils.isEmpty(request.getUserId())) {
@@ -40,16 +51,49 @@ public class GetRunsForUserRequestProcessor extends RequestProcessor<GetRunsForU
 		List<RunDetails> runDetailsList;
 
 		if (Objects.isNull(request.getPageNumber())) {
-			runDetailsList = runDetailsRepository.findAll(runDetailsQueryExample, Sort.by("runId"));
+			runDetailsList = runDetailsRepo.findAll(runDetailsQueryExample, Sort.by("runId"));
 		} else {
 			// TODO Configure correct page size
 			PageRequest pageRequest = PageRequest.of(Integer.parseInt(request.getPageNumber()), 3,
 					Sort.by("runId").descending());
-			Page<RunDetails> page = runDetailsRepository.findAll(runDetailsQueryExample, pageRequest);
+			Page<RunDetails> page = runDetailsRepo.findAll(runDetailsQueryExample, pageRequest);
 			runDetailsList = page.getContent();
 		}
+
+		//populateEventDetailsIfApplicable(runDetailsList);
+
 		response.setRunDetailsList(runDetailsList);
 		return response;
+	}
+
+	private void populateEventDetailsIfApplicable(List<RunDetails> runDetailsList) {
+		Map<Long, EventDetails> mapOfEventDetails = new HashMap<Long, EventDetails>();
+		Map<EventResultDetailsId, EventResultDetails> mapOfEventResultDetails = new HashMap<EventResultDetailsId, EventResultDetails>();
+		runDetailsList.parallelStream().filter(run -> !Objects.isNull(run.getEventId())).forEach(eventRun -> {
+			mapOfEventDetails.putIfAbsent(eventRun.getEventId(), null);
+			mapOfEventResultDetails.putIfAbsent(new EventResultDetailsId(eventRun.getUserId(), eventRun.getEventId()),
+					null);
+		});
+
+		List<EventDetails> listOfEventDetails = eventDetailsRepo.findAllById(mapOfEventDetails.keySet());
+		List<EventResultDetails> listOfEventResultDetails = eventResultDetailsRepo
+				.findAllById(mapOfEventResultDetails.keySet());
+
+		listOfEventDetails.parallelStream().forEach(eventDetail -> {
+			mapOfEventDetails.put(eventDetail.getEventId(), eventDetail);
+		});
+
+		listOfEventResultDetails.parallelStream().forEach(eventResultDetail -> {
+			mapOfEventResultDetails.put(
+					new EventResultDetailsId(eventResultDetail.getUserId(), eventResultDetail.getEventId()),
+					eventResultDetail);
+		});
+
+		runDetailsList.parallelStream().filter(run -> !Objects.isNull(run.getEventId())).forEach(eventRun -> {
+			eventRun.setEventDetails(mapOfEventDetails.get(eventRun.getEventId()));
+			eventRun.setEventResultDetails(
+					mapOfEventResultDetails.get(new EventResultDetailsId(eventRun.getUserId(), eventRun.getEventId())));
+		});
 	}
 
 }

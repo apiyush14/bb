@@ -16,6 +16,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="EVENT_DETAILS")
@@ -66,9 +67,11 @@ public class EventDetails {
  @Temporal(value=TemporalType.TIMESTAMP)
  private Date updatedDate;
  
+ @JsonIgnore
  @OneToMany(mappedBy = "eventDetails")
  private Set<EventRegistrationDetails> eventRegistrationDetails;
  
+ @JsonIgnore
  @OneToMany(mappedBy = "eventDetails")
  private Set<EventResultDetails> eventResultDetails;
 

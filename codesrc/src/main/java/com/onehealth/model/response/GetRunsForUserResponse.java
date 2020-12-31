@@ -14,4 +14,5 @@ public class GetRunsForUserResponse {
 	 public void setRunDetailsList(List<RunDetails> runDetailsList) {
 	 	this.runDetailsList = runDetailsList;
 	 }
+	 
 }

@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.onehealth.core.model.BaseRequestProcessorInput;
 import com.onehealth.core.service.BaseService;
 import com.onehealth.model.request.AddEventDetailsRequest;
 import com.onehealth.model.request.GetDisplayImageForEventRequest;
+import com.onehealth.model.request.GetEventsRequest;
 import com.onehealth.model.request.UploadEventImageRequest;
 import com.onehealth.processors.AddEventRequestProcessor;
 import com.onehealth.processors.GetDisplayImageForEventRequestProcessor;
@@ -62,9 +62,13 @@ public class EventDetailsService extends BaseService {
 		return execute(getDisplayImageForEventRequestProcessor);
 	}
 
-	@GetMapping(path="event-details/getEvents",produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> getEvents(){
-		getEventsRequestProcessor.setRequest(new BaseRequestProcessorInput());
+	@GetMapping(path="event-details/getEvents/{userId}",produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Object> getEvents(@PathVariable String userId,
+			@RequestParam(required = false, name = "page") String pageNumber){
+		GetEventsRequest request=new GetEventsRequest();
+		request.setPageNumber(pageNumber);
+		request.setUserId(userId);
+		getEventsRequestProcessor.setRequest(request);
 		return execute(getEventsRequestProcessor);
 	}
 }

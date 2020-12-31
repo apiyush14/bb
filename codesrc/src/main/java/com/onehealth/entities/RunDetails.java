@@ -12,6 +12,7 @@ import javax.persistence.MapsId;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -83,6 +84,11 @@ public class RunDetails {
  @MapsId("userId")
  @JoinColumn(name="USER_ID",referencedColumnName = "USER_ID")
  private UserDetails userDetails;
+ 
+ @Transient
+ private EventDetails eventDetails;
+ @Transient
+ private EventResultDetails eventResultDetails;
 
 public Long getRunId() {
 	return runId;
@@ -218,6 +224,22 @@ public UserDetails getUserDetails() {
 
 public void setUserDetails(UserDetails userDetails) {
 	this.userDetails = userDetails;
+}
+
+public EventDetails getEventDetails() {
+	return eventDetails;
+}
+
+public void setEventDetails(EventDetails eventDetails) {
+	this.eventDetails = eventDetails;
+}
+
+public EventResultDetails getEventResultDetails() {
+	return eventResultDetails;
+}
+
+public void setEventResultDetails(EventResultDetails eventResultDetails) {
+	this.eventResultDetails = eventResultDetails;
 }
 
 @Override

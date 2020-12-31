@@ -3,7 +3,7 @@ package com.onehealth.model.request;
 import com.onehealth.core.model.BaseRequestProcessorInput;
 
 public class GetRunsForUserRequest extends BaseRequestProcessorInput {
- private String pageNumber;
+private String pageNumber;
 
 public String getPageNumber() {
 	return pageNumber;

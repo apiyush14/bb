@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.onehealth.core.model.BaseRequestProcessorInput;
 import com.onehealth.core.service.BaseService;
 import com.onehealth.entities.EventRegistrationDetails;
+import com.onehealth.model.request.GetEventsRequest;
 import com.onehealth.model.request.RegisterUserForEventRequest;
 import com.onehealth.processors.GetRegisteredEventsForUserRequestProcessor;
 import com.onehealth.processors.RegisterUserForEventRequestProcessor;
@@ -38,9 +38,11 @@ public class EventRegistrationService extends BaseService {
 	}
 
 	@GetMapping(path = "event-registration/getRegisteredEventsForUser/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> getRegisteredEventsForUser(@PathVariable String userId) {
-		BaseRequestProcessorInput request = new BaseRequestProcessorInput();
+	public ResponseEntity<Object> getRegisteredEventsForUser(@PathVariable String userId,
+			@RequestParam(required = false, name = "page") String pageNumber) {
+		GetEventsRequest request = new GetEventsRequest();
 		request.setUserId(userId);
+		request.setPageNumber(pageNumber);
 		getRegisteredEventsForUserRequestProcessor.setRequest(request);
 		return execute(getRegisteredEventsForUserRequestProcessor);
 	}
