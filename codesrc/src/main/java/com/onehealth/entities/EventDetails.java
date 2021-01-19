@@ -54,9 +54,6 @@ public class EventDetails {
  @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
  private Date eventEndDate;
  
- @Column(name="EVENT_DISPLAY_PIC")
- private String eventDisplayPic;
- 
  @CreationTimestamp
  @Column(name="CREATED_DATE")
  @Temporal(value=TemporalType.TIMESTAMP)
@@ -137,14 +134,6 @@ public Date getEventEndDate() {
 
 public void setEventEndDate(Date eventEndDate) {
 	this.eventEndDate = eventEndDate;
-}
-
-public String getEventDisplayPic() {
-	return eventDisplayPic;
-}
-
-public void setEventDisplayPic(String eventDisplayPic) {
-	this.eventDisplayPic = eventDisplayPic;
 }
 
 public Date getCreatedDate() {

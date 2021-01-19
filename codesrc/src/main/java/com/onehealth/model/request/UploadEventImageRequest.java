@@ -5,6 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class UploadEventImageRequest {
 	private MultipartFile file;
 	private Long eventId;
+	private String imageType;
 	
 	public MultipartFile getFile() {
 		return file;
@@ -18,4 +19,11 @@ public class UploadEventImageRequest {
 	public void setEventId(Long eventId) {
 		this.eventId = eventId;
 	}
+	public String getImageType() {
+		return imageType;
+	}
+	public void setImageType(String imageType) {
+		this.imageType = imageType;
+	}
+	
 }

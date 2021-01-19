@@ -45,19 +45,24 @@ public class EventDetailsService extends BaseService {
 		return execute(addEventRequestProcessor);
 	}
 	
-	@PostMapping(path = "event-details/uploadEventDisplayImage/{eventId}",consumes="multipart/form-data", produces = "application/json")
-	public ResponseEntity<Object> uploadEventDisplayImage(@PathVariable Long eventId,@RequestParam("file") MultipartFile file) {
-		UploadEventImageRequest uploadEventImageRequest=new UploadEventImageRequest();
+	@PostMapping(path = "event-details/uploadEventDisplayImage/{eventId}", consumes = "multipart/form-data", produces = "application/json")
+	public ResponseEntity<Object> uploadEventDisplayImage(@PathVariable Long eventId,
+			@RequestParam(required = true, name = "imageType") String imageType,
+			@RequestParam("file") MultipartFile file) {
+		UploadEventImageRequest uploadEventImageRequest = new UploadEventImageRequest();
 		uploadEventImageRequest.setEventId(eventId);
+		uploadEventImageRequest.setImageType(imageType);
 		uploadEventImageRequest.setFile(file);
 		uploadEventImageRequestProcessor.setRequest(uploadEventImageRequest);
 		return execute(uploadEventImageRequestProcessor);
 	}
 	
-	@GetMapping(path="event-details/getDisplayImage/{eventId}",produces=MediaType.IMAGE_PNG_VALUE)
-	public ResponseEntity<Object> getDisplayImageForEvent(@PathVariable Long eventId){
-		GetDisplayImageForEventRequest request=new GetDisplayImageForEventRequest();
+	@GetMapping(path = "event-details/getDisplayImage/{eventId}", produces = MediaType.IMAGE_PNG_VALUE)
+	public ResponseEntity<Object> getDisplayImageForEvent(@PathVariable Long eventId,
+			@RequestParam(required = true, name = "imageType") String imageType) {
+		GetDisplayImageForEventRequest request = new GetDisplayImageForEventRequest();
 		request.setEventId(eventId);
+		request.setImageType(imageType);
 		getDisplayImageForEventRequestProcessor.setRequest(request);
 		return execute(getDisplayImageForEventRequestProcessor);
 	}
