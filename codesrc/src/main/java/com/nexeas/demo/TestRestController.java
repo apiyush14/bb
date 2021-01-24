@@ -12,7 +12,7 @@ import com.onehealth.entities.RunDetails;
 @RestController
 public class TestRestController {
 	
-	@Autowired
+	@Autowired(required = false)
 	AdminClient adminClient;
 	
 	@Autowired(required = false)
