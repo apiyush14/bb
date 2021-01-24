@@ -1,8 +1,6 @@
 package com.onehealth.processors;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +9,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import com.onehealth.core.processor.RequestProcessor;
-import com.onehealth.entities.EventDetails;
-import com.onehealth.entities.EventResultDetails;
-import com.onehealth.entities.EventResultDetailsId;
 import com.onehealth.entities.RunDetails;
 import com.onehealth.model.request.GetRunsForUserRequest;
 import com.onehealth.model.response.GetRunsForUserResponse;
@@ -63,10 +59,16 @@ public class GetRunsForUserRequestProcessor extends RequestProcessor<GetRunsForU
 		//populateEventDetailsIfApplicable(runDetailsList);
 
 		response.setRunDetailsList(runDetailsList);
+		if(CollectionUtils.isEmpty(runDetailsList)||runDetailsList.size()<3) {
+			response.setMoreContentAvailable(false);
+		}
+		else {
+			response.setMoreContentAvailable(true);
+		}
 		return response;
 	}
 
-	private void populateEventDetailsIfApplicable(List<RunDetails> runDetailsList) {
+	/*private void populateEventDetailsIfApplicable(List<RunDetails> runDetailsList) {
 		Map<Long, EventDetails> mapOfEventDetails = new HashMap<Long, EventDetails>();
 		Map<EventResultDetailsId, EventResultDetails> mapOfEventResultDetails = new HashMap<EventResultDetailsId, EventResultDetails>();
 		runDetailsList.parallelStream().filter(run -> !Objects.isNull(run.getEventId())).forEach(eventRun -> {
@@ -94,6 +96,6 @@ public class GetRunsForUserRequestProcessor extends RequestProcessor<GetRunsForU
 			eventRun.setEventResultDetails(
 					mapOfEventResultDetails.get(new EventResultDetailsId(eventRun.getUserId(), eventRun.getEventId())));
 		});
-	}
+	}*/
 
 }
