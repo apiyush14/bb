@@ -15,7 +15,7 @@ public class TestRestController {
 	@Autowired
 	AdminClient adminClient;
 	
-	@Autowired
+	@Autowired(required = false)
 	KafkaUtils kafkaUtils;
 
 	@GetMapping(path="/testMethod")

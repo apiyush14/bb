@@ -27,7 +27,7 @@ public class AddRunsRequestProcessor extends RequestProcessor<AddRunDetailsReque
 	@Autowired
 	RunSummaryRepository runSummaryRepository;
 
-	@Autowired
+	@Autowired(required = false)
 	KafkaUtils kafkaUtils;
 
 	@Override

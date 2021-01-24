@@ -7,12 +7,14 @@ import java.util.Map;
 
 import org.apache.kafka.streams.KafkaStreams;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.onehealth.core.kafka.KafkaUtils;
 import com.onehealth.repo.EventDetailsRepository;
 
+@Profile("prod")
 @Component
 public class EventResultScheduler {
 

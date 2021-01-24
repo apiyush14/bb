@@ -25,6 +25,7 @@ import org.apache.kafka.streams.state.KeyValueStore;
 import org.apache.kafka.streams.state.StoreBuilder;
 import org.apache.kafka.streams.state.Stores;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Component;
@@ -35,6 +36,7 @@ import com.onehealth.entities.EventResultDetails;
 import com.onehealth.entities.RunDetails;
 import com.onehealth.repo.EventResultDetailsRepository;
 
+@Profile("prod")
 @Component
 public class KafkaUtils {
 
