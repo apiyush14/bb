@@ -1,7 +1,6 @@
 package com.onehealth.core.processor;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
+import com.onehealth.core.exceptions.InValidRequestException;
 
 public abstract class RequestProcessor<req extends Object, res extends Object> {
 
@@ -11,31 +10,31 @@ public abstract class RequestProcessor<req extends Object, res extends Object> {
 		this.request = request;
 	}
 
-	public res handleRequest() throws Exception{
+	public res handleRequest() {
 		res response = null;
-		try {
-			preProcess(request);
-			response = doProcessing(request);
-			postProcess(response);
-		} catch (Exception e) {
-            throw e;
-		}
+
+		preProcess(request);
+		response = doProcessing(request);
+		postProcess(response);
 		return response;
 	}
 
-	public boolean isRequestValid(req request) throws Exception{
-		return true;
+	public boolean isRequestValid(req request) {
+
+		boolean isReqValid = true; 
+		if(!isReqValid)
+			throw new InValidRequestException();
+
+		return isReqValid;
 	}
 
 	public void preProcess(req request) {
-		try {
-			isRequestValid(request);
-		} catch (Exception e) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e.getCause());
-		}
+		
+		isRequestValid(request);
+		
 	}
 
-	public abstract res doProcessing(req request) throws Exception;
+	public abstract res doProcessing(req request);
 
 	public void postProcess(res response) {
 	}

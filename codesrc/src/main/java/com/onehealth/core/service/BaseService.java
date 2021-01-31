@@ -21,15 +21,7 @@ public class BaseService {
 	}
 
 	private Object generateResponse(RequestProcessor requestProcessor) {
-		try {
 			return requestProcessor.handleRequest();
-		} catch (ResponseStatusException e) {
-			throw e;
-		} catch (NoDataFoundException e) {
-			throw new ResponseStatusException(HttpStatus.NO_CONTENT, e.getMessage(), e);
-		} catch (Exception e) {
-			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e.getCause());
-		}
 	}
 
 	public void postExecute() {

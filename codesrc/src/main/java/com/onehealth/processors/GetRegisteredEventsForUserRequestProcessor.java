@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
@@ -26,8 +27,10 @@ public class GetRegisteredEventsForUserRequestProcessor
 	@Autowired
 	EventRegistrationDetailsRepository eventRegistrationRepository;
 
+	private static final Logger LOG = Logger.getLogger(GetRegisteredEventsForUserRequestProcessor.class);
+
 	@Override
-	public GetEventDetailsResponse doProcessing(GetEventsRequest request) throws Exception {
+	public GetEventDetailsResponse doProcessing(GetEventsRequest request) {
 		GetEventDetailsResponse response = new GetEventDetailsResponse();
 		EventRegistrationDetails eventRegistrationDetailsQueryObj = new EventRegistrationDetails();
 		eventRegistrationDetailsQueryObj.setUserId(request.getUserId());
@@ -35,6 +38,7 @@ public class GetRegisteredEventsForUserRequestProcessor
 				.of(eventRegistrationDetailsQueryObj);
 		List<EventRegistrationDetails> eventRegistrationDetailsList;
 
+		LOG.debug("Retrieving all registered event(s).");
 		if (Objects.isNull(request.getPageNumber())) {
 			eventRegistrationDetailsList=eventRegistrationRepository.findAllEligibleEvents(eventRegistrationDetailsQueryExample, Sort.by("eventId"));
 		} else {
@@ -48,8 +52,11 @@ public class GetRegisteredEventsForUserRequestProcessor
 		if (!Objects.isNull(eventRegistrationDetailsList) && (!eventRegistrationDetailsList.isEmpty())) {
 			List<EventDetails> eventDetailsList = eventRegistrationDetailsList.stream()
 					.map(event -> event.getEventDetails()).collect(Collectors.toList());
+
+			LOG.debug("Retrieved "+eventDetailsList.size()+" registered event(s).");
 			response.setEventDetails(eventDetailsList);
 		} else {
+			LOG.debug("No event(s) are registered.");
 			response.setEventDetails(new ArrayList<EventDetails>());
 		}
 		return response;

@@ -1,5 +1,7 @@
 package com.onehealth.services;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +42,7 @@ public class EventDetailsService extends BaseService {
 
 	@PutMapping(path = "event-details/addEvent", produces = "application/json")
 	@CrossOrigin(origins="*")
-	public ResponseEntity<Object> addEvent(@RequestBody AddEventDetailsRequest addEventDetailsRequest) {
+	public ResponseEntity<Object> addEvent(@Valid @RequestBody AddEventDetailsRequest addEventDetailsRequest) {
 		addEventRequestProcessor.setRequest(addEventDetailsRequest);
 		return execute(addEventRequestProcessor);
 	}

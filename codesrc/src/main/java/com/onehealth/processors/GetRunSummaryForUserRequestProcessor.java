@@ -1,11 +1,12 @@
 package com.onehealth.processors;
 
-import java.util.Optional;
-
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import com.onehealth.core.exceptions.NoRunSummryFoundException;
+import com.onehealth.core.exceptions.NoUserFoundException;
 import com.onehealth.core.model.BaseRequestProcessorInput;
 import com.onehealth.core.processor.RequestProcessor;
 import com.onehealth.entities.RunSummary;
@@ -19,21 +20,25 @@ public class GetRunSummaryForUserRequestProcessor
 	@Autowired
 	RunSummaryRepository runSummaryRepository;
 
+	private static final Logger LOG = Logger.getLogger(GetRunSummaryForUserRequestProcessor.class);
+
 	@Override
-	public boolean isRequestValid(BaseRequestProcessorInput request) throws Exception {
+	public boolean isRequestValid(BaseRequestProcessorInput request) {
 		if (StringUtils.isEmpty(request.getUserId())) {
-			throw new Exception("User Id is not populated");
+			LOG.error("Invalid user id found, unable to process request");
+			throw new NoUserFoundException();
 		}
+		LOG.debug("Valid get run summary details request, processing..");
 		return super.isRequestValid(request);
 	}
 
 	@Override
-	public GetRunSummaryForUserResponse doProcessing(BaseRequestProcessorInput request) throws Exception {
+	public GetRunSummaryForUserResponse doProcessing(BaseRequestProcessorInput request) {
 		GetRunSummaryForUserResponse response = new GetRunSummaryForUserResponse();
-		Optional<RunSummary> runSummaryOptional= runSummaryRepository.findById(request.getUserId());
-		if(runSummaryOptional.isPresent()) {
-		  response.setRunSummary(runSummaryRepository.findById(request.getUserId()).get());
-		}
+		RunSummary runSummaryOptional= runSummaryRepository.findById(request.getUserId()).orElseThrow(NoRunSummryFoundException::new);
+		LOG.debug("Retrieved saved run summary details for user : "+runSummaryOptional.getUserDetails().getUserFirstName()+" "
+				+runSummaryOptional.getUserDetails().getUserLastName());
+		response.setRunSummary(runSummaryOptional);
 		return response;
 	}
 

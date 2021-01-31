@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
@@ -13,6 +14,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import com.onehealth.core.exceptions.NoDataFoundException;
+import com.onehealth.core.exceptions.NoRunDetailsFoundException;
+import com.onehealth.core.exceptions.NoUserFoundException;
 import com.onehealth.core.processor.RequestProcessor;
 import com.onehealth.entities.EventDetails;
 import com.onehealth.entities.EventResultDetails;
@@ -34,22 +38,27 @@ public class GetRunsForUserRequestProcessor extends RequestProcessor<GetRunsForU
 	@Autowired
 	private EventResultDetailsRepository eventResultDetailsRepo;
 
+	private static final Logger LOG = Logger.getLogger(GetRunsForUserRequestProcessor.class);
+
 	@Override
-	public boolean isRequestValid(GetRunsForUserRequest request) throws Exception {
+	public boolean isRequestValid(GetRunsForUserRequest request) {
 		if (StringUtils.isEmpty(request.getUserId())) {
-			throw new Exception("User Id is not populated");
+			LOG.error("Invalid user id found, unable to process request");
+			throw new NoUserFoundException();
 		}
+		LOG.debug("Valid get run(s) details request, processing..");
 		return super.isRequestValid(request);
 	}
 
 	@Override
-	public GetRunsForUserResponse doProcessing(GetRunsForUserRequest request) throws Exception {
+	public GetRunsForUserResponse doProcessing(GetRunsForUserRequest request) {
 		GetRunsForUserResponse response = new GetRunsForUserResponse();
 		RunDetails runDetailsQueryObj = new RunDetails();
 		runDetailsQueryObj.setUserId(request.getUserId());
 		Example<RunDetails> runDetailsQueryExample = Example.of(runDetailsQueryObj);
 		List<RunDetails> runDetailsList;
-
+		LOG.debug("Retrieving all saved run(s).");
+		
 		if (Objects.isNull(request.getPageNumber())) {
 			runDetailsList = runDetailsRepo.findAll(runDetailsQueryExample, Sort.by("runId"));
 		} else {
@@ -61,8 +70,13 @@ public class GetRunsForUserRequestProcessor extends RequestProcessor<GetRunsForU
 		}
 
 		//populateEventDetailsIfApplicable(runDetailsList);
-
+		if(Objects.nonNull(runDetailsList) && (!runDetailsList.isEmpty())) {
+		LOG.debug("Retrieved "+runDetailsList.size()+" saved run(s).");
 		response.setRunDetailsList(runDetailsList);
+		}
+		else
+			throw new NoRunDetailsFoundException();
+		
 		return response;
 	}
 

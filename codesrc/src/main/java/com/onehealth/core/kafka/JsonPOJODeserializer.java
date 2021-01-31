@@ -1,10 +1,11 @@
 package com.onehealth.core.kafka;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Map;
+
 import org.apache.kafka.common.errors.SerializationException;
 import org.apache.kafka.common.serialization.Deserializer;
 
-import java.util.Map;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JsonPOJODeserializer<T> implements Deserializer<T> {
     private ObjectMapper objectMapper = new ObjectMapper();
@@ -34,7 +35,6 @@ public class JsonPOJODeserializer<T> implements Deserializer<T> {
         } catch (Exception e) {
             throw new SerializationException(e);
         }
-
         return data;
     }
 
