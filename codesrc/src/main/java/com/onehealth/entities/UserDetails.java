@@ -25,6 +25,12 @@ public class UserDetails {
 	@Column(name="USER_LAST_NAME")
 	private String userLastName;
 	
+	@Column(name="USER_HEIGHT")
+	private Double userHeight;
+	
+	@Column(name="USER_WEIGHT")
+	private Double userWeight;
+	
 	@JsonIgnore
 	@OneToMany(mappedBy="userDetails")
 	private Set<RunDetails> runDetails;
@@ -67,6 +73,22 @@ public class UserDetails {
 
 	public void setUserLastName(String userLastName) {
 		this.userLastName = userLastName;
+	}
+	
+	public Double getUserHeight() {
+		return userHeight;
+	}
+
+	public void setUserHeight(Double userHeight) {
+		this.userHeight = userHeight;
+	}
+
+	public Double getUserWeight() {
+		return userWeight;
+	}
+
+	public void setUserWeight(Double userWeight) {
+		this.userWeight = userWeight;
 	}
 
 	public Set<RunDetails> getRunDetails() {
