@@ -87,9 +87,15 @@ public class AddRunsRequestProcessor extends RequestProcessor<AddRunDetailsReque
 		runSummaryNew.setTotalDistance(
 				(request.getRunDetailsList().stream().mapToDouble(run -> run.getRunDistance()).sum()));
 		runSummaryNew.setAverageDistance(runSummaryNew.getTotalDistance() / runSummaryNew.getTotalRuns());
+		
 		double avgPace = (request.getRunDetailsList().stream().mapToDouble(run -> run.getRunPace()).sum())
 				/ runSummaryNew.getTotalRuns();
 		runSummaryNew.setAveragePace(avgPace);
+		
+		double avgCaloriesBurnt = (request.getRunDetailsList().stream().mapToDouble(run -> run.getRunCaloriesBurnt()).sum())
+				/ runSummaryNew.getTotalRuns();
+		runSummaryNew.setAverageCaloriesBurnt(avgCaloriesBurnt);
+		
 		runSummaryRepository.save(runSummaryNew);
 	}
 
@@ -97,12 +103,21 @@ public class AddRunsRequestProcessor extends RequestProcessor<AddRunDetailsReque
 		RunSummary existingRunSummary = existingRunSummaryOptional.get();
 		existingRunSummary.setTotalDistance(existingRunSummary.getTotalDistance()
 				+ request.getRunDetailsList().stream().mapToDouble(run -> run.getRunDistance()).sum());
+		
 		double existingAvgPace = existingRunSummary.getAveragePace();
 		double totalSumOfAvgPaceForNewRuns = request.getRunDetailsList().stream().mapToDouble(run -> run.getRunPace())
 				.sum();
 		double updatedAvgPace = ((existingAvgPace * (existingRunSummary.getTotalRuns())) + totalSumOfAvgPaceForNewRuns)
 				/ (existingRunSummary.getTotalRuns() + request.getRunDetailsList().size());
 		existingRunSummary.setAveragePace(updatedAvgPace);
+		
+		double existingAvgCaloriesBurnt = existingRunSummary.getAverageCaloriesBurnt();
+		double totalSumOfAvgCaloriesBurntForNewRuns = request.getRunDetailsList().stream().mapToDouble(run -> run.getRunCaloriesBurnt())
+				.sum();
+		double updatedAvgCaloriesBurnt = ((existingAvgCaloriesBurnt * (existingRunSummary.getTotalRuns())) + totalSumOfAvgCaloriesBurntForNewRuns)
+				/ (existingRunSummary.getTotalRuns() + request.getRunDetailsList().size());
+		existingRunSummary.setAverageCaloriesBurnt(updatedAvgCaloriesBurnt);
+		
 		existingRunSummary.setTotalRuns(existingRunSummary.getTotalRuns() + request.getRunDetailsList().size());
 		existingRunSummary
 				.setAverageDistance(existingRunSummary.getTotalDistance() / existingRunSummary.getTotalRuns());
