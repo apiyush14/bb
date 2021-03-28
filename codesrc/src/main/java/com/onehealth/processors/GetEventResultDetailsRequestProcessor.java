@@ -21,11 +21,11 @@ public class GetEventResultDetailsRequestProcessor
 	@Autowired
 	private EventResultDetailsRepository eventResultDetailsRepo;
 	
-	public static final Logger logger = LoggerFactory.getLogger(GetEventResultDetailsRequestProcessor.class);
+	public static final Logger logger=LoggerFactory.getLogger(GetEventResultDetailsRequestProcessor.class);
 
 	@Override
 	public GetEventResultDetailsResponse doProcessing(GetEventResultDetailsRequest request) throws Exception {
-		logger.info("GetEventResultDetailsRequestProcessor doProcessing Started for User Id " + request.getUserId());
+		logger.info("GetEventResultDetailsRequestProcessor doProcessing Started for User Id "+request.getUserId());
 		GetEventResultDetailsResponse response = new GetEventResultDetailsResponse();
 		EventResultDetails eventResultDetailsQueryObj = new EventResultDetails();
 		eventResultDetailsQueryObj.setUserId(request.getUserId());
@@ -33,7 +33,7 @@ public class GetEventResultDetailsRequestProcessor
 		List<EventResultDetails> eventResultDetailsList = eventResultDetailsRepo
 				.findAll(eventResultDetailsQueryExample);
 		response.setEventResultDetails(eventResultDetailsList);
-		logger.info("GetEventResultDetailsRequestProcessor doProcessing Completed for User Id " + request.getUserId());
+		logger.info("GetEventResultDetailsRequestProcessor doProcessing Completed for User Id "+request.getUserId());
 		return response;
 	}
 

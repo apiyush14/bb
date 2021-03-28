@@ -25,4 +25,18 @@ public class EventResultDetailsService extends BaseService {
 		return execute(getEventResultDetailsRequestProcessor);
 	}
 
+	/*@GetMapping(path = EVENT_RESULTS + "/{eventId}")
+	public ResponseEntity<Object> getEventResultDetailsPageable(@PathVariable(required = true) Long eventId,
+			@RequestParam(required = true) Integer pageNumber, @RequestParam(required = true) Integer pageSize)
+			throws NoDataFoundException {
+
+		GetEventResultDetailsRequest request = new GetEventResultDetailsRequest();
+		request.setEventId(eventId);
+		request.setPageNumber(pageNumber);
+		request.setPageSize(pageSize);
+
+		GetEventResultDetailsResponse eventResultDetailsResponse = getEventResultDetailsRequestProcessor
+				.getEventResultDetailsPageable(request);
+		return ResponseEntity.ok(eventResultDetailsResponse);
+	}*/
 }
