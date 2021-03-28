@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import com.onehealth.core.kafka.KafkaUtils;
@@ -29,11 +32,16 @@ public class AddRunsRequestProcessor extends RequestProcessor<AddRunDetailsReque
 
 	@Autowired(required = false)
 	KafkaUtils kafkaUtils;
+	
+	public static final Logger logger=LoggerFactory.getLogger(AddRunsRequestProcessor.class);
 
 	@Override
 	public boolean isRequestValid(AddRunDetailsRequest request) throws Exception {
 		if (StringUtils.isEmpty(request.getUserId())) {
 			throw new Exception("User Id is not populated");
+		}
+		else if(CollectionUtils.isEmpty(request.getRunDetailsList())) {
+			throw new Exception("Run Details List Passed in the input is empty");
 		}
 		return super.isRequestValid(request);
 	}
@@ -50,8 +58,10 @@ public class AddRunsRequestProcessor extends RequestProcessor<AddRunDetailsReque
 
 	@Override
 	public Boolean doProcessing(AddRunDetailsRequest request) throws Exception {
+		logger.info("AddRunsRequestProcessor doProcessing Started for User Id "+request.getUserId());
 		boolean status = addRunsAndUpdateSummary(request);
 		updateKafkaIfNeeded(request);
+		logger.info("AddRunsRequestProcessor doProcessing Completed for User Id "+request.getUserId());
 		return status;
 	}
 
@@ -74,7 +84,6 @@ public class AddRunsRequestProcessor extends RequestProcessor<AddRunDetailsReque
 		if (existingRunSummaryOptional.isPresent()) {
 			updateRunSummary(request, existingRunSummaryOptional);
 		}
-
 		else {
 			addRunSummary(request);
 		}
@@ -95,7 +104,6 @@ public class AddRunsRequestProcessor extends RequestProcessor<AddRunDetailsReque
 		double avgCaloriesBurnt = (request.getRunDetailsList().stream().mapToDouble(run -> run.getRunCaloriesBurnt()).sum())
 				/ runSummaryNew.getTotalRuns();
 		runSummaryNew.setAverageCaloriesBurnt(avgCaloriesBurnt);
-		
 		runSummaryRepository.save(runSummaryNew);
 	}
 
@@ -128,6 +136,7 @@ public class AddRunsRequestProcessor extends RequestProcessor<AddRunDetailsReque
 		request.getRunDetailsList().parallelStream().filter(run -> run.getEventId() > 0).forEach(r -> {
 			String topicName = "EVENT_RUN_SUBMISSION_" + r.getEventId();
 			kafkaUtils.sendMessage(topicName, r);
+			logger.info("AddRunsRequestProcessor Update Kafka Completed for User Id "+request.getUserId()+" and event id "+r.getEventId());
 		});
 	}
 

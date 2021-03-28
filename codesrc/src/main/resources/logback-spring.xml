@@ -31,8 +31,10 @@
         </appender>
 
         <logger name="org.springframework" level="INFO"/>
-        <logger name="com.mkyong" level="DEBUG"/>
-        <root level="ERROR">
+        <logger name="org.springframework.web.filter.CommonsRequestLoggingFilter">
+         <level value="DEBUG" />
+        </logger>
+        <root level="INFO">
             <appender-ref ref="FILE-ROLLING"/>
         </root>
     </springProfile>

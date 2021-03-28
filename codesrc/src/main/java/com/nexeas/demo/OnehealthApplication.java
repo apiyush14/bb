@@ -13,9 +13,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 @EnableAutoConfiguration
 @EnableConfigurationProperties
-@ComponentScan(basePackages= {"com.onehealth.services","com.onehealth.config","com.onehealth.processors","com.onehealth.auth","com.onehealth.core.kafka","com.onehealth.schedulers","com.nexeas.demo"})
-@EntityScan(basePackages = {"com.onehealth.entities"})
-@EnableJpaRepositories(basePackages = {"com.onehealth.repo"})
+@ComponentScan(basePackages = { "com.onehealth.services", "com.onehealth.config", "com.onehealth.processors",
+		"com.onehealth.auth", "com.onehealth.core.kafka", "com.onehealth.schedulers", "com.nexeas.demo" })
+@EntityScan(basePackages = { "com.onehealth.entities" })
+@EnableJpaRepositories(basePackages = { "com.onehealth.repo" })
 public class OnehealthApplication {
 
 	public static void main(String[] args) {

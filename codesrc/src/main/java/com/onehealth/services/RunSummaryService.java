@@ -13,11 +13,11 @@ import com.onehealth.processors.GetRunSummaryForUserRequestProcessor;
 
 @RestController
 public class RunSummaryService extends BaseService {
-	
+
 	@Autowired
 	GetRunSummaryForUserRequestProcessor getRunSummaryForUserRequestProcessor;
-	
-	@GetMapping(path = "run-details/getRunSummary/{userId}", produces=MediaType.APPLICATION_JSON_VALUE)
+
+	@GetMapping(path = "run-details/getRunSummary/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> getRunsForUser(@PathVariable String userId) {
 		BaseRequestProcessorInput request = new BaseRequestProcessorInput();
 		request.setUserId(userId);

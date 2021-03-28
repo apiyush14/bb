@@ -45,7 +45,7 @@ public class KafkaUtils {
 
 	@Autowired
 	private AdminClient adminClient;
-	
+
 	@Autowired
 	private EventResultDetailsRepository eventResultDetailsRepo;
 
@@ -73,7 +73,7 @@ public class KafkaUtils {
 
 	public Set<String> getAllExistingTopics() {
 		try {
-			ListTopicsResult result=adminClient.listTopics();
+			ListTopicsResult result = adminClient.listTopics();
 			return adminClient.listTopics().names().get();
 		} catch (Exception e) {
 			return new HashSet<String>();
@@ -89,52 +89,64 @@ public class KafkaUtils {
 	}
 
 	public KafkaStreams createAndStartNewStream(String topicName, long eventId) {
-		KafkaStreams streams =null;
+		KafkaStreams streams = null;
 		try {
-		Properties props = new Properties();
-		props.put(StreamsConfig.APPLICATION_ID_CONFIG, "onehealth");
-		props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "192.168.1.64:9092");
-		props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
-		/*props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass());
-		props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass());*/
-		
-		Map<String, Object> serdeProps = new HashMap<>();
-		final Serializer<RunDetails> runDetailsSerializer = new JsonPOJOSerializer<>();
-        serdeProps.put("JsonPOJOClass", RunDetails.class);
-        runDetailsSerializer.configure(serdeProps, false);
+			Properties props = new Properties();
+			props.put(StreamsConfig.APPLICATION_ID_CONFIG, "onehealth");
+			props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "192.168.1.64:9092");
+			props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+			/*
+			 * props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG,
+			 * Serdes.String().getClass());
+			 * props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG,
+			 * Serdes.String().getClass());
+			 */
 
-        final Deserializer<RunDetails> runDetailsDeserializer = new JsonPOJODeserializer<>();
-        serdeProps.put("JsonPOJOClass", RunDetails.class);
-        runDetailsDeserializer.configure(serdeProps, false);
-        final Serde<RunDetails> runDetailsSerde = Serdes.serdeFrom(runDetailsSerializer, runDetailsDeserializer);
-        
-		final Serializer<EventResultDetails> eventResultDetailsSerializer = new JsonPOJOSerializer<>();
-        serdeProps.put("JsonPOJOClass", EventResultDetails.class);
-        eventResultDetailsSerializer.configure(serdeProps, false);
+			Map<String, Object> serdeProps = new HashMap<>();
+			final Serializer<RunDetails> runDetailsSerializer = new JsonPOJOSerializer<>();
+			serdeProps.put("JsonPOJOClass", RunDetails.class);
+			runDetailsSerializer.configure(serdeProps, false);
 
-        final Deserializer<EventResultDetails> eventResultDetailsDeserializer = new JsonPOJODeserializer<>();
-        serdeProps.put("JsonPOJOClass", EventResultDetails.class);
-        eventResultDetailsDeserializer.configure(serdeProps, false);
-        final Serde<EventResultDetails> eventResultDetailsSerde = Serdes.serdeFrom(eventResultDetailsSerializer, eventResultDetailsDeserializer);
+			final Deserializer<RunDetails> runDetailsDeserializer = new JsonPOJODeserializer<>();
+			serdeProps.put("JsonPOJOClass", RunDetails.class);
+			runDetailsDeserializer.configure(serdeProps, false);
+			final Serde<RunDetails> runDetailsSerde = Serdes.serdeFrom(runDetailsSerializer, runDetailsDeserializer);
 
-		StreamsBuilder streamBuilder = new StreamsBuilder();
-		StoreBuilder<KeyValueStore<String, EventResultDetails>> keyValueStoreBuilder = Stores.keyValueStoreBuilder(Stores.persistentKeyValueStore("EVENT_RESULT_DETAILS"+eventId), Serdes.String(), eventResultDetailsSerde);
-		streamBuilder.addStateStore(keyValueStoreBuilder);
-		KStream<String, RunDetails> runsInput = streamBuilder.stream(topicName,Consumed.with(Serdes.String(), runDetailsSerde));
-		
-		//runsInput.mapValues(v->v).process(, stateStoreNames);
-		//runsInput.selectKey((k,v)->v.getUserId()).foreach((k,v)->);
-		runsInput.selectKey((k,v)->v.getUserId()).process(()->new EventRunsProcessor("EVENT_RESULT_DETAILS"+eventId,eventResultDetailsRepo), "EVENT_RESULT_DETAILS"+eventId);
-		/*runsInput.mapValues(value -> {
-			System.out.println("===============Inside Map Values=================");
-			System.out.println(value.getUserId());
-			return String.valueOf(value.getUserId());}).to("testTopic",Produced.with(Serdes.String(), Serdes.String()));*/
-		streams = new KafkaStreams(streamBuilder.build(), props);
-		//streams.cleanUp();
-		streams.start();
-		Runtime.getRuntime().addShutdownHook(new Thread(streams::close));
-		}
-		catch(Exception e) {
+			final Serializer<EventResultDetails> eventResultDetailsSerializer = new JsonPOJOSerializer<>();
+			serdeProps.put("JsonPOJOClass", EventResultDetails.class);
+			eventResultDetailsSerializer.configure(serdeProps, false);
+
+			final Deserializer<EventResultDetails> eventResultDetailsDeserializer = new JsonPOJODeserializer<>();
+			serdeProps.put("JsonPOJOClass", EventResultDetails.class);
+			eventResultDetailsDeserializer.configure(serdeProps, false);
+			final Serde<EventResultDetails> eventResultDetailsSerde = Serdes.serdeFrom(eventResultDetailsSerializer,
+					eventResultDetailsDeserializer);
+
+			StreamsBuilder streamBuilder = new StreamsBuilder();
+			StoreBuilder<KeyValueStore<String, EventResultDetails>> keyValueStoreBuilder = Stores.keyValueStoreBuilder(
+					Stores.persistentKeyValueStore("EVENT_RESULT_DETAILS" + eventId), Serdes.String(),
+					eventResultDetailsSerde);
+			streamBuilder.addStateStore(keyValueStoreBuilder);
+			KStream<String, RunDetails> runsInput = streamBuilder.stream(topicName,
+					Consumed.with(Serdes.String(), runDetailsSerde));
+
+			// runsInput.mapValues(v->v).process(, stateStoreNames);
+			// runsInput.selectKey((k,v)->v.getUserId()).foreach((k,v)->);
+			runsInput.selectKey((k, v) -> v.getUserId()).process(
+					() -> new EventRunsProcessor("EVENT_RESULT_DETAILS" + eventId, eventResultDetailsRepo),
+					"EVENT_RESULT_DETAILS" + eventId);
+			/*
+			 * runsInput.mapValues(value -> {
+			 * System.out.println("===============Inside Map Values=================");
+			 * System.out.println(value.getUserId()); return
+			 * String.valueOf(value.getUserId());}).to("testTopic",Produced.with(Serdes.
+			 * String(), Serdes.String()));
+			 */
+			streams = new KafkaStreams(streamBuilder.build(), props);
+			// streams.cleanUp();
+			streams.start();
+			Runtime.getRuntime().addShutdownHook(new Thread(streams::close));
+		} catch (Exception e) {
 			throw e;
 		}
 		return streams;

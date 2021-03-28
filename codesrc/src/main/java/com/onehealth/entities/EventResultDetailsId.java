@@ -2,31 +2,34 @@ package com.onehealth.entities;
 
 import java.io.Serializable;
 
-public class EventResultDetailsId implements Serializable{
+public class EventResultDetailsId implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	private String userId;
 	private Long eventId;
-	
+
 	public EventResultDetailsId() {
-		
+
 	}
-	
+
 	public EventResultDetailsId(String userId, Long eventId) {
 		super();
 		this.userId = userId;
 		this.eventId = eventId;
 	}
-	
+
 	public String getUserId() {
 		return userId;
 	}
+
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
+
 	public Long getEventId() {
 		return eventId;
 	}
+
 	public void setEventId(Long eventId) {
 		this.eventId = eventId;
 	}
@@ -61,6 +64,5 @@ public class EventResultDetailsId implements Serializable{
 			return false;
 		return true;
 	}
-	
-	
+
 }

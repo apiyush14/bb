@@ -4,6 +4,8 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Component;
@@ -21,10 +23,13 @@ public class ValidateOTPAndGenerateSecretRequestProcessor
 
 	@Autowired
 	UserAuthenticationDetailsRepository userAuthenticationDetailsRepository;
+	
+	public static final Logger logger = LoggerFactory.getLogger(ValidateOTPAndGenerateSecretRequestProcessor.class);
 
 	@Override
 	public ValidateOTPAndGenerateSecretResponse doProcessing(ValidateOTPAndGenerateSecretRequest request)
 			throws Exception {
+		logger.info("ValidateOTPAndGenerateSecretRequestProcessor doProcessing Started for OTP " + request.getOtpCode());
 		ValidateOTPAndGenerateSecretResponse response = new ValidateOTPAndGenerateSecretResponse();
 		
 		UserAuthenticationDetails userAuthenticationDetailsQueryObj = new UserAuthenticationDetails();
@@ -47,7 +52,8 @@ public class ValidateOTPAndGenerateSecretRequestProcessor
 		} else {
 			response.setIsValid(false);
 		}
-		System.out.println("======================="+response.getSecret()+"=====================");
+		logger.info("ValidateOTPAndGenerateSecretRequestProcessor doProcessing Completed for OTP " + request.getOtpCode());
+		
 		return response;
 	}
 

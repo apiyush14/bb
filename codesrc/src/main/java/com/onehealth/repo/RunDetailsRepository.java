@@ -7,6 +7,6 @@ import com.onehealth.entities.RunDetails;
 import com.onehealth.entities.RunDetailsId;
 
 @Repository
-public interface RunDetailsRepository extends JpaRepository<RunDetails, RunDetailsId>{
- 
+public interface RunDetailsRepository extends JpaRepository<RunDetails, RunDetailsId> {
+
 }

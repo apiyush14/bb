@@ -19,39 +19,39 @@ import org.hibernate.annotations.UpdateTimestamp;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name="EVENT_REGISTRATION_DETAILS")
+@Table(name = "EVENT_REGISTRATION_DETAILS")
 @IdClass(EventRegistrationDetailsId.class)
 public class EventRegistrationDetails {
 
-	 @Id
-	 @Column(name="EVENT_ID")
-	 private Long eventId;
-	 
-	 @Id
-	 @Column(name="USER_ID")
-	 private String userId;
-	 
-	 @CreationTimestamp
-	 @Column(name="CREATED_DATE")
-	 @Temporal(value=TemporalType.TIMESTAMP)
-	 private Date createdDate;
-	 
-	 @UpdateTimestamp
-	 @Column(name="UPDATED_DATE")
-	 @Temporal(value=TemporalType.TIMESTAMP)
-	 private Date updatedDate;
-	 
-	 @JsonIgnore
-	 @ManyToOne
-	 @MapsId("userId")
-	 @JoinColumn(name = "USER_ID",referencedColumnName = "USER_ID")
-	 private UserDetails userDetails;
-	 
-	 @JsonIgnore
-	 @ManyToOne
-	 @MapsId("eventId")
-	 @JoinColumn(name="EVENT_ID",referencedColumnName = "EVENT_ID")
-	 private EventDetails eventDetails;
+	@Id
+	@Column(name = "EVENT_ID")
+	private Long eventId;
+
+	@Id
+	@Column(name = "USER_ID")
+	private String userId;
+
+	@CreationTimestamp
+	@Column(name = "CREATED_DATE")
+	@Temporal(value = TemporalType.TIMESTAMP)
+	private Date createdDate;
+
+	@UpdateTimestamp
+	@Column(name = "UPDATED_DATE")
+	@Temporal(value = TemporalType.TIMESTAMP)
+	private Date updatedDate;
+
+	@JsonIgnore
+	@ManyToOne
+	@MapsId("userId")
+	@JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID")
+	private UserDetails userDetails;
+
+	@JsonIgnore
+	@ManyToOne
+	@MapsId("eventId")
+	@JoinColumn(name = "EVENT_ID", referencedColumnName = "EVENT_ID")
+	private EventDetails eventDetails;
 
 	public Long getEventId() {
 		return eventId;
@@ -99,6 +99,6 @@ public class EventRegistrationDetails {
 
 	public void setEventDetails(EventDetails eventDetails) {
 		this.eventDetails = eventDetails;
-	}	
-	
+	}
+
 }

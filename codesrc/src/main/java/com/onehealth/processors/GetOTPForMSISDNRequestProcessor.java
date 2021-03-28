@@ -5,6 +5,8 @@ import java.util.UUID;
 
 import javax.transaction.Transactional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Component;
@@ -26,9 +28,12 @@ public class GetOTPForMSISDNRequestProcessor extends RequestProcessor<GetOTPForM
 	
 	@Autowired
 	UserDetailsRepository userDetailsRepo;
+	
+	public static final Logger logger = LoggerFactory.getLogger(GetOTPForMSISDNRequestProcessor.class);
 
 	@Override
 	public GetOTPForMSISDNResponse doProcessing(GetOTPForMSISDNRequest request) throws Exception {
+		logger.info("GetOTPForMSISDNRequestProcessor doProcessing Started for Contact Number " + request.getContactNumber());
 		return generateOTPForMSISDN(request);
 	}
 
@@ -66,6 +71,7 @@ public class GetOTPForMSISDNRequestProcessor extends RequestProcessor<GetOTPForM
 		}
 		System.out.println("===========Generated OTP For MSISDN===================" + otpCode);
 		response.setStatus(true);
+		logger.info("GetOTPForMSISDNRequestProcessor doProcessing Completed for Contact Number " + request.getContactNumber());
 		return response;
 	}
 

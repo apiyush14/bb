@@ -27,25 +27,25 @@ import com.onehealth.processors.UploadEventImageRequestProcessor;
 public class EventDetailsService extends BaseService {
 
 	@Autowired
-    AddEventRequestProcessor addEventRequestProcessor;
-	
+	AddEventRequestProcessor addEventRequestProcessor;
+
 	@Autowired
 	UploadEventImageRequestProcessor uploadEventImageRequestProcessor;
-	
+
 	@Autowired
 	GetDisplayImageForEventRequestProcessor getDisplayImageForEventRequestProcessor;
-	
+
 	@Autowired
 	GetEventsRequestProcessor getEventsRequestProcessor;
 
-	@PutMapping(path = "event-details/addEvent", produces = "application/json")
-	@CrossOrigin(origins="*")
+	@PutMapping(path = "event-details/addEvent", produces = MediaType.APPLICATION_JSON_VALUE)
+	@CrossOrigin(origins = "*")
 	public ResponseEntity<Object> addEvent(@RequestBody AddEventDetailsRequest addEventDetailsRequest) {
 		addEventRequestProcessor.setRequest(addEventDetailsRequest);
 		return execute(addEventRequestProcessor);
 	}
-	
-	@PostMapping(path = "event-details/uploadEventDisplayImage/{eventId}", consumes = "multipart/form-data", produces = "application/json")
+
+	@PostMapping(path = "event-details/uploadEventDisplayImage/{eventId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> uploadEventDisplayImage(@PathVariable Long eventId,
 			@RequestParam(required = true, name = "imageType") String imageType,
 			@RequestParam("file") MultipartFile file) {
@@ -56,7 +56,7 @@ public class EventDetailsService extends BaseService {
 		uploadEventImageRequestProcessor.setRequest(uploadEventImageRequest);
 		return execute(uploadEventImageRequestProcessor);
 	}
-	
+
 	@GetMapping(path = "event-details/getDisplayImage/{eventId}", produces = MediaType.IMAGE_PNG_VALUE)
 	public ResponseEntity<Object> getDisplayImageForEvent(@PathVariable Long eventId,
 			@RequestParam(required = true, name = "imageType") String imageType) {
@@ -67,10 +67,10 @@ public class EventDetailsService extends BaseService {
 		return execute(getDisplayImageForEventRequestProcessor);
 	}
 
-	@GetMapping(path="event-details/getEvents/{userId}",produces=MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(path = "event-details/getEvents/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> getEvents(@PathVariable String userId,
-			@RequestParam(required = false, name = "page") String pageNumber){
-		GetEventsRequest request=new GetEventsRequest();
+			@RequestParam(required = false, name = "page") String pageNumber) {
+		GetEventsRequest request = new GetEventsRequest();
 		request.setPageNumber(pageNumber);
 		request.setUserId(userId);
 		getEventsRequestProcessor.setRequest(request);

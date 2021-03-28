@@ -33,13 +33,13 @@ public class EventResultDetails {
 
 	@Column(name = "RUN_ID")
 	private Long runId;
-	
+
 	@Column(name = "RUN_TOTAL_TIME")
 	private String runTotalTime;
-	
+
 	@Column(name = "USER_RANK")
 	private Long userRank;
-	
+
 	@Column(name = "PARTITION_KEY")
 	private String partitionKey;
 
@@ -64,14 +64,19 @@ public class EventResultDetails {
 	@MapsId("eventId")
 	@JoinColumn(name = "EVENT_ID", referencedColumnName = "EVENT_ID")
 	private EventDetails eventDetails;
-	
-	/*@JsonIgnore
-	@OneToOne
-	@JoinColumns({
-		@JoinColumn(name = "RUN_ID", referencedColumnName = "RUN_ID"),
-		@JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID")
-	})
-	private RunDetails rundetails;*/
+
+	/*
+	 * @JsonIgnore
+	 * 
+	 * @OneToOne
+	 * 
+	 * @JoinColumns({
+	 * 
+	 * @JoinColumn(name = "RUN_ID", referencedColumnName = "RUN_ID"),
+	 * 
+	 * @JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID") }) private
+	 * RunDetails rundetails;
+	 */
 
 	public Long getEventId() {
 		return eventId;

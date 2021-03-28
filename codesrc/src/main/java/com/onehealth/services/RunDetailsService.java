@@ -1,6 +1,7 @@
 package com.onehealth.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,7 +25,7 @@ public class RunDetailsService extends BaseService {
 	@Autowired
 	GetRunsForUserRequestProcessor getRunsForUserRequestProcessor;
 
-	@PostMapping(path = "run-details/addRuns/{userId}", produces = "application/json")
+	@PostMapping(path = "run-details/addRuns/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> addRuns(@PathVariable String userId, @RequestBody AddRunDetailsRequest runDetails) {
 		AddRunDetailsRequest request = new AddRunDetailsRequest();
 		request.setUserId(userId);
@@ -33,7 +34,7 @@ public class RunDetailsService extends BaseService {
 		return execute(addRunsRequestProcessor);
 	}
 
-	@GetMapping(path = "run-details/getRuns/{userId}", produces = "application/json")
+	@GetMapping(path = "run-details/getRuns/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> getRunsForUser(@PathVariable String userId,
 			@RequestParam(required = false, name = "page") String pageNumber) {
 		GetRunsForUserRequest request = new GetRunsForUserRequest();

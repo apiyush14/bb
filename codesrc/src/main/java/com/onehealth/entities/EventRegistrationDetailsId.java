@@ -4,14 +4,14 @@ import java.io.Serializable;
 
 public class EventRegistrationDetailsId implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	private Long eventId;
 	private String userId;
-	
+
 	public EventRegistrationDetailsId() {
-		
+
 	}
-	
+
 	public EventRegistrationDetailsId(Long eventId, String userId) {
 		super();
 		this.eventId = eventId;
@@ -48,5 +48,5 @@ public class EventRegistrationDetailsId implements Serializable {
 			return false;
 		return true;
 	}
-	
+
 }

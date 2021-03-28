@@ -1,13 +1,13 @@
 package com.onehealth.model.request;
 
 public class GetOTPForMSISDNRequest {
- private String contactNumber;
+	private String contactNumber;
 
-public String getContactNumber() {
-	return contactNumber;
-}
+	public String getContactNumber() {
+		return contactNumber;
+	}
 
-public void setContactNumber(String contactNumber) {
-	this.contactNumber = contactNumber;
-}
+	public void setContactNumber(String contactNumber) {
+		this.contactNumber = contactNumber;
+	}
 }

@@ -20,251 +20,251 @@ import org.hibernate.annotations.UpdateTimestamp;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
-@Table(name="RUN_DETAILS")
+@Table(name = "RUN_DETAILS")
 @IdClass(RunDetailsId.class)
 public class RunDetails {
 
- @Id
- @Column(name="RUN_ID")
- private Long runId;
-	
- @Id
- @Column(name="USER_ID")
- private String userId;
- 
- @Column(name="PARTITION_KEY")
- private String partitionKey;
- 
- @Column(name="RUN_TOTAL_TIME")
- private String runTotalTime;
- 
- @Column(name="RUN_DISTANCE")
- private Double runDistance;
- 
- @Column(name="RUN_PACE")
- private Double runPace;
- 
- @Column(name="RUN_CALORIES_BURNT")
- private Double runCaloriesBurnt;
- 
- @Column(name="RUN_CREDITS")
- private Double runCredits;
- 
- @Column(name="RUN_START_DATE_TIME")
- @Temporal(value=TemporalType.TIMESTAMP)
- @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
- private Date runStartDateTime;
+	@Id
+	@Column(name = "RUN_ID")
+	private Long runId;
 
- @Column(name="RUN_DATE")
- private String runDate;
- 
- @Column(name="RUN_DAY")
- private String runDay;
- 
- @Column(name="RUN_PATH",columnDefinition="TEXT", length=65535)
- private String runPath;
- 
- @Column(name="RUN_TRACK_SNAP_URL")
- private String runTrackSnapUrl;
- 
- @Column(name="EVENT_ID")
- private Long eventId;
+	@Id
+	@Column(name = "USER_ID")
+	private String userId;
 
- @CreationTimestamp
- @Column(name="CREATED_DATE")
- @Temporal(value=TemporalType.TIMESTAMP)
- private Date createdDate;
- 
- @UpdateTimestamp
- @Column(name="UPDATED_DATE")
- @Temporal(value=TemporalType.TIMESTAMP)
- private Date updatedDate;
- 
- @ManyToOne
- @MapsId("userId")
- @JoinColumn(name="USER_ID",referencedColumnName = "USER_ID")
- private UserDetails userDetails;
- 
- @Transient
- private EventDetails eventDetails;
- @Transient
- private EventResultDetails eventResultDetails;
+	@Column(name = "PARTITION_KEY")
+	private String partitionKey;
 
-public Long getRunId() {
-	return runId;
-}
+	@Column(name = "RUN_TOTAL_TIME")
+	private String runTotalTime;
 
-public void setRunId(Long runId) {
-	this.runId = runId;
-}
+	@Column(name = "RUN_DISTANCE")
+	private Double runDistance;
 
-public String getUserId() {
-	return userId;
-}
+	@Column(name = "RUN_PACE")
+	private Double runPace;
 
-public void setUserId(String userId) {
-	this.userId = userId;
-}
+	@Column(name = "RUN_CALORIES_BURNT")
+	private Double runCaloriesBurnt;
 
-public String getPartitionKey() {
-	return partitionKey;
-}
+	@Column(name = "RUN_CREDITS")
+	private Double runCredits;
 
-public void setPartitionKey(String partitionKey) {
-	this.partitionKey = partitionKey;
-}
+	@Column(name = "RUN_START_DATE_TIME")
+	@Temporal(value = TemporalType.TIMESTAMP)
+	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+	private Date runStartDateTime;
 
-public String getRunTotalTime() {
-	return runTotalTime;
-}
+	@Column(name = "RUN_DATE")
+	private String runDate;
 
-public void setRunTotalTime(String runTotalTime) {
-	this.runTotalTime = runTotalTime;
-}
+	@Column(name = "RUN_DAY")
+	private String runDay;
 
-public Double getRunDistance() {
-	return runDistance;
-}
+	@Column(name = "RUN_PATH", columnDefinition = "TEXT", length = 65535)
+	private String runPath;
 
-public void setRunDistance(Double runDistance) {
-	this.runDistance = runDistance;
-}
+	@Column(name = "RUN_TRACK_SNAP_URL")
+	private String runTrackSnapUrl;
 
-public Double getRunPace() {
-	return runPace;
-}
+	@Column(name = "EVENT_ID")
+	private Long eventId;
 
-public void setRunPace(Double runPace) {
-	this.runPace = runPace;
-}
+	@CreationTimestamp
+	@Column(name = "CREATED_DATE")
+	@Temporal(value = TemporalType.TIMESTAMP)
+	private Date createdDate;
 
-public Double getRunCaloriesBurnt() {
-	return runCaloriesBurnt;
-}
+	@UpdateTimestamp
+	@Column(name = "UPDATED_DATE")
+	@Temporal(value = TemporalType.TIMESTAMP)
+	private Date updatedDate;
 
-public void setRunCaloriesBurnt(Double runCaloriesBurnt) {
-	this.runCaloriesBurnt = runCaloriesBurnt;
-}
+	@ManyToOne
+	@MapsId("userId")
+	@JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID")
+	private UserDetails userDetails;
 
-public Double getRunCredits() {
-	return runCredits;
-}
+	@Transient
+	private EventDetails eventDetails;
+	@Transient
+	private EventResultDetails eventResultDetails;
 
-public void setRunCredits(Double runCredits) {
-	this.runCredits = runCredits;
-}
+	public Long getRunId() {
+		return runId;
+	}
 
-public Date getRunStartDateTime() {
-	return runStartDateTime;
-}
+	public void setRunId(Long runId) {
+		this.runId = runId;
+	}
 
-public void setRunStartDateTime(Date runStartDateTime) {
-	this.runStartDateTime = runStartDateTime;
-}
+	public String getUserId() {
+		return userId;
+	}
 
-public String getRunDate() {
-	return runDate;
-}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
 
-public void setRunDate(String runDate) {
-	this.runDate = runDate;
-}
+	public String getPartitionKey() {
+		return partitionKey;
+	}
 
-public String getRunDay() {
-	return runDay;
-}
+	public void setPartitionKey(String partitionKey) {
+		this.partitionKey = partitionKey;
+	}
 
-public void setRunDay(String runDay) {
-	this.runDay = runDay;
-}
+	public String getRunTotalTime() {
+		return runTotalTime;
+	}
 
-public String getRunPath() {
-	return runPath;
-}
+	public void setRunTotalTime(String runTotalTime) {
+		this.runTotalTime = runTotalTime;
+	}
 
-public void setRunPath(String runPath) {
-	this.runPath = runPath;
-}
+	public Double getRunDistance() {
+		return runDistance;
+	}
 
-public String getRunTrackSnapUrl() {
-	return runTrackSnapUrl;
-}
+	public void setRunDistance(Double runDistance) {
+		this.runDistance = runDistance;
+	}
 
-public void setRunTrackSnapUrl(String runTrackSnapUrl) {
-	this.runTrackSnapUrl = runTrackSnapUrl;
-}
+	public Double getRunPace() {
+		return runPace;
+	}
 
-public Long getEventId() {
-	return eventId;
-}
+	public void setRunPace(Double runPace) {
+		this.runPace = runPace;
+	}
 
-public void setEventId(Long eventId) {
-	this.eventId = eventId;
-}
+	public Double getRunCaloriesBurnt() {
+		return runCaloriesBurnt;
+	}
 
-public Date getCreatedDate() {
-	return createdDate;
-}
+	public void setRunCaloriesBurnt(Double runCaloriesBurnt) {
+		this.runCaloriesBurnt = runCaloriesBurnt;
+	}
 
-public void setCreatedDate(Date createdDate) {
-	this.createdDate = createdDate;
-}
+	public Double getRunCredits() {
+		return runCredits;
+	}
 
-public Date getUpdatedDate() {
-	return updatedDate;
-}
+	public void setRunCredits(Double runCredits) {
+		this.runCredits = runCredits;
+	}
 
-public void setUpdatedDate(Date updatedDate) {
-	this.updatedDate = updatedDate;
-}
+	public Date getRunStartDateTime() {
+		return runStartDateTime;
+	}
 
-public UserDetails getUserDetails() {
-	return userDetails;
-}
+	public void setRunStartDateTime(Date runStartDateTime) {
+		this.runStartDateTime = runStartDateTime;
+	}
 
-public void setUserDetails(UserDetails userDetails) {
-	this.userDetails = userDetails;
-}
+	public String getRunDate() {
+		return runDate;
+	}
 
-public EventDetails getEventDetails() {
-	return eventDetails;
-}
+	public void setRunDate(String runDate) {
+		this.runDate = runDate;
+	}
 
-public void setEventDetails(EventDetails eventDetails) {
-	this.eventDetails = eventDetails;
-}
+	public String getRunDay() {
+		return runDay;
+	}
 
-public EventResultDetails getEventResultDetails() {
-	return eventResultDetails;
-}
+	public void setRunDay(String runDay) {
+		this.runDay = runDay;
+	}
 
-public void setEventResultDetails(EventResultDetails eventResultDetails) {
-	this.eventResultDetails = eventResultDetails;
-}
+	public String getRunPath() {
+		return runPath;
+	}
 
-@Override
-public int hashCode() {
-	final int prime = 31;
-	int result = 1;
-	result = prime * result + (userId +"_"+this.getRunId()).hashCode();
-	return result;
-}
+	public void setRunPath(String runPath) {
+		this.runPath = runPath;
+	}
 
-@Override
-public boolean equals(Object obj) {
-	if (this == obj)
-		return true;
-	if (obj == null)
-		return false;
-	if (getClass() != obj.getClass())
-		return false;
-	RunDetails other = (RunDetails) obj;
-	if (userId == null) {
-		if (other.userId != null)
+	public String getRunTrackSnapUrl() {
+		return runTrackSnapUrl;
+	}
+
+	public void setRunTrackSnapUrl(String runTrackSnapUrl) {
+		this.runTrackSnapUrl = runTrackSnapUrl;
+	}
+
+	public Long getEventId() {
+		return eventId;
+	}
+
+	public void setEventId(Long eventId) {
+		this.eventId = eventId;
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public Date getUpdatedDate() {
+		return updatedDate;
+	}
+
+	public void setUpdatedDate(Date updatedDate) {
+		this.updatedDate = updatedDate;
+	}
+
+	public UserDetails getUserDetails() {
+		return userDetails;
+	}
+
+	public void setUserDetails(UserDetails userDetails) {
+		this.userDetails = userDetails;
+	}
+
+	public EventDetails getEventDetails() {
+		return eventDetails;
+	}
+
+	public void setEventDetails(EventDetails eventDetails) {
+		this.eventDetails = eventDetails;
+	}
+
+	public EventResultDetails getEventResultDetails() {
+		return eventResultDetails;
+	}
+
+	public void setEventResultDetails(EventResultDetails eventResultDetails) {
+		this.eventResultDetails = eventResultDetails;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (userId + "_" + this.getRunId()).hashCode();
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
 			return false;
-	} else if (!(userId+"_"+this.getRunId()).equals((other.userId+"_"+other.getRunId())))
-		return false;
-	return true;
-}
+		if (getClass() != obj.getClass())
+			return false;
+		RunDetails other = (RunDetails) obj;
+		if (userId == null) {
+			if (other.userId != null)
+				return false;
+		} else if (!(userId + "_" + this.getRunId()).equals((other.userId + "_" + other.getRunId())))
+			return false;
+		return true;
+	}
 
 }

@@ -2,6 +2,8 @@ package com.onehealth.processors;
 
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -18,6 +20,8 @@ public class GetRunSummaryForUserRequestProcessor
 
 	@Autowired
 	RunSummaryRepository runSummaryRepository;
+	
+	public static final Logger logger = LoggerFactory.getLogger(GetRunSummaryForUserRequestProcessor.class);
 
 	@Override
 	public boolean isRequestValid(BaseRequestProcessorInput request) throws Exception {
@@ -29,11 +33,13 @@ public class GetRunSummaryForUserRequestProcessor
 
 	@Override
 	public GetRunSummaryForUserResponse doProcessing(BaseRequestProcessorInput request) throws Exception {
+		logger.info("GetRunSummaryForUserRequestProcessor doProcessing Started for User Id " + request.getUserId());
 		GetRunSummaryForUserResponse response = new GetRunSummaryForUserResponse();
 		Optional<RunSummary> runSummaryOptional= runSummaryRepository.findById(request.getUserId());
 		if(runSummaryOptional.isPresent()) {
 		  response.setRunSummary(runSummaryRepository.findById(request.getUserId()).get());
 		}
+		logger.info("GetRunSummaryForUserRequestProcessor doProcessing Started for User Id " + request.getUserId());
 		return response;
 	}
 

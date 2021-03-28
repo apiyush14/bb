@@ -8,32 +8,32 @@ import org.apache.kafka.common.serialization.Serializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JsonPOJOSerializer<T> implements Serializer<T> {
-    private final ObjectMapper objectMapper = new ObjectMapper();
+	private final ObjectMapper objectMapper = new ObjectMapper();
 
-    /**
-     * Default constructor needed by Kafka
-     */
-    public JsonPOJOSerializer() {
-    }
-    
-    @Override
-    public void configure(Map<String, ?> props, boolean isKey) {
-    }
+	/**
+	 * Default constructor needed by Kafka
+	 */
+	public JsonPOJOSerializer() {
+	}
 
-    @Override
-    public byte[] serialize(String topic, T data) {
-        if (data == null)
-            return null;
+	@Override
+	public void configure(Map<String, ?> props, boolean isKey) {
+	}
 
-        try {
-            return objectMapper.writeValueAsBytes(data);
-        } catch (Exception e) {
-            throw new SerializationException("Error serializing JSON message", e);
-        }
-    }
+	@Override
+	public byte[] serialize(String topic, T data) {
+		if (data == null)
+			return null;
 
-    @Override
-    public void close() {
-    }
+		try {
+			return objectMapper.writeValueAsBytes(data);
+		} catch (Exception e) {
+			throw new SerializationException("Error serializing JSON message", e);
+		}
+	}
+
+	@Override
+	public void close() {
+	}
 
 }

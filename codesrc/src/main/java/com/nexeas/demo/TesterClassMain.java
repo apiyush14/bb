@@ -1,10 +1,6 @@
 package com.nexeas.demo;
 
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
-import javax.xml.bind.DatatypeConverter;
 
 import com.onehealth.utils.AuthenticationUtils;
 

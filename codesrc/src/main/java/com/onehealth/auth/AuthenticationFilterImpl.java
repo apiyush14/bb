@@ -10,8 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.onehealth.entities.UserAuthenticationDetails;
 import com.onehealth.repo.UserAuthenticationDetailsRepository;
@@ -46,7 +48,7 @@ public class AuthenticationFilterImpl extends OncePerRequestFilter {
 				filterChain.doFilter(request, response);
 			}
 		} catch (Exception e) {
-			throw new SecurityException();
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
 		}
 	}
 

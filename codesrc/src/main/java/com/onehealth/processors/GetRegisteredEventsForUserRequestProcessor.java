@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
@@ -25,9 +27,12 @@ public class GetRegisteredEventsForUserRequestProcessor
 
 	@Autowired
 	EventRegistrationDetailsRepository eventRegistrationRepository;
+	
+	public static final Logger logger = LoggerFactory.getLogger(GetRegisteredEventsForUserRequestProcessor.class);
 
 	@Override
 	public GetEventDetailsResponse doProcessing(GetEventsRequest request) throws Exception {
+		logger.info("GetRegisteredEventsForUserRequestProcessor doProcessing Started for User Id " + request.getUserId());
 		GetEventDetailsResponse response = new GetEventDetailsResponse();
 		EventRegistrationDetails eventRegistrationDetailsQueryObj = new EventRegistrationDetails();
 		eventRegistrationDetailsQueryObj.setUserId(request.getUserId());
@@ -52,6 +57,7 @@ public class GetRegisteredEventsForUserRequestProcessor
 		} else {
 			response.setEventDetails(new ArrayList<EventDetails>());
 		}
+		logger.info("GetRegisteredEventsForUserRequestProcessor doProcessing Completed for User Id " + request.getUserId());
 		return response;
 	}
 

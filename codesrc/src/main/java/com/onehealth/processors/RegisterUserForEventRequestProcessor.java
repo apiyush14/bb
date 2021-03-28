@@ -1,5 +1,7 @@
 package com.onehealth.processors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,10 +14,18 @@ public class RegisterUserForEventRequestProcessor extends RequestProcessor<Regis
 
 	@Autowired
 	EventRegistrationDetailsRepository eventRegistrationRepository;
-	
+
+	public static final Logger logger = LoggerFactory.getLogger(RegisterUserForEventRequestProcessor.class);
+
 	@Override
 	public Boolean doProcessing(RegisterUserForEventRequest request) throws Exception {
+		logger.info("RegisterUserForEventRequestProcessor doProcessing Started for User Id "
+				+ request.getEventRegistrationDetails().getUserId() + " for event id "
+				+ request.getEventRegistrationDetails().getEventId());
 		eventRegistrationRepository.save(request.getEventRegistrationDetails());
+		logger.info("RegisterUserForEventRequestProcessor doProcessing Completed for User Id "
+				+ request.getEventRegistrationDetails().getUserId() + " for event id "
+				+ request.getEventRegistrationDetails().getEventId());
 		return true;
 	}
 

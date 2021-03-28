@@ -4,14 +4,14 @@ import com.onehealth.entities.EventRegistrationDetails;
 
 public class RegisterUserForEventRequest {
 
-private EventRegistrationDetails eventRegistrationDetails;
+	private EventRegistrationDetails eventRegistrationDetails;
 
-public EventRegistrationDetails getEventRegistrationDetails() {
-	return eventRegistrationDetails;
-}
+	public EventRegistrationDetails getEventRegistrationDetails() {
+		return eventRegistrationDetails;
+	}
 
-public void setEventRegistrationDetails(EventRegistrationDetails eventRegistrationDetails) {
-	this.eventRegistrationDetails = eventRegistrationDetails;
-}
+	public void setEventRegistrationDetails(EventRegistrationDetails eventRegistrationDetails) {
+		this.eventRegistrationDetails = eventRegistrationDetails;
+	}
 
 }

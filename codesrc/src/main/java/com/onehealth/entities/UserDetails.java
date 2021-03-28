@@ -12,43 +12,43 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name="USER_DETAILS")
+@Table(name = "USER_DETAILS")
 public class UserDetails {
 
 	@Id
-	@Column(name="USER_ID")
-	private String userId;	
-	
-	@Column(name="USER_FIRST_NAME")
+	@Column(name = "USER_ID")
+	private String userId;
+
+	@Column(name = "USER_FIRST_NAME")
 	private String userFirstName;
-	
-	@Column(name="USER_LAST_NAME")
+
+	@Column(name = "USER_LAST_NAME")
 	private String userLastName;
-	
-	@Column(name="USER_HEIGHT")
+
+	@Column(name = "USER_HEIGHT")
 	private Double userHeight;
-	
-	@Column(name="USER_WEIGHT")
+
+	@Column(name = "USER_WEIGHT")
 	private Double userWeight;
-	
+
 	@JsonIgnore
-	@OneToMany(mappedBy="userDetails")
+	@OneToMany(mappedBy = "userDetails")
 	private Set<RunDetails> runDetails;
-	
+
 	@JsonIgnore
-	@OneToOne(mappedBy="userDetails")
+	@OneToOne(mappedBy = "userDetails")
 	private RunSummary runSummary;
-	
+
 	@JsonIgnore
-	@OneToMany(mappedBy="userDetails")
+	@OneToMany(mappedBy = "userDetails")
 	private Set<EventRegistrationDetails> eventRegistrationDetails;
-	
+
 	@JsonIgnore
 	@OneToOne(mappedBy = "userDetails")
 	private UserAuthenticationDetails userAuthenticationDetails;
-	
+
 	@JsonIgnore
-	@OneToMany(mappedBy="userDetails")
+	@OneToMany(mappedBy = "userDetails")
 	private Set<EventResultDetails> eventResultDetails;
 
 	public String getUserId() {
@@ -74,7 +74,7 @@ public class UserDetails {
 	public void setUserLastName(String userLastName) {
 		this.userLastName = userLastName;
 	}
-	
+
 	public Double getUserHeight() {
 		return userHeight;
 	}
@@ -130,7 +130,5 @@ public class UserDetails {
 	public void setEventResultDetails(Set<EventResultDetails> eventResultDetails) {
 		this.eventResultDetails = eventResultDetails;
 	}
-	
-	
-	
+
 }

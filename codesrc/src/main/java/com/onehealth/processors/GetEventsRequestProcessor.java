@@ -3,6 +3,8 @@ package com.onehealth.processors;
 import java.util.List;
 import java.util.Objects;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,8 +23,11 @@ public class GetEventsRequestProcessor extends RequestProcessor<GetEventsRequest
 	@Autowired
 	EventDetailsRepository eventDetailsRepository;
 	
+	public static final Logger logger = LoggerFactory.getLogger(GetEventsRequestProcessor.class);
+	
 	@Override
 	public GetEventDetailsResponse doProcessing(GetEventsRequest request) throws Exception {
+		logger.info("GetEventsRequestProcessor doProcessing Started for User Id " + request.getUserId());
 		GetEventDetailsResponse eventDetailsResponse=new GetEventDetailsResponse();
 		
 		List<EventDetails> eventDetailsList;
@@ -37,6 +42,7 @@ public class GetEventsRequestProcessor extends RequestProcessor<GetEventsRequest
 		}
 		
 		eventDetailsResponse.setEventDetails(eventDetailsList);
+		logger.info("GetEventsRequestProcessor doProcessing Completed for User Id " + request.getUserId());
 		return eventDetailsResponse;
 	}
 
