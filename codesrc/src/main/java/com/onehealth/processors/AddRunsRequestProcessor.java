@@ -1,7 +1,9 @@
 package com.onehealth.processors;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -15,9 +17,12 @@ import org.springframework.util.StringUtils;
 
 import com.onehealth.core.kafka.KafkaUtils;
 import com.onehealth.core.processor.RequestProcessor;
+import com.onehealth.entities.EventRegistrationDetails;
+import com.onehealth.entities.EventRegistrationDetailsId;
 import com.onehealth.entities.RunDetailsId;
 import com.onehealth.entities.RunSummary;
 import com.onehealth.model.request.AddRunDetailsRequest;
+import com.onehealth.repo.EventRegistrationDetailsRepository;
 import com.onehealth.repo.RunDetailsRepository;
 import com.onehealth.repo.RunSummaryRepository;
 
@@ -29,6 +34,9 @@ public class AddRunsRequestProcessor extends RequestProcessor<AddRunDetailsReque
 
 	@Autowired
 	RunSummaryRepository runSummaryRepository;
+	
+	@Autowired
+	EventRegistrationDetailsRepository eventRegistrationDetailsRepository;
 
 	@Autowired(required = false)
 	KafkaUtils kafkaUtils;
@@ -69,6 +77,7 @@ public class AddRunsRequestProcessor extends RequestProcessor<AddRunDetailsReque
 	private boolean addRunsAndUpdateSummary(AddRunDetailsRequest request) {
 		addRuns(request);
 		addOrUpdateRunSummary(request);
+		updateEventRegistrationDetailsIfRequired(request);
 		return true;
 	}
 
@@ -87,6 +96,21 @@ public class AddRunsRequestProcessor extends RequestProcessor<AddRunDetailsReque
 		else {
 			addRunSummary(request);
 		}
+	}
+	
+	private void updateEventRegistrationDetailsIfRequired(AddRunDetailsRequest request) {
+		List<EventRegistrationDetailsId> listOfIds = new ArrayList<EventRegistrationDetailsId>();
+		Map<Long, Long> mapOfEventsAndRuns = new HashMap<Long, Long>();
+		request.getRunDetailsList().parallelStream().filter(run -> run.getEventId() > 0).forEach(r -> {
+			listOfIds.add(new EventRegistrationDetailsId(r.getEventId(), request.getUserId()));
+			mapOfEventsAndRuns.put(r.getEventId(), r.getRunId());
+		});
+		List<EventRegistrationDetails> listOfEventRegistrationDetails = eventRegistrationDetailsRepository
+				.findAllById(listOfIds);
+		listOfEventRegistrationDetails.parallelStream().forEach(eventRegistration -> {
+			eventRegistration.setRunId(mapOfEventsAndRuns.getOrDefault(eventRegistration.getEventId(), (long) 0));
+		});
+		eventRegistrationDetailsRepository.saveAll(listOfEventRegistrationDetails);
 	}
 
 	private void addRunSummary(AddRunDetailsRequest request) {

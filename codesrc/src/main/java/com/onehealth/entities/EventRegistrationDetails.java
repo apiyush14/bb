@@ -30,6 +30,10 @@ public class EventRegistrationDetails {
 	@Id
 	@Column(name = "USER_ID")
 	private String userId;
+	
+	@Id
+	@Column(name = "RUN_ID")
+	private Long runId;
 
 	@CreationTimestamp
 	@Column(name = "CREATED_DATE")
@@ -67,6 +71,14 @@ public class EventRegistrationDetails {
 
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+
+	public Long getRunId() {
+		return runId;
+	}
+
+	public void setRunId(Long runId) {
+		this.runId = runId;
 	}
 
 	public Date getCreatedDate() {

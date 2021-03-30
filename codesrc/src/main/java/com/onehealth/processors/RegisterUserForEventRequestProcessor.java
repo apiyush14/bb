@@ -22,6 +22,7 @@ public class RegisterUserForEventRequestProcessor extends RequestProcessor<Regis
 		logger.info("RegisterUserForEventRequestProcessor doProcessing Started for User Id "
 				+ request.getEventRegistrationDetails().getUserId() + " for event id "
 				+ request.getEventRegistrationDetails().getEventId());
+		request.getEventRegistrationDetails().setRunId((long) 0);
 		eventRegistrationRepository.save(request.getEventRegistrationDetails());
 		logger.info("RegisterUserForEventRequestProcessor doProcessing Completed for User Id "
 				+ request.getEventRegistrationDetails().getUserId() + " for event id "

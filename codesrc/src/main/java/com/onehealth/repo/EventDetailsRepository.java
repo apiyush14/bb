@@ -14,12 +14,12 @@ import com.onehealth.entities.EventDetails;
 @Repository
 public interface EventDetailsRepository extends JpaRepository<EventDetails, Long> {
 
-	@Query("SELECT e from EventDetails e WHERE e.eventStartDate>=CURRENT_DATE")
+	@Query("SELECT e from EventDetails e WHERE e.eventEndDate>=CURRENT_TIMESTAMP")
 	public List<EventDetails> findAllEligibleEvents();
 
-	@Query("SELECT e from EventDetails e WHERE e.eventStartDate>=CURRENT_DATE")
+	@Query("SELECT e from EventDetails e WHERE e.eventEndDate>=CURRENT_TIMESTAMP")
 	public List<EventDetails> findAllEligibleEvents(Sort sort);
 
-	@Query("SELECT e from EventDetails e WHERE e.eventStartDate>=CURRENT_DATE")
+	@Query("SELECT e from EventDetails e WHERE e.eventEndDate>=CURRENT_TIMESTAMP")
 	public Page<EventDetails> findAllEligibleEvents(Pageable pageable);
 }

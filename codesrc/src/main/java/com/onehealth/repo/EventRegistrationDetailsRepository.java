@@ -16,13 +16,13 @@ import com.onehealth.entities.EventRegistrationDetailsId;
 @Repository
 public interface EventRegistrationDetailsRepository
 		extends JpaRepository<EventRegistrationDetails, EventRegistrationDetailsId> {
-	@Query("SELECT a from EventRegistrationDetails a,EventDetails b WHERE b.eventId=a.eventId and b.eventStartDate>=CURRENT_DATE")
+	@Query("SELECT a from EventRegistrationDetails a,EventDetails b WHERE b.eventId=a.eventId and b.eventEndDate>=CURRENT_TIMESTAMP")
 	public List<EventRegistrationDetails> findAllEligibleEvents();
 
-	@Query("SELECT a from EventRegistrationDetails a,EventDetails b WHERE b.eventId=a.eventId and b.eventStartDate>=CURRENT_DATE")
+	@Query("SELECT a from EventRegistrationDetails a,EventDetails b WHERE b.eventId=a.eventId and b.eventEndDate>=CURRENT_TIMESTAMP")
 	public List<EventRegistrationDetails> findAllEligibleEvents(Example<EventRegistrationDetails> example, Sort sort);
 
-	@Query("SELECT a from EventRegistrationDetails a,EventDetails b WHERE b.eventId=a.eventId and b.eventStartDate>=CURRENT_DATE")
+	@Query("SELECT a from EventRegistrationDetails a,EventDetails b WHERE b.eventId=a.eventId and b.eventEndDate>=CURRENT_TIMESTAMP")
 	public Page<EventRegistrationDetails> findAllEligibleEvents(Example<EventRegistrationDetails> example,
 			Pageable pageable);
 }
