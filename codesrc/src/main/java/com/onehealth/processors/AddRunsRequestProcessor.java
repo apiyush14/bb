@@ -9,6 +9,8 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.core.env.Profiles;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,6 +42,9 @@ public class AddRunsRequestProcessor extends RequestProcessor<AddRunDetailsReque
 
 	@Autowired(required = false)
 	KafkaUtils kafkaUtils;
+	
+	@Autowired
+	Environment env;
 	
 	public static final Logger logger=LoggerFactory.getLogger(AddRunsRequestProcessor.class);
 
@@ -157,11 +162,14 @@ public class AddRunsRequestProcessor extends RequestProcessor<AddRunDetailsReque
 	}
 
 	private void updateKafkaIfNeeded(AddRunDetailsRequest request) {
-		request.getRunDetailsList().parallelStream().filter(run -> run.getEventId() > 0).forEach(r -> {
-			String topicName = "EVENT_RUN_SUBMISSION_" + r.getEventId();
-			kafkaUtils.sendMessage(topicName, r);
-			logger.info("AddRunsRequestProcessor Update Kafka Completed for User Id "+request.getUserId()+" and event id "+r.getEventId());
-		});
+		if (env.acceptsProfiles(Profiles.of("prod"))) {
+			request.getRunDetailsList().parallelStream().filter(run -> run.getEventId() > 0).forEach(r -> {
+				String topicName = "EVENT_RUN_SUBMISSION_" + r.getEventId();
+				kafkaUtils.sendMessage(topicName, r);
+				logger.info("AddRunsRequestProcessor Update Kafka Completed for User Id " + request.getUserId()
+						+ " and event id " + r.getEventId());
+			});
+		}
 	}
 
 }

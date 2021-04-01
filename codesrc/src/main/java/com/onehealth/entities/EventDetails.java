@@ -41,6 +41,12 @@ public class EventDetails {
 
 	@Column(name = "EVENT_DESCRIPTION")
 	private String eventDescription;
+	
+	@Column(name = "EVENT_METRIC_TYPE")
+	private String eventMetricType;
+	
+	@Column(name = "EVENT_METRIC_VALUE")
+	private String eventMetricValue;
 
 	@Column(name = "EVENT_START_DATE")
 	@Temporal(value = TemporalType.TIMESTAMP)
@@ -118,6 +124,22 @@ public class EventDetails {
 
 	public void setEventDescription(String eventDescription) {
 		this.eventDescription = eventDescription;
+	}
+	
+	public String getEventMetricType() {
+		return eventMetricType;
+	}
+
+	public void setEventMetricType(String eventMetricType) {
+		this.eventMetricType = eventMetricType;
+	}
+
+	public String getEventMetricValue() {
+		return eventMetricValue;
+	}
+
+	public void setEventMetricValue(String eventMetricValue) {
+		this.eventMetricValue = eventMetricValue;
 	}
 
 	public Date getEventStartDate() {
