@@ -2,7 +2,7 @@ package com.nexeas.demo;
 
 import java.security.NoSuchAlgorithmException;
 
-import com.onehealth.utils.AuthenticationUtils;
+import com.fitlers.utils.AuthenticationUtils;
 
 public class TesterClassMain {
 

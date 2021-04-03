@@ -5,9 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.onehealth.core.kafka.KafkaUtils;
-import com.onehealth.entities.EventResultDetails;
-import com.onehealth.entities.RunDetails;
+import com.fitlers.core.kafka.KafkaUtils;
+import com.fitlers.entities.EventResultDetails;
+import com.fitlers.entities.RunDetails;
 
 @RestController
 public class TestRestController {
