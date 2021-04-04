@@ -49,7 +49,7 @@
          <level value="DEBUG" />
         </logger>
         
-        <logger name="com.onehealth.processors.ClientLoggingRequestProcessor" level="INFO">
+        <logger name="com.fitlers.processors.ClientLoggingRequestProcessor" level="INFO">
          <appender-ref ref="CLIENT_LOGGER" />
         </logger>
         

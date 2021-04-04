@@ -33,7 +33,8 @@ public class AuthenticationFilterImpl extends OncePerRequestFilter {
 			if (path.contains("auth") || path.contains("swagger") || path.contains("api-docs") || path.contains("testMethod") || path.contains("dispatcherServlet")
 					||path.contains("event-details/addEvent")
 					||path.contains("event-details/uploadEventDisplayImage")
-					||path.contains("event-details/getDisplayImage")) {
+					||path.contains("event-details/getDisplayImage")
+					||path.contains("log/client")) {
 				filterChain.doFilter(request, response);
 			} else {
 				String xAuth = request.getHeader("X-AUTH");

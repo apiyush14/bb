@@ -1,4 +1,4 @@
-package com.nexeas.demo;
+package com.fitlers.main;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -13,14 +13,14 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 @EnableAutoConfiguration
 @EnableConfigurationProperties
-@ComponentScan(basePackages = { "com.onehealth.services", "com.onehealth.config", "com.onehealth.processors",
-		"com.onehealth.auth", "com.onehealth.core.kafka", "com.onehealth.schedulers", "com.nexeas.demo" })
-@EntityScan(basePackages = { "com.onehealth.entities" })
-@EnableJpaRepositories(basePackages = { "com.onehealth.repo" })
-public class OnehealthApplication {
+@ComponentScan(basePackages = { "com.fitlers.services", "com.fitlers.config", "com.fitlers.processors",
+		"com.fitlers.auth", "com.fitlers.core.kafka", "com.fitlers.schedulers", "com.fitlers.demo" })
+@EntityScan(basePackages = { "com.fitlers.entities" })
+@EnableJpaRepositories(basePackages = { "com.fitlers.repo" })
+public class FitlersApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(OnehealthApplication.class, args);
+		SpringApplication.run(FitlersApplication.class, args);
 	}
 
 }

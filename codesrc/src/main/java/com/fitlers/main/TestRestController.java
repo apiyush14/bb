@@ -1,4 +1,4 @@
-package com.nexeas.demo;
+package com.fitlers.main;
 
 import org.apache.kafka.clients.admin.AdminClient;
 import org.springframework.beans.factory.annotation.Autowired;
