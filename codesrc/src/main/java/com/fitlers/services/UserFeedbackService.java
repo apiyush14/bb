@@ -22,8 +22,8 @@ public class UserFeedbackService extends BaseService {
 	public ResponseEntity<Object> userFeedback(@PathVariable String userId,
 			@RequestBody UserFeedbackRequest userFeedbackRequest) {
 		UserFeedbackRequest request = new UserFeedbackRequest();
-		request.setUserId(userId);
 		request.setUserFeedBack(userFeedbackRequest.getUserFeedBack());
+		request.getUserFeedBack().setUserId(userId);
 		userFeedbackRequestProcessor.setRequest(request);
 		return execute(userFeedbackRequestProcessor);
 	}

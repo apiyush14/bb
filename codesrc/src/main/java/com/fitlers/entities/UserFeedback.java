@@ -25,11 +25,11 @@ public class UserFeedback {
 	@Column(name = "USER_ID")
 	private String userId;
 
-	@Column(name = "FEEDBACK_RATING")
-	private String feedbackRating;
+	@Column(name = "USER_FEEDBACK_RATING")
+	private String userFeedbackRating;
 
-	@Column(name = "FEEDBACK_COMMENTS")
-	private String feedbackComments;
+	@Column(name = "USER_FEEDBACK_COMMENTS")
+	private String userFeedbackComments;
 
 	@CreationTimestamp
 	@Column(name = "CREATED_DATE")
@@ -57,20 +57,20 @@ public class UserFeedback {
 		this.userId = userId;
 	}
 
-	public String getFeedbackRating() {
-		return feedbackRating;
+	public String getUserFeedbackRating() {
+		return userFeedbackRating;
 	}
 
-	public void setFeedbackRating(String feedbackRating) {
-		this.feedbackRating = feedbackRating;
+	public void setUserFeedbackRating(String userFeedbackRating) {
+		this.userFeedbackRating = userFeedbackRating;
 	}
 
-	public String getFeedbackComments() {
-		return feedbackComments;
+	public String getUserFeedbackComments() {
+		return userFeedbackComments;
 	}
 
-	public void setFeedbackComments(String feedbackComments) {
-		this.feedbackComments = feedbackComments;
+	public void setUserFeedbackComments(String userFeedbackComments) {
+		this.userFeedbackComments = userFeedbackComments;
 	}
 
 	public Date getCreatedDate() {
