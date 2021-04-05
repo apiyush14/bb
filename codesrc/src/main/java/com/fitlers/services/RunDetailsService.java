@@ -36,9 +36,11 @@ public class RunDetailsService extends BaseService {
 
 	@GetMapping(path = "run-details/getRuns/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> getRunsForUser(@PathVariable String userId,
-			@RequestParam(required = false, name = "page") String pageNumber) {
+			@RequestParam(required = false, name = "page") String pageNumber,
+			@RequestParam(required = false, name = "isOnlyEventRunsRequired") boolean isOnlyEventRunsRequired) {
 		GetRunsForUserRequest request = new GetRunsForUserRequest();
 		request.setUserId(userId);
+		request.setOnlyEventRunsRequired(isOnlyEventRunsRequired);
 		request.setPageNumber(pageNumber);
 		getRunsForUserRequestProcessor.setRequest(request);
 		return execute(getRunsForUserRequestProcessor);

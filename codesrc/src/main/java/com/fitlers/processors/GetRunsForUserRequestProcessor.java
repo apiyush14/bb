@@ -25,10 +25,11 @@ public class GetRunsForUserRequestProcessor extends RequestProcessor<GetRunsForU
 
 	@Autowired
 	private RunDetailsRepository runDetailsRepo;
-	/*@Autowired
-	private EventDetailsRepository eventDetailsRepo;
-	@Autowired
-	private EventResultDetailsRepository eventResultDetailsRepo;*/
+	/*
+	 * @Autowired private EventDetailsRepository eventDetailsRepo;
+	 * 
+	 * @Autowired private EventResultDetailsRepository eventResultDetailsRepo;
+	 */
 
 	public static final Logger logger = LoggerFactory.getLogger(GetRunsForUserRequestProcessor.class);
 
@@ -46,17 +47,27 @@ public class GetRunsForUserRequestProcessor extends RequestProcessor<GetRunsForU
 		GetRunsForUserResponse response = new GetRunsForUserResponse();
 		RunDetails runDetailsQueryObj = new RunDetails();
 		runDetailsQueryObj.setUserId(request.getUserId());
+
 		Example<RunDetails> runDetailsQueryExample = Example.of(runDetailsQueryObj);
 		List<RunDetails> runDetailsList;
 
 		if (Objects.isNull(request.getPageNumber())) {
-			runDetailsList = runDetailsRepo.findAll(runDetailsQueryExample, Sort.by("runId"));
+			if (request.isOnlyEventRunsRequired()) {
+				runDetailsList = runDetailsRepo.findAllEventRuns(Sort.by("runId"));
+			} else {
+				runDetailsList = runDetailsRepo.findAll(runDetailsQueryExample, Sort.by("runId"));
+			}
 		} else {
 			// TODO Configure correct page size
 			PageRequest pageRequest = PageRequest.of(Integer.parseInt(request.getPageNumber()), 3,
 					Sort.by("runId").descending());
-			Page<RunDetails> page = runDetailsRepo.findAll(runDetailsQueryExample, pageRequest);
-			runDetailsList = page.getContent();
+			if (request.isOnlyEventRunsRequired()) {
+				Page<RunDetails> page = runDetailsRepo.findAllEventRuns(pageRequest);
+				runDetailsList = page.getContent();
+			} else {
+				Page<RunDetails> page = runDetailsRepo.findAll(runDetailsQueryExample, pageRequest);
+				runDetailsList = page.getContent();
+			}
 		}
 
 		// populateEventDetailsIfApplicable(runDetailsList);
