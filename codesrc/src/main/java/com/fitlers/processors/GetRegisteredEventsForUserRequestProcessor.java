@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import com.fitlers.core.processor.RequestProcessor;
 import com.fitlers.entities.EventDetails;
@@ -27,12 +28,13 @@ public class GetRegisteredEventsForUserRequestProcessor
 
 	@Autowired
 	EventRegistrationDetailsRepository eventRegistrationRepository;
-	
+
 	public static final Logger logger = LoggerFactory.getLogger(GetRegisteredEventsForUserRequestProcessor.class);
 
 	@Override
 	public GetEventDetailsResponse doProcessing(GetEventsRequest request) throws Exception {
-		logger.info("GetRegisteredEventsForUserRequestProcessor doProcessing Started for User Id " + request.getUserId());
+		logger.info(
+				"GetRegisteredEventsForUserRequestProcessor doProcessing Started for User Id " + request.getUserId());
 		GetEventDetailsResponse response = new GetEventDetailsResponse();
 		EventRegistrationDetails eventRegistrationDetailsQueryObj = new EventRegistrationDetails();
 		eventRegistrationDetailsQueryObj.setUserId(request.getUserId());
@@ -41,7 +43,8 @@ public class GetRegisteredEventsForUserRequestProcessor
 		List<EventRegistrationDetails> eventRegistrationDetailsList;
 
 		if (Objects.isNull(request.getPageNumber())) {
-			eventRegistrationDetailsList=eventRegistrationRepository.findAllEligibleEvents(eventRegistrationDetailsQueryExample, Sort.by("eventId"));
+			eventRegistrationDetailsList = eventRegistrationRepository
+					.findAllEligibleEvents(eventRegistrationDetailsQueryExample, Sort.by("eventId"));
 		} else {
 			// TODO Configure correct page size
 			PageRequest pageRequest = PageRequest.of(Integer.parseInt(request.getPageNumber()), 3, Sort.by("eventId"));
@@ -57,7 +60,13 @@ public class GetRegisteredEventsForUserRequestProcessor
 		} else {
 			response.setEventDetails(new ArrayList<EventDetails>());
 		}
-		logger.info("GetRegisteredEventsForUserRequestProcessor doProcessing Completed for User Id " + request.getUserId());
+		if (CollectionUtils.isEmpty(eventRegistrationDetailsList) || eventRegistrationDetailsList.size() < 3) {
+			response.setMoreContentAvailable(false);
+		} else {
+			response.setMoreContentAvailable(true);
+		}
+		logger.info(
+				"GetRegisteredEventsForUserRequestProcessor doProcessing Completed for User Id " + request.getUserId());
 		return response;
 	}
 
