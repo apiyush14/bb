@@ -19,7 +19,7 @@ public class EventResultDetailsService extends BaseService {
 
 	@Autowired
 	private GetEventResultDetailsRequestProcessor getEventResultDetailsRequestProcessor;
-	
+
 	@Autowired
 	private GetEventResultDetailsForEventRequestProcessor getEventResultDetailsForEventRequestProcessor;
 
@@ -30,8 +30,7 @@ public class EventResultDetailsService extends BaseService {
 		getEventResultDetailsRequestProcessor.setRequest(request);
 		return execute(getEventResultDetailsRequestProcessor);
 	}
-	
-	
+
 	@GetMapping(path = "event-results/eventId/{eventId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> getEventResultDetailsForEvent(@PathVariable String eventId,
 			@RequestParam(required = false, name = "page") String pageNumber) {
@@ -41,19 +40,4 @@ public class EventResultDetailsService extends BaseService {
 		getEventResultDetailsForEventRequestProcessor.setRequest(request);
 		return execute(getEventResultDetailsForEventRequestProcessor);
 	}
-	
-	/*@GetMapping(path = EVENT_RESULTS + "/{eventId}")
-	public ResponseEntity<Object> getEventResultDetailsPageable(@PathVariable(required = true) Long eventId,
-			@RequestParam(required = true) Integer pageNumber, @RequestParam(required = true) Integer pageSize)
-			throws NoDataFoundException {
-
-		GetEventResultDetailsRequest request = new GetEventResultDetailsRequest();
-		request.setEventId(eventId);
-		request.setPageNumber(pageNumber);
-		request.setPageSize(pageSize);
-
-		GetEventResultDetailsResponse eventResultDetailsResponse = getEventResultDetailsRequestProcessor
-				.getEventResultDetailsPageable(request);
-		return ResponseEntity.ok(eventResultDetailsResponse);
-	}*/
 }
