@@ -41,7 +41,7 @@ public class AuthenticationFilterImpl extends OncePerRequestFilter {
 				String userId = request.getHeader("USER_ID");
 				String requestTimeStamp = request.getHeader("REQUEST_TIMESTAMP");
 
-				if (userId!=null&&(!isValid(userId, requestTimeStamp, xAuth))) {
+				if (!isValid(userId, requestTimeStamp, xAuth)) {
 					throw new SecurityException();
 				}
 
