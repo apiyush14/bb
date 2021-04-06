@@ -24,9 +24,10 @@ public class EventResultDetailsService extends BaseService {
 	private GetEventResultDetailsForEventRequestProcessor getEventResultDetailsForEventRequestProcessor;
 
 	@GetMapping(path = "event-results/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> getEventResultDetailsForUser(@PathVariable String userId) {
+	public ResponseEntity<Object> getEventResultDetailsForUser(@PathVariable String userId, @RequestParam(required = false, name = "page") String pageNumber) {
 		GetEventResultDetailsRequest request = new GetEventResultDetailsRequest();
 		request.setUserId(userId);
+		request.setPageNumber(pageNumber);
 		getEventResultDetailsRequestProcessor.setRequest(request);
 		return execute(getEventResultDetailsRequestProcessor);
 	}
