@@ -10,7 +10,7 @@ import org.springframework.data.annotation.Immutable;
 @Entity
 @Immutable
 @IdClass(EventResultDetailsId.class)
-@Subselect("select u.USER_ID as userId,e.EVENT_ID as eventId,u.USER_FIRST_NAME as userFirstName,u.USER_LAST_NAME as userLastName,e.USER_RANK as userRank from EVENT_RESULT_DETAILS e, USER_DETAILS u where u.USER_ID=e.USER_ID")
+@Subselect("select u.USER_ID as userId,e.EVENT_ID as eventId,u.USER_FIRST_NAME as userFirstName,u.USER_LAST_NAME as userLastName,e.USER_RANK as userRank,e.RUN_TOTAL_TIME as runTotalTime from EVENT_RESULT_DETAILS e, USER_DETAILS u where u.USER_ID=e.USER_ID")
 public class EventResultDetailsWithUserDetails {
 
 	@Id
@@ -24,6 +24,8 @@ public class EventResultDetailsWithUserDetails {
 	private String userLastName;
 
 	private Long userRank;
+	
+	private String runTotalTime;
 
 	public String getUserId() {
 		return userId;
@@ -63,6 +65,14 @@ public class EventResultDetailsWithUserDetails {
 
 	public void setUserRank(Long userRank) {
 		this.userRank = userRank;
+	}
+
+	public String getRunTotalTime() {
+		return runTotalTime;
+	}
+
+	public void setRunTotalTime(String runTotalTime) {
+		this.runTotalTime = runTotalTime;
 	}
 
 }

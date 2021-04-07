@@ -47,7 +47,7 @@ public class GetEventResultDetailsForEventRequestProcessor
 		} else {
 			// TODO Configure correct page size
 			PageRequest pageRequest = PageRequest.of(Integer.parseInt(request.getPageNumber()), 3,
-					Sort.by("userRank").descending());
+					Sort.by("userRank"));
 			Page<EventResultDetailsWithUserDetails> page = eventResultDetailsWithUserDetailsRepository
 					.findAll(eventResultDetailsWithUserDetailsQueryExample, pageRequest);
 			eventResultDetailsWithUserDetailsList = page.getContent();
