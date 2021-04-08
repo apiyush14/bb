@@ -47,7 +47,7 @@ public class GetRegisteredEventsForUserRequestProcessor
 					.findAllEligibleEvents(eventRegistrationDetailsQueryExample, Sort.by("eventId"));
 		} else {
 			// TODO Configure correct page size
-			PageRequest pageRequest = PageRequest.of(Integer.parseInt(request.getPageNumber()), 3, Sort.by("eventId"));
+			PageRequest pageRequest = PageRequest.of(Integer.parseInt(request.getPageNumber()), 10, Sort.by("eventId"));
 			Page<EventRegistrationDetails> page = eventRegistrationRepository
 					.findAllEligibleEvents(eventRegistrationDetailsQueryExample, pageRequest);
 			eventRegistrationDetailsList = page.getContent();
@@ -60,7 +60,7 @@ public class GetRegisteredEventsForUserRequestProcessor
 		} else {
 			response.setEventDetails(new ArrayList<EventDetails>());
 		}
-		if (CollectionUtils.isEmpty(eventRegistrationDetailsList) || eventRegistrationDetailsList.size() < 3) {
+		if (CollectionUtils.isEmpty(eventRegistrationDetailsList) || eventRegistrationDetailsList.size() < 10) {
 			response.setMoreContentAvailable(false);
 		} else {
 			response.setMoreContentAvailable(true);

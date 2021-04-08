@@ -59,7 +59,7 @@ public class GetRunsForUserRequestProcessor extends RequestProcessor<GetRunsForU
 			}
 		} else {
 			// TODO Configure correct page size
-			PageRequest pageRequest = PageRequest.of(Integer.parseInt(request.getPageNumber()), 3,
+			PageRequest pageRequest = PageRequest.of(Integer.parseInt(request.getPageNumber()), 10,
 					Sort.by("runId").descending());
 			if (request.isOnlyEventRunsRequired()) {
 				Page<RunDetails> page = runDetailsRepo.findAllEventRuns(pageRequest);
@@ -73,7 +73,7 @@ public class GetRunsForUserRequestProcessor extends RequestProcessor<GetRunsForU
 		// populateEventDetailsIfApplicable(runDetailsList);
 
 		response.setRunDetailsList(runDetailsList);
-		if (CollectionUtils.isEmpty(runDetailsList) || runDetailsList.size() < 3) {
+		if (CollectionUtils.isEmpty(runDetailsList) || runDetailsList.size() < 10) {
 			response.setMoreContentAvailable(false);
 		} else {
 			response.setMoreContentAvailable(true);

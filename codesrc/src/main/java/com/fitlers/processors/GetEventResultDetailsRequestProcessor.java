@@ -41,13 +41,13 @@ public class GetEventResultDetailsRequestProcessor
 					Sort.by("createdDate"));
 		} else {
 			// TODO Configure correct page size
-			PageRequest pageRequest = PageRequest.of(Integer.parseInt(request.getPageNumber()), 3,
+			PageRequest pageRequest = PageRequest.of(Integer.parseInt(request.getPageNumber()), 10,
 					Sort.by("createdDate").descending());
 			Page<EventResultDetails> page = eventResultDetailsRepo.findAll(eventResultDetailsQueryExample, pageRequest);
 			eventResultDetailsList = page.getContent();
 		}
 		response.setEventResultDetails(eventResultDetailsList);
-		if (CollectionUtils.isEmpty(eventResultDetailsList) || eventResultDetailsList.size() < 3) {
+		if (CollectionUtils.isEmpty(eventResultDetailsList) || eventResultDetailsList.size() < 10) {
 			response.setMoreContentAvailable(false);
 		} else {
 			response.setMoreContentAvailable(true);

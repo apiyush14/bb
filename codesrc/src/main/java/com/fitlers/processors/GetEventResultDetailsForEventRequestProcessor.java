@@ -46,7 +46,7 @@ public class GetEventResultDetailsForEventRequestProcessor
 					.findAll(eventResultDetailsWithUserDetailsQueryExample, Sort.by("userRank"));
 		} else {
 			// TODO Configure correct page size
-			PageRequest pageRequest = PageRequest.of(Integer.parseInt(request.getPageNumber()), 3,
+			PageRequest pageRequest = PageRequest.of(Integer.parseInt(request.getPageNumber()), 10,
 					Sort.by("userRank"));
 			Page<EventResultDetailsWithUserDetails> page = eventResultDetailsWithUserDetailsRepository
 					.findAll(eventResultDetailsWithUserDetailsQueryExample, pageRequest);
@@ -55,7 +55,7 @@ public class GetEventResultDetailsForEventRequestProcessor
 
 		response.setEventResultDetailsWithUserDetails(eventResultDetailsWithUserDetailsList);
 		if (CollectionUtils.isEmpty(eventResultDetailsWithUserDetailsList)
-				|| eventResultDetailsWithUserDetailsList.size() < 3) {
+				|| eventResultDetailsWithUserDetailsList.size() < 10) {
 			response.setMoreContentAvailable(false);
 		} else {
 			response.setMoreContentAvailable(true);

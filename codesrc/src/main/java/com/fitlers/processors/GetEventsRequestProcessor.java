@@ -36,13 +36,13 @@ public class GetEventsRequestProcessor extends RequestProcessor<GetEventsRequest
 			eventDetailsList = eventDetailsRepository.findAllEligibleEvents(Sort.by("eventStartDate"));
 		} else {
 			// TODO Configure correct page size
-			PageRequest pageRequest = PageRequest.of(Integer.parseInt(request.getPageNumber()), 3,
+			PageRequest pageRequest = PageRequest.of(Integer.parseInt(request.getPageNumber()), 10,
 					Sort.by("eventStartDate"));
 			Page<EventDetails> page = eventDetailsRepository.findAllEligibleEvents(pageRequest);
 			eventDetailsList = page.getContent();
 		}
 		eventDetailsResponse.setEventDetails(eventDetailsList);
-		if (CollectionUtils.isEmpty(eventDetailsList) || eventDetailsList.size() < 3) {
+		if (CollectionUtils.isEmpty(eventDetailsList) || eventDetailsList.size() < 10) {
 			eventDetailsResponse.setMoreContentAvailable(false);
 		} else {
 			eventDetailsResponse.setMoreContentAvailable(true);
