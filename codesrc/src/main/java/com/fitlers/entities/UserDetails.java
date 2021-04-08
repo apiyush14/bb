@@ -10,6 +10,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fitlers.constants.EncryptionKeys;
+import com.fitlers.core.annotations.Encrypted;
 
 @Entity
 @Table(name = "USER_DETAILS")
@@ -20,9 +22,11 @@ public class UserDetails {
 	private String userId;
 
 	@Column(name = "USER_FIRST_NAME")
+	@Encrypted(encryptionKey = EncryptionKeys.ENCRYPTION_KEY_NAME)
 	private String userFirstName;
 
 	@Column(name = "USER_LAST_NAME")
+	@Encrypted(encryptionKey = EncryptionKeys.ENCRYPTION_KEY_NAME)
 	private String userLastName;
 
 	@Column(name = "USER_HEIGHT")

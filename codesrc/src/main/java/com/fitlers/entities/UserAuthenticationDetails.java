@@ -9,6 +9,9 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fitlers.constants.EncryptionKeys;
+import com.fitlers.core.annotations.Encrypted;
+
 @Entity
 @Table(name = "USER_AUTHENTICATION_DETAILS")
 public class UserAuthenticationDetails {
@@ -18,6 +21,7 @@ public class UserAuthenticationDetails {
 	private String userId;
 
 	@Column(name = "USER_MSISDN")
+	@Encrypted(encryptionKey = EncryptionKeys.ENCRYPTION_KEY_MSISDN)
 	private String userMSISDN;
 
 	@Column(name = "USER_GENERATED_OTP")

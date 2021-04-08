@@ -17,6 +17,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fitlers.constants.EncryptionKeys;
+import com.fitlers.core.annotations.Encrypted;
 
 @Entity
 @Table(name = "EVENT_DETAILS")
@@ -28,12 +30,15 @@ public class EventDetails {
 	private Long eventId;
 
 	@Column(name = "EVENT_ORGANIZER_FIRST_NAME")
+	@Encrypted(encryptionKey = EncryptionKeys.ENCRYPTION_KEY_NAME)
 	private String eventOrganizerFirstName;
 
 	@Column(name = "EVENT_ORGANIZER_LAST_NAME")
+	@Encrypted(encryptionKey = EncryptionKeys.ENCRYPTION_KEY_NAME)
 	private String eventOrganizerLastName;
 
 	@Column(name = "EVENT_ORGANIZER_CONTACT_NUMBER")
+	@Encrypted(encryptionKey = EncryptionKeys.ENCRYPTION_KEY_MSISDN)
 	private String eventOrganizerContactNumber;
 
 	@Column(name = "EVENT_NAME")
