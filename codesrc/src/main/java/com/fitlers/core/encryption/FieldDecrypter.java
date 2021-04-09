@@ -1,6 +1,7 @@
 package com.fitlers.core.encryption;
 
 import java.lang.reflect.Field;
+import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,7 +24,7 @@ public class FieldDecrypter {
 		int propertyIndex = EncryptionUtils.getPropertyIndex(field.getName(), propertyNames);
 		Object currentValue = state[propertyIndex];
 		if (currentValue != null) {
-			if (!(currentValue instanceof String)) {
+			if (currentValue instanceof Collection) {
 				throw new IllegalStateException("Encrypted annotation was used on a non-String field");
 			}
 			state[propertyIndex] = decrypter.decrypt(encryptedField.encryptionKey(), currentValue.toString());

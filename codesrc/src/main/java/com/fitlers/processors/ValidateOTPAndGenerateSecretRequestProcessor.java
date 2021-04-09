@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Component;
 
+import com.fitlers.constants.EncryptionKeys;
+import com.fitlers.core.encryption.Encrypter;
 import com.fitlers.core.processor.RequestProcessor;
 import com.fitlers.entities.UserAuthenticationDetails;
 import com.fitlers.model.request.ValidateOTPAndGenerateSecretRequest;
@@ -24,16 +26,20 @@ public class ValidateOTPAndGenerateSecretRequestProcessor
 	@Autowired
 	UserAuthenticationDetailsRepository userAuthenticationDetailsRepository;
 	
+	@Autowired
+	private Encrypter encrypter;
+	
 	public static final Logger logger = LoggerFactory.getLogger(ValidateOTPAndGenerateSecretRequestProcessor.class);
 
 	@Override
 	public ValidateOTPAndGenerateSecretResponse doProcessing(ValidateOTPAndGenerateSecretRequest request)
 			throws Exception {
 		logger.info("ValidateOTPAndGenerateSecretRequestProcessor doProcessing Started for OTP " + request.getOtpCode());
+		String encryptedMSISDN = encrypter.encrypt(EncryptionKeys.ENCRYPTION_KEY_MSISDN, request.getMsisdn());
 		ValidateOTPAndGenerateSecretResponse response = new ValidateOTPAndGenerateSecretResponse();
 		
 		UserAuthenticationDetails userAuthenticationDetailsQueryObj = new UserAuthenticationDetails();
-		userAuthenticationDetailsQueryObj.setUserMSISDN(request.getMsisdn());
+		userAuthenticationDetailsQueryObj.setUserMSISDN(encryptedMSISDN);
 		Example<UserAuthenticationDetails> userAuthenticationDetailsQueryExample = Example
 				.of(userAuthenticationDetailsQueryObj);
 		Optional<UserAuthenticationDetails> userAuthenticationDetailsOptional = userAuthenticationDetailsRepository
