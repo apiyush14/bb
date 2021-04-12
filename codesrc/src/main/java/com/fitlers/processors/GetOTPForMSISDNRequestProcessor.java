@@ -6,6 +6,8 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.core.env.Profiles;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -16,7 +18,9 @@ import com.fitlers.core.processor.RequestProcessor;
 import com.fitlers.entities.UserAuthenticationDetails;
 import com.fitlers.entities.UserDetails;
 import com.fitlers.model.request.GetOTPForMSISDNRequest;
+import com.fitlers.model.request.ShortMessageServiceRequest;
 import com.fitlers.model.response.GetOTPForMSISDNResponse;
+import com.fitlers.proxy.ServiceProxy;
 import com.fitlers.repo.UserAuthenticationDetailsRepository;
 import com.fitlers.repo.UserDetailsRepository;
 
@@ -30,7 +34,13 @@ public class GetOTPForMSISDNRequestProcessor extends RequestProcessor<GetOTPForM
 	UserDetailsRepository userDetailsRepo;
 
 	@Autowired
+	ServiceProxy serviceProxy;
+
+	@Autowired
 	private Encrypter encrypter;
+
+	@Autowired
+	Environment env;
 
 	public static final Logger logger = LoggerFactory.getLogger(GetOTPForMSISDNRequestProcessor.class);
 
@@ -41,11 +51,22 @@ public class GetOTPForMSISDNRequestProcessor extends RequestProcessor<GetOTPForM
 		return generateOTPForMSISDN(request);
 	}
 
-	// To be replaced with the real call to SMS Gateway Service
 	private GetOTPForMSISDNResponse generateOTPForMSISDN(GetOTPForMSISDNRequest request) {
 
 		GetOTPForMSISDNResponse response = new GetOTPForMSISDNResponse();
-		int otpCode = (int) Math.abs(((Math.random() * (0001 - 9999)) + 0001));
+
+		int otpCode = (int) Math.abs(((Math.random() * (1111 - 9999)) + 1111));
+		boolean status = callSMSGateway(request, otpCode);
+		if (status) {
+			updateOrCreateUserAuthenticationDetails(request, response, otpCode);
+		} else {
+			response.setStatus(false);
+		}
+		return response;
+	}
+
+	private void updateOrCreateUserAuthenticationDetails(GetOTPForMSISDNRequest request,
+			GetOTPForMSISDNResponse response, int otpCode) {
 		String encryptedMSISDN = encrypter.encrypt(EncryptionKeys.ENCRYPTION_KEY_MSISDN, request.getContactNumber());
 		UserAuthenticationDetails userAuthenticationDetailsQueryObj = new UserAuthenticationDetails();
 		// Lookup to be done with encrypted value
@@ -77,7 +98,20 @@ public class GetOTPForMSISDNRequestProcessor extends RequestProcessor<GetOTPForM
 		response.setStatus(true);
 		logger.info("GetOTPForMSISDNRequestProcessor doProcessing Completed for Contact Number "
 				+ request.getContactNumber());
-		return response;
+	}
+
+	private boolean callSMSGateway(GetOTPForMSISDNRequest request, int otpCode) {
+		if (env.acceptsProfiles(Profiles.of("prod"))) {
+			ShortMessageServiceRequest shortMessageServiceRequest = new ShortMessageServiceRequest();
+			shortMessageServiceRequest.setMessage("Your OTP is : " + otpCode);
+			shortMessageServiceRequest.setNumbers(request.getContactNumber());
+			shortMessageServiceRequest.setRoute("v3");
+			shortMessageServiceRequest.setSender_id("TXTIND");
+			boolean isMessageSent = serviceProxy.sendShortMessage(shortMessageServiceRequest);
+			logger.info("GetOTPForMSISDNRequestProcessor doProcessing Message Successfully sent");
+			return isMessageSent;
+		}
+		return true;
 	}
 
 	private UserDetails createNewUser() {
