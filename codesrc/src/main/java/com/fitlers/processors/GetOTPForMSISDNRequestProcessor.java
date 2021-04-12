@@ -1,6 +1,7 @@
 package com.fitlers.processors;
 
 import java.util.Optional;
+import java.util.Random;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -55,7 +56,8 @@ public class GetOTPForMSISDNRequestProcessor extends RequestProcessor<GetOTPForM
 
 		GetOTPForMSISDNResponse response = new GetOTPForMSISDNResponse();
 
-		int otpCode = (int) Math.abs(((Math.random() * (1111 - 9999)) + 1111));
+		Random random = new Random();
+		int otpCode = 1000 + random.nextInt(9999 - 1000 + 1);
 		boolean status = callSMSGateway(request, otpCode);
 		if (status) {
 			updateOrCreateUserAuthenticationDetails(request, response, otpCode);

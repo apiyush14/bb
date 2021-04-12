@@ -1,0 +1,174 @@
+2021-04-04 16:50:30,878 INFO org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator [restartedMain] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-04-04 16:50:30,891 INFO org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean [restartedMain] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-04-04 16:50:31,296 DEBUG org.springframework.web.filter.CommonsRequestLoggingFilter [restartedMain] Filter 'logFilter' configured for use
+2021-04-04 16:50:31,357 INFO org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer [restartedMain] LiveReload server is running on port 35729
+2021-04-04 16:50:31,856 INFO org.apache.kafka.clients.admin.AdminClientConfig [restartedMain] AdminClientConfig values: 
+	bootstrap.servers = [192.168.1.64:9092]
+	client.dns.lookup = use_all_dns_ips
+	client.id = 
+	connections.max.idle.ms = 300000
+	default.api.timeout.ms = 60000
+	metadata.max.age.ms = 300000
+	metric.reporters = []
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	receive.buffer.bytes = 65536
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 30000
+	retries = 2147483647
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.mechanism = GSSAPI
+	security.protocol = PLAINTEXT
+	security.providers = null
+	send.buffer.bytes = 131072
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2]
+	ssl.endpoint.identification.algorithm = https
+	ssl.engine.factory.class = null
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLSv1.2
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+
+2021-04-04 16:50:31,921 WARN org.apache.kafka.clients.admin.AdminClientConfig [restartedMain] The configuration 'value.serializer' was supplied but isn't a known config.
+2021-04-04 16:50:31,921 WARN org.apache.kafka.clients.admin.AdminClientConfig [restartedMain] The configuration 'key.serializer' was supplied but isn't a known config.
+2021-04-04 16:50:31,924 INFO org.apache.kafka.common.utils.AppInfoParser [restartedMain] Kafka version: 2.6.0
+2021-04-04 16:50:31,924 INFO org.apache.kafka.common.utils.AppInfoParser [restartedMain] Kafka commitId: 62abe01bee039651
+2021-04-04 16:50:31,924 INFO org.apache.kafka.common.utils.AppInfoParser [restartedMain] Kafka startTimeMs: 1617535231921
+2021-04-04 16:50:32,770 WARN org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration [restartedMain] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2021-04-04 16:50:33,137 INFO org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver [restartedMain] Exposing 15 endpoint(s) beneath base path '/actuator'
+2021-04-04 16:50:33,274 INFO springfox.documentation.spring.web.PropertySourcedRequestMappingHandlerMapping [restartedMain] Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2021-04-04 16:50:33,426 INFO org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor [restartedMain] Initializing ExecutorService 'applicationTaskExecutor'
+2021-04-04 16:50:33,717 INFO org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler [restartedMain] Initializing ExecutorService 'taskScheduler'
+2021-04-04 16:50:33,823 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [restartedMain] Tomcat started on port(s): 7001 (http) with context path ''
+2021-04-04 16:50:33,825 INFO springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper [restartedMain] Context refreshed
+2021-04-04 16:50:33,848 INFO springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper [restartedMain] Found 1 custom documentation plugin(s)
+2021-04-04 16:50:33,907 INFO springfox.documentation.spring.web.scanners.ApiListingReferenceScanner [restartedMain] Scanning for api listing references
+2021-04-04 16:50:33,973 WARN org.apache.kafka.clients.NetworkClient [kafka-admin-client-thread | adminclient-1] [AdminClient clientId=adminclient-1] Connection to node -1 (/192.168.1.64:9092) could not be established. Broker may not be available.
+2021-04-04 16:50:34,129 INFO springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator [restartedMain] Generating unique operation named: handleUsingGET_1
+2021-04-04 16:50:34,133 INFO springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator [restartedMain] Generating unique operation named: handleUsingGET_2
+2021-04-04 16:50:34,134 INFO springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator [restartedMain] Generating unique operation named: handleUsingDELETE_1
+2021-04-04 16:50:34,136 INFO springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator [restartedMain] Generating unique operation named: handleUsingGET_3
+2021-04-04 16:50:34,138 INFO springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator [restartedMain] Generating unique operation named: handleUsingGET_4
+2021-04-04 16:50:34,140 INFO springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator [restartedMain] Generating unique operation named: handleUsingGET_5
+2021-04-04 16:50:34,142 INFO springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator [restartedMain] Generating unique operation named: handleUsingGET_6
+2021-04-04 16:50:34,143 INFO springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator [restartedMain] Generating unique operation named: handleUsingGET_7
+2021-04-04 16:50:34,145 INFO springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator [restartedMain] Generating unique operation named: handleUsingGET_8
+2021-04-04 16:50:34,147 INFO springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator [restartedMain] Generating unique operation named: handleUsingGET_9
+2021-04-04 16:50:34,148 INFO springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator [restartedMain] Generating unique operation named: handleUsingGET_10
+2021-04-04 16:50:34,150 INFO springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator [restartedMain] Generating unique operation named: handleUsingGET_11
+2021-04-04 16:50:34,154 INFO springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator [restartedMain] Generating unique operation named: handleUsingGET_12
+2021-04-04 16:50:34,155 INFO springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator [restartedMain] Generating unique operation named: handleUsingGET_13
+2021-04-04 16:50:34,157 INFO springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator [restartedMain] Generating unique operation named: handleUsingGET_14
+2021-04-04 16:50:34,159 INFO springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator [restartedMain] Generating unique operation named: handleUsingGET_15
+2021-04-04 16:50:34,161 INFO springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator [restartedMain] Generating unique operation named: handleUsingGET_16
+2021-04-04 16:50:34,162 INFO springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator [restartedMain] Generating unique operation named: handleUsingGET_17
+2021-04-04 16:50:34,164 INFO springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator [restartedMain] Generating unique operation named: handleUsingPOST_1
+2021-04-04 16:50:34,165 INFO springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator [restartedMain] Generating unique operation named: handleUsingGET_18
+2021-04-04 16:50:34,186 INFO springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator [restartedMain] Generating unique operation named: getRunsForUserUsingGET_1
+2021-04-04 16:50:34,189 INFO springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator [restartedMain] Generating unique operation named: getRunsForUserUsingGET_2
+2021-04-04 16:50:34,244 INFO com.fitlers.main.FitlersApplication [restartedMain] Started FitlersApplication in 10.436 seconds (JVM running for 11.739)
+2021-04-04 16:50:36,081 WARN org.apache.kafka.clients.NetworkClient [kafka-admin-client-thread | adminclient-1] [AdminClient clientId=adminclient-1] Connection to node -1 (/192.168.1.64:9092) could not be established. Broker may not be available.
+2021-04-04 16:50:38,188 WARN org.apache.kafka.clients.NetworkClient [kafka-admin-client-thread | adminclient-1] [AdminClient clientId=adminclient-1] Connection to node -1 (/192.168.1.64:9092) could not be established. Broker may not be available.
+2021-04-04 16:50:40,390 WARN org.apache.kafka.clients.NetworkClient [kafka-admin-client-thread | adminclient-1] [AdminClient clientId=adminclient-1] Connection to node -1 (/192.168.1.64:9092) could not be established. Broker may not be available.
+2021-04-04 16:50:42,900 WARN org.apache.kafka.clients.NetworkClient [kafka-admin-client-thread | adminclient-1] [AdminClient clientId=adminclient-1] Connection to node -1 (/192.168.1.64:9092) could not be established. Broker may not be available.
+2021-04-04 16:50:45,809 WARN org.apache.kafka.clients.NetworkClient [kafka-admin-client-thread | adminclient-1] [AdminClient clientId=adminclient-1] Connection to node -1 (/192.168.1.64:9092) could not be established. Broker may not be available.
+2021-04-04 16:50:48,819 WARN org.apache.kafka.clients.NetworkClient [kafka-admin-client-thread | adminclient-1] [AdminClient clientId=adminclient-1] Connection to node -1 (/192.168.1.64:9092) could not be established. Broker may not be available.
+2021-04-04 16:50:49,499 INFO org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] [http-nio-7001-exec-1] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-04-04 16:50:49,500 INFO org.springframework.web.servlet.DispatcherServlet [http-nio-7001-exec-1] Initializing Servlet 'dispatcherServlet'
+2021-04-04 16:50:49,510 INFO org.springframework.web.servlet.DispatcherServlet [http-nio-7001-exec-1] Completed initialization in 10 ms
+2021-04-04 16:50:49,521 DEBUG org.springframework.web.filter.CommonsRequestLoggingFilter [http-nio-7001-exec-1] Before request [GET /auth/getOTP/9650296495]
+2021-04-04 16:50:49,553 INFO com.fitlers.processors.GetOTPForMSISDNRequestProcessor [http-nio-7001-exec-1] GetOTPForMSISDNRequestProcessor doProcessing Started for Contact Number 9650296495
+2021-04-04 16:50:49,727 INFO com.fitlers.processors.GetOTPForMSISDNRequestProcessor [http-nio-7001-exec-1] GetOTPForMSISDNRequestProcessor doProcessing Completed for Contact Number 9650296495
+2021-04-04 16:50:49,780 DEBUG org.springframework.web.filter.CommonsRequestLoggingFilter [http-nio-7001-exec-1] REQUEST DATA : GET /auth/getOTP/9650296495]
+2021-04-04 16:50:49,931 DEBUG org.springframework.web.filter.CommonsRequestLoggingFilter [http-nio-7001-exec-2] Before request [POST /log/client/null]
+2021-04-04 16:50:49,992 INFO com.fitlers.processors.ClientLoggingRequestProcessor [http-nio-7001-exec-2] Request failed for client : null
+2021-04-04 16:50:49,993 INFO com.fitlers.processors.ClientLoggingRequestProcessor [http-nio-7001-exec-2] Failure message is : null is not an object (evaluating 'temp.json')
+2021-04-04 16:50:49,993 INFO com.fitlers.processors.ClientLoggingRequestProcessor [http-nio-7001-exec-2] Stack Trace on Client is : http://192.168.1.66:19001/node_modules%5Cexpo%5CAppEntry.bundle?platform=ios&dev=true&minify=false&hot=false:171853:21
+tryCallOne@http://192.168.1.66:19001/node_modules%5Cexpo%5CAppEntry.bundle?platform=ios&dev=true&minify=false&hot=false:3822:16
+htt
+2021-04-04 16:50:49,995 DEBUG org.springframework.web.filter.CommonsRequestLoggingFilter [http-nio-7001-exec-2] REQUEST DATA : POST /log/client/null]
+2021-04-04 16:50:52,030 WARN org.apache.kafka.clients.NetworkClient [kafka-admin-client-thread | adminclient-1] [AdminClient clientId=adminclient-1] Connection to node -1 (/192.168.1.64:9092) could not be established. Broker may not be available.
+2021-04-04 16:50:54,939 WARN org.apache.kafka.clients.NetworkClient [kafka-admin-client-thread | adminclient-1] [AdminClient clientId=adminclient-1] Connection to node -1 (/192.168.1.64:9092) could not be established. Broker may not be available.
+2021-04-04 16:50:57,944 WARN org.apache.kafka.clients.NetworkClient [kafka-admin-client-thread | adminclient-1] [AdminClient clientId=adminclient-1] Connection to node -1 (/192.168.1.64:9092) could not be established. Broker may not be available.
+2021-04-04 16:51:00,856 WARN org.apache.kafka.clients.NetworkClient [kafka-admin-client-thread | adminclient-1] [AdminClient clientId=adminclient-1] Connection to node -1 (/192.168.1.64:9092) could not be established. Broker may not be available.
+2021-04-04 16:51:01,934 INFO org.apache.kafka.clients.admin.internals.AdminMetadataManager [kafka-admin-client-thread | adminclient-1] [AdminClient clientId=adminclient-1] Metadata update failed
+org.apache.kafka.common.errors.TimeoutException: Call(callName=fetchMetadata, deadlineMs=1617535261927, tries=1, nextAllowedTryMs=1617535262028) timed out at 1617535261928 after 1 attempt(s)
+Caused by: org.apache.kafka.common.errors.TimeoutException: Timed out waiting to send the call.
+2021-04-04 16:51:03,866 WARN org.apache.kafka.clients.NetworkClient [kafka-admin-client-thread | adminclient-1] [AdminClient clientId=adminclient-1] Connection to node -1 (/192.168.1.64:9092) could not be established. Broker may not be available.
+2021-04-04 16:51:07,078 WARN org.apache.kafka.clients.NetworkClient [kafka-admin-client-thread | adminclient-1] [AdminClient clientId=adminclient-1] Connection to node -1 (/192.168.1.64:9092) could not be established. Broker may not be available.
+2021-04-04 16:51:10,187 WARN org.apache.kafka.clients.NetworkClient [kafka-admin-client-thread | adminclient-1] [AdminClient clientId=adminclient-1] Connection to node -1 (/192.168.1.64:9092) could not be established. Broker may not be available.
+2021-04-04 16:51:13,400 WARN org.apache.kafka.clients.NetworkClient [kafka-admin-client-thread | adminclient-1] [AdminClient clientId=adminclient-1] Connection to node -1 (/192.168.1.64:9092) could not be established. Broker may not be available.
+2021-04-04 16:51:16,307 WARN org.apache.kafka.clients.NetworkClient [kafka-admin-client-thread | adminclient-1] [AdminClient clientId=adminclient-1] Connection to node -1 (/192.168.1.64:9092) could not be established. Broker may not be available.
+2021-04-04 16:51:19,318 WARN org.apache.kafka.clients.NetworkClient [kafka-admin-client-thread | adminclient-1] [AdminClient clientId=adminclient-1] Connection to node -1 (/192.168.1.64:9092) could not be established. Broker may not be available.
+2021-04-04 16:51:22,530 WARN org.apache.kafka.clients.NetworkClient [kafka-admin-client-thread | adminclient-1] [AdminClient clientId=adminclient-1] Connection to node -1 (/192.168.1.64:9092) could not be established. Broker may not be available.
+2021-04-04 16:51:25,437 WARN org.apache.kafka.clients.NetworkClient [kafka-admin-client-thread | adminclient-1] [AdminClient clientId=adminclient-1] Connection to node -1 (/192.168.1.64:9092) could not be established. Broker may not be available.
+2021-04-04 16:51:28,446 WARN org.apache.kafka.clients.NetworkClient [kafka-admin-client-thread | adminclient-1] [AdminClient clientId=adminclient-1] Connection to node -1 (/192.168.1.64:9092) could not be established. Broker may not be available.
+2021-04-04 16:51:31,655 WARN org.apache.kafka.clients.NetworkClient [kafka-admin-client-thread | adminclient-1] [AdminClient clientId=adminclient-1] Connection to node -1 (/192.168.1.64:9092) could not be established. Broker may not be available.
+2021-04-04 16:51:31,929 INFO org.apache.kafka.clients.admin.internals.AdminMetadataManager [kafka-admin-client-thread | adminclient-1] [AdminClient clientId=adminclient-1] Metadata update failed
+org.apache.kafka.common.errors.TimeoutException: Call(callName=fetchMetadata, deadlineMs=1617535291928, tries=1, nextAllowedTryMs=1617535292029) timed out at 1617535291929 after 1 attempt(s)
+Caused by: org.apache.kafka.common.errors.TimeoutException: Timed out waiting for a node assignment.
+2021-04-04 16:51:34,736 WARN org.apache.kafka.clients.NetworkClient [kafka-admin-client-thread | adminclient-1] [AdminClient clientId=adminclient-1] Connection to node -1 (/192.168.1.64:9092) could not be established. Broker may not be available.
+2021-04-04 16:51:35,100 DEBUG org.springframework.web.filter.CommonsRequestLoggingFilter [http-nio-7001-exec-4] Before request [GET /auth/getOTP/9650296495]
+2021-04-04 16:51:35,105 INFO com.fitlers.processors.GetOTPForMSISDNRequestProcessor [http-nio-7001-exec-4] GetOTPForMSISDNRequestProcessor doProcessing Started for Contact Number 9650296495
+2021-04-04 16:51:35,154 INFO com.fitlers.processors.GetOTPForMSISDNRequestProcessor [http-nio-7001-exec-4] GetOTPForMSISDNRequestProcessor doProcessing Completed for Contact Number 9650296495
+2021-04-04 16:51:35,156 DEBUG org.springframework.web.filter.CommonsRequestLoggingFilter [http-nio-7001-exec-4] REQUEST DATA : GET /auth/getOTP/9650296495]
+2021-04-04 16:51:35,211 DEBUG org.springframework.web.filter.CommonsRequestLoggingFilter [http-nio-7001-exec-5] Before request [POST /log/client/null]
+2021-04-04 16:51:35,218 INFO com.fitlers.processors.ClientLoggingRequestProcessor [http-nio-7001-exec-5] Request failed for client : null
+2021-04-04 16:51:35,219 INFO com.fitlers.processors.ClientLoggingRequestProcessor [http-nio-7001-exec-5] Failure message is : null is not an object (evaluating 'temp.json')
+2021-04-04 16:51:35,219 INFO com.fitlers.processors.ClientLoggingRequestProcessor [http-nio-7001-exec-5] Stack Trace on Client is : http://192.168.1.66:19001/node_modules%5Cexpo%5CAppEntry.bundle?platform=ios&dev=true&minify=false&hot=false:171853:21
+tryCallOne@http://192.168.1.66:19001/node_modules%5Cexpo%5CAppEntry.bundle?platform=ios&dev=true&minify=false&hot=false:3822:16
+htt
+2021-04-04 16:51:35,221 DEBUG org.springframework.web.filter.CommonsRequestLoggingFilter [http-nio-7001-exec-5] REQUEST DATA : POST /log/client/null]
+2021-04-04 16:51:37,644 WARN org.apache.kafka.clients.NetworkClient [kafka-admin-client-thread | adminclient-1] [AdminClient clientId=adminclient-1] Connection to node -1 (/192.168.1.64:9092) could not be established. Broker may not be available.
+2021-04-04 16:51:40,562 WARN org.apache.kafka.clients.NetworkClient [kafka-admin-client-thread | adminclient-1] [AdminClient clientId=adminclient-1] Connection to node -1 (/192.168.1.64:9092) could not be established. Broker may not be available.
+2021-04-04 16:51:43,571 WARN org.apache.kafka.clients.NetworkClient [kafka-admin-client-thread | adminclient-1] [AdminClient clientId=adminclient-1] Connection to node -1 (/192.168.1.64:9092) could not be established. Broker may not be available.
+2021-04-04 16:51:46,680 WARN org.apache.kafka.clients.NetworkClient [kafka-admin-client-thread | adminclient-1] [AdminClient clientId=adminclient-1] Connection to node -1 (/192.168.1.64:9092) could not be established. Broker may not be available.
+2021-04-04 16:51:49,789 WARN org.apache.kafka.clients.NetworkClient [kafka-admin-client-thread | adminclient-1] [AdminClient clientId=adminclient-1] Connection to node -1 (/192.168.1.64:9092) could not be established. Broker may not be available.
+2021-04-04 16:51:52,698 WARN org.apache.kafka.clients.NetworkClient [kafka-admin-client-thread | adminclient-1] [AdminClient clientId=adminclient-1] Connection to node -1 (/192.168.1.64:9092) could not be established. Broker may not be available.
+2021-04-04 16:51:55,610 WARN org.apache.kafka.clients.NetworkClient [kafka-admin-client-thread | adminclient-1] [AdminClient clientId=adminclient-1] Connection to node -1 (/192.168.1.64:9092) could not be established. Broker may not be available.
+2021-04-04 16:51:58,819 WARN org.apache.kafka.clients.NetworkClient [kafka-admin-client-thread | adminclient-1] [AdminClient clientId=adminclient-1] Connection to node -1 (/192.168.1.64:9092) could not be established. Broker may not be available.
+2021-04-04 16:52:01,930 INFO org.apache.kafka.clients.admin.internals.AdminMetadataManager [kafka-admin-client-thread | adminclient-1] [AdminClient clientId=adminclient-1] Metadata update failed
+org.apache.kafka.common.errors.TimeoutException: Call(callName=fetchMetadata, deadlineMs=1617535321929, tries=1, nextAllowedTryMs=1617535322030) timed out at 1617535321930 after 1 attempt(s)
+Caused by: org.apache.kafka.common.errors.TimeoutException: Timed out waiting to send the call.
+2021-04-04 16:52:02,032 WARN org.apache.kafka.clients.NetworkClient [kafka-admin-client-thread | adminclient-1] [AdminClient clientId=adminclient-1] Connection to node -1 (/192.168.1.64:9092) could not be established. Broker may not be available.
+2021-04-04 16:52:05,043 WARN org.apache.kafka.clients.NetworkClient [kafka-admin-client-thread | adminclient-1] [AdminClient clientId=adminclient-1] Connection to node -1 (/192.168.1.64:9092) could not be established. Broker may not be available.
+2021-04-04 16:52:07,957 WARN org.apache.kafka.clients.NetworkClient [kafka-admin-client-thread | adminclient-1] [AdminClient clientId=adminclient-1] Connection to node -1 (/192.168.1.64:9092) could not be established. Broker may not be available.
+2021-04-04 16:52:11,067 WARN org.apache.kafka.clients.NetworkClient [kafka-admin-client-thread | adminclient-1] [AdminClient clientId=adminclient-1] Connection to node -1 (/192.168.1.64:9092) could not be established. Broker may not be available.
+2021-04-04 16:52:14,079 WARN org.apache.kafka.clients.NetworkClient [kafka-admin-client-thread | adminclient-1] [AdminClient clientId=adminclient-1] Connection to node -1 (/192.168.1.64:9092) could not be established. Broker may not be available.
+2021-04-04 16:52:15,887 DEBUG org.springframework.web.filter.CommonsRequestLoggingFilter [http-nio-7001-exec-7] Before request [GET /auth/getOTP/9650296495]
+2021-04-04 16:52:15,890 INFO com.fitlers.processors.GetOTPForMSISDNRequestProcessor [http-nio-7001-exec-7] GetOTPForMSISDNRequestProcessor doProcessing Started for Contact Number 9650296495
+2021-04-04 16:52:15,947 INFO com.fitlers.processors.GetOTPForMSISDNRequestProcessor [http-nio-7001-exec-7] GetOTPForMSISDNRequestProcessor doProcessing Completed for Contact Number 9650296495
+2021-04-04 16:52:15,951 DEBUG org.springframework.web.filter.CommonsRequestLoggingFilter [http-nio-7001-exec-7] REQUEST DATA : GET /auth/getOTP/9650296495]
+2021-04-04 16:52:15,994 DEBUG org.springframework.web.filter.CommonsRequestLoggingFilter [http-nio-7001-exec-8] Before request [POST /log/client/null]
+2021-04-04 16:52:16,004 WARN org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver [http-nio-7001-exec-8] Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Cannot deserialize instance of `java.lang.String` out of START_OBJECT token; nested exception is com.fasterxml.jackson.databind.exc.MismatchedInputException: Cannot deserialize instance of `java.lang.String` out of START_OBJECT token
+ at [Source: (PushbackInputStream); line: 1, column: 15] (through reference chain: com.fitlers.model.request.LogClientErrorRequest["stackTrace"])]
+2021-04-04 16:52:16,004 DEBUG org.springframework.web.filter.CommonsRequestLoggingFilter [http-nio-7001-exec-8] REQUEST DATA : POST /log/client/null]
+2021-04-04 16:52:17,286 WARN org.apache.kafka.clients.NetworkClient [kafka-admin-client-thread | adminclient-1] [AdminClient clientId=adminclient-1] Connection to node -1 (/192.168.1.64:9092) could not be established. Broker may not be available.
+2021-04-04 16:52:20,299 WARN org.apache.kafka.clients.NetworkClient [kafka-admin-client-thread | adminclient-1] [AdminClient clientId=adminclient-1] Connection to node -1 (/192.168.1.64:9092) could not be established. Broker may not be available.
+2021-04-04 16:52:23,409 WARN org.apache.kafka.clients.NetworkClient [kafka-admin-client-thread | adminclient-1] [AdminClient clientId=adminclient-1] Connection to node -1 (/192.168.1.64:9092) could not be established. Broker may not be available.
+2021-04-04 16:52:26,320 WARN org.apache.kafka.clients.NetworkClient [kafka-admin-client-thread | adminclient-1] [AdminClient clientId=adminclient-1] Connection to node -1 (/192.168.1.64:9092) could not be established. Broker may not be available.
+2021-04-04 16:52:29,229 WARN org.apache.kafka.clients.NetworkClient [kafka-admin-client-thread | adminclient-1] [AdminClient clientId=adminclient-1] Connection to node -1 (/192.168.1.64:9092) could not be established. Broker may not be available.
