@@ -30,7 +30,7 @@ public class EventRegistrationDetails {
 	@Id
 	@Column(name = "USER_ID")
 	private String userId;
-	
+
 	@Id
 	@Column(name = "RUN_ID")
 	private Long runId;

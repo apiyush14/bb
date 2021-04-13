@@ -64,6 +64,9 @@ public class EventDetails {
 	// @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss")
 	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
 	private Date eventEndDate;
+	
+	@Column(name = "IS_EVENT_APPROVED")
+	private String isEventApproved;
 
 	@CreationTimestamp
 	@Column(name = "CREATED_DATE")
@@ -161,6 +164,14 @@ public class EventDetails {
 
 	public void setEventEndDate(Date eventEndDate) {
 		this.eventEndDate = eventEndDate;
+	}
+	
+	public String getIsEventApproved() {
+		return isEventApproved;
+	}
+
+	public void setIsEventApproved(String isEventApproved) {
+		this.isEventApproved = isEventApproved;
 	}
 
 	public Date getCreatedDate() {
