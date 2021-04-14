@@ -16,7 +16,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableAutoConfiguration
 @EnableConfigurationProperties
 @ComponentScan(basePackages = { "com.fitlers.services", "com.fitlers.config", "com.fitlers.processors",
-		"com.fitlers.auth", "com.fitlers.core.kafka", "com.fitlers.schedulers", "com.fitlers.demo",
+		"com.fitlers.auth", "com.fitlers.kafka", "com.fitlers.schedulers", "com.fitlers.demo",
 		"com.fitlers.core.config", "com.fitlers.core.encryption", "com.fitlers.proxy" })
 @EntityScan(basePackages = { "com.fitlers.entities" })
 @EnableJpaRepositories(basePackages = { "com.fitlers.repo" })

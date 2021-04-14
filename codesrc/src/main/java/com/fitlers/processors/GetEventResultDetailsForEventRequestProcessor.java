@@ -13,6 +13,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
+import com.fitlers.constants.EncryptionKeys;
+import com.fitlers.core.encryption.Decrypter;
 import com.fitlers.core.processor.RequestProcessor;
 import com.fitlers.entities.EventResultDetailsWithUserDetails;
 import com.fitlers.model.request.GetEventResultDetailsForEventRequest;
@@ -25,6 +27,9 @@ public class GetEventResultDetailsForEventRequestProcessor
 
 	@Autowired
 	private EventResultDetailsWithUserDetailsRepo eventResultDetailsWithUserDetailsRepository;
+
+	@Autowired
+	private Decrypter decrypter;
 
 	public static final Logger logger = LoggerFactory.getLogger(GetEventResultDetailsForEventRequestProcessor.class);
 
@@ -52,6 +57,14 @@ public class GetEventResultDetailsForEventRequestProcessor
 					.findAll(eventResultDetailsWithUserDetailsQueryExample, pageRequest);
 			eventResultDetailsWithUserDetailsList = page.getContent();
 		}
+
+		// This is needed because it's a view
+		eventResultDetailsWithUserDetailsList.stream().forEach(eventResult -> {
+			String firstName = decrypter.decrypt(EncryptionKeys.ENCRYPTION_KEY_NAME, eventResult.getUserFirstName());
+			String lastName = decrypter.decrypt(EncryptionKeys.ENCRYPTION_KEY_NAME, eventResult.getUserLastName());
+			eventResult.setUserFirstName(firstName);
+			eventResult.setUserLastName(lastName);
+		});
 
 		response.setEventResultDetailsWithUserDetails(eventResultDetailsWithUserDetailsList);
 		if (CollectionUtils.isEmpty(eventResultDetailsWithUserDetailsList)

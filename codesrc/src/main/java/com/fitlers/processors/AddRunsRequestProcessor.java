@@ -17,12 +17,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import com.fitlers.core.kafka.KafkaUtils;
 import com.fitlers.core.processor.RequestProcessor;
 import com.fitlers.entities.EventRegistrationDetails;
 import com.fitlers.entities.EventRegistrationDetailsId;
 import com.fitlers.entities.RunDetailsId;
 import com.fitlers.entities.RunSummary;
+import com.fitlers.kafka.KafkaUtils;
 import com.fitlers.model.request.AddRunDetailsRequest;
 import com.fitlers.repo.EventRegistrationDetailsRepository;
 import com.fitlers.repo.RunDetailsRepository;

@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.fitlers.core.kafka.KafkaUtils;
+import com.fitlers.kafka.KafkaUtils;
 import com.fitlers.repo.EventDetailsRepository;
 
 @Profile("prod")
@@ -33,7 +33,7 @@ public class EventResultScheduler {
 		// Create New Streams for today's events
 		LocalDate currentDate = LocalDate.now();
 
-		eventDetailsRepo.findAll().parallelStream().filter(event -> {
+		eventDetailsRepo.findAllEligibleEvents().stream().filter(event -> {
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(event.getEventStartDate());
 			LocalDate eventStartDate = LocalDate.of(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1,
