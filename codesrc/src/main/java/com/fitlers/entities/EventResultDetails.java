@@ -36,6 +36,9 @@ public class EventResultDetails {
 
 	@Column(name = "RUN_TOTAL_TIME")
 	private String runTotalTime;
+	
+	@Column(name = "RUN_DISTANCE")
+	private Double runDistance;
 
 	@Column(name = "USER_RANK")
 	private Long userRank;
@@ -108,6 +111,14 @@ public class EventResultDetails {
 
 	public void setRunTotalTime(String runTotalTime) {
 		this.runTotalTime = runTotalTime;
+	}
+
+	public Double getRunDistance() {
+		return runDistance;
+	}
+
+	public void setRunDistance(Double runDistance) {
+		this.runDistance = runDistance;
 	}
 
 	public Long getUserRank() {

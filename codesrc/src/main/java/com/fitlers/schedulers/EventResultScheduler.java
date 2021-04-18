@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.kafka.streams.KafkaStreams;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -26,9 +28,12 @@ public class EventResultScheduler {
 	@Autowired
 	private KafkaUtils kafkaUtils;
 
-	@Scheduled(cron = "0 * 13 * * ?")
+	public static final Logger logger = LoggerFactory.getLogger(EventResultScheduler.class);
+
+	// @Scheduled(cron = "0 * 13 * * ?")
+	@Scheduled(fixedDelay = 30000)
 	public void scheduledTask() {
-		System.out.println("========Running Cron Job================");
+		logger.info("Running Event Scheduler");
 
 		// Create New Streams for today's events
 		LocalDate currentDate = LocalDate.now();
@@ -43,15 +48,17 @@ public class EventResultScheduler {
 			String topicName = "EVENT_RUN_SUBMISSION_" + event.getEventId();
 			if (!kafkaUtils.getAllExistingTopics().contains(topicName)) {
 				kafkaUtils.createNewKafkaTopic(topicName);
-				if (!mapOfStreams.containsKey(event.getEventId().toString())) {
-					mapOfStreams.put(event.getEventId().toString(),
-							kafkaUtils.createAndStartNewStream(topicName, event.getEventId()));
-				}
+				logger.info("Created New Kafka Topic " + topicName);
+			}
+			if (!mapOfStreams.containsKey(event.getEventId().toString())) {
+				mapOfStreams.put(event.getEventId().toString(),
+						kafkaUtils.createAndStartNewStream(topicName, event.getEventId()));
+				logger.info("Created New Kafka Stream " + topicName);
 			}
 		});
 
 		// Close Streams for past events
-		eventDetailsRepo.findAll().parallelStream().filter(event -> {
+		eventDetailsRepo.findAll().stream().filter(event -> {
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(event.getEventStartDate());
 			LocalDate eventEndDate = LocalDate.of(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1,
@@ -61,9 +68,10 @@ public class EventResultScheduler {
 			if (mapOfStreams.containsKey(event.getEventId().toString())) {
 				mapOfStreams.get(event.getEventId().toString()).close();
 				mapOfStreams.remove(event.getEventId().toString());
+				logger.info("Closed New Kafka Stream for event " + event.getEventId());
 			}
 		});
-
+		logger.info("Running Event Scheduler Completed");
 	}
 
 }

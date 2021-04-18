@@ -9,7 +9,6 @@ import java.util.Properties;
 import java.util.Set;
 
 import org.apache.kafka.clients.admin.AdminClient;
-import org.apache.kafka.clients.admin.ListTopicsResult;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.Deserializer;
@@ -33,14 +32,16 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
+import com.fitlers.entities.EventDetails;
 import com.fitlers.entities.EventResultDetails;
 import com.fitlers.entities.RunDetails;
+import com.fitlers.repo.EventDetailsRepository;
 import com.fitlers.repo.EventResultDetailsRepository;
 
 @Profile("prod")
 @Component
 public class KafkaUtils {
-	
+
 	@Value("${kafkaBootstrapServer}")
 	private String kafkaBootstrapServer;
 
@@ -52,6 +53,9 @@ public class KafkaUtils {
 
 	@Autowired
 	private EventResultDetailsRepository eventResultDetailsRepo;
+
+	@Autowired
+	private EventDetailsRepository eventDetailsRepo;
 
 	public void sendMessage(String topicName, Object msg) {
 		ListenableFuture<SendResult<String, Object>> future;
@@ -77,7 +81,6 @@ public class KafkaUtils {
 
 	public Set<String> getAllExistingTopics() {
 		try {
-			ListTopicsResult result = adminClient.listTopics();
 			return adminClient.listTopics().names().get();
 		} catch (Exception e) {
 			return new HashSet<String>();
@@ -89,6 +92,13 @@ public class KafkaUtils {
 		List<NewTopic> newTopics = new ArrayList<NewTopic>();
 		newTopics.add(newTopic);
 		adminClient.createTopics(newTopics);
+		//adminClient.close();
+	}
+	
+	public void deleteKafkaTopic(String topicName) {
+		List<String> topicsToBeDeletedList = new ArrayList<String>();
+		topicsToBeDeletedList.add(topicName);
+		adminClient.deleteTopics(topicsToBeDeletedList);
 		adminClient.close();
 	}
 
@@ -96,9 +106,11 @@ public class KafkaUtils {
 		KafkaStreams streams = null;
 		try {
 			Properties props = new Properties();
-			props.put(StreamsConfig.APPLICATION_ID_CONFIG, "onehealth");
+			props.put(StreamsConfig.APPLICATION_ID_CONFIG, "APPLICATION_ID_"+eventId);
 			props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "192.168.1.64:9092");
 			props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+
+			EventDetails eventDetails = eventDetailsRepo.findById(eventId).get();
 
 			Map<String, Object> serdeProps = new HashMap<>();
 			final Serializer<RunDetails> runDetailsSerializer = new JsonPOJOSerializer<>();
@@ -128,9 +140,9 @@ public class KafkaUtils {
 			KStream<String, RunDetails> runsInput = streamBuilder.stream(topicName,
 					Consumed.with(Serdes.String(), runDetailsSerde));
 
-			runsInput.selectKey((k, v) -> v.getUserId()).process(
-					() -> new EventRunsProcessor("EVENT_RESULT_DETAILS" + eventId, eventResultDetailsRepo),
-					"EVENT_RESULT_DETAILS" + eventId);
+			runsInput.selectKey((k, v) -> v.getUserId())
+					.process(() -> new EventRunsProcessor("EVENT_RESULT_DETAILS" + eventId, eventResultDetailsRepo,
+							eventDetails), "EVENT_RESULT_DETAILS" + eventId);
 
 			streams = new KafkaStreams(streamBuilder.build(), props);
 			// streams.cleanUp();

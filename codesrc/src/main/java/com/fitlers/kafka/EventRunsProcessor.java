@@ -3,8 +3,11 @@ package com.fitlers.kafka;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.TreeMap;
 
 import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.processor.Processor;
@@ -13,6 +16,7 @@ import org.apache.kafka.streams.processor.PunctuationType;
 import org.apache.kafka.streams.state.KeyValueIterator;
 import org.apache.kafka.streams.state.KeyValueStore;
 
+import com.fitlers.entities.EventDetails;
 import com.fitlers.entities.EventResultDetails;
 import com.fitlers.entities.RunDetails;
 import com.fitlers.repo.EventResultDetailsRepository;
@@ -23,10 +27,13 @@ public class EventRunsProcessor implements Processor<String, RunDetails> {
 	private ProcessorContext context;
 	private KeyValueStore<String, EventResultDetails> kvStore;
 	private EventResultDetailsRepository eventResultDetailsRepo;
+	private EventDetails eventDetails;
 
-	public EventRunsProcessor(String stateStoreName, EventResultDetailsRepository eventResultDetailsRepo) {
+	public EventRunsProcessor(String stateStoreName, EventResultDetailsRepository eventResultDetailsRepo,
+			EventDetails eventDetails) {
 		this.stateStoreName = stateStoreName;
 		this.eventResultDetailsRepo = eventResultDetailsRepo;
+		this.eventDetails = eventDetails;
 	}
 
 	@Override
@@ -53,38 +60,37 @@ public class EventRunsProcessor implements Processor<String, RunDetails> {
 		eventResultDetails.setRunId(value.getRunId());
 		eventResultDetails.setUserId(value.getUserId());
 		eventResultDetails.setRunTotalTime(value.getRunTotalTime());
+		eventResultDetails.setRunDistance(value.getRunDistance());
 		kvStore.put(key, eventResultDetails);
 
-		Map<String, EventResultDetails> resultMapForEvent = new HashMap<String, EventResultDetails>();
+		TreeMap<Long, List<EventResultDetails>> sortedMapOfTimeAndEventResults = new TreeMap<Long, List<EventResultDetails>>();
+		double eventMetricValue = Double.parseDouble(this.eventDetails.getEventMetricValue());
+
+		// Iterate over the state store and add all values to TreeMap
 		KeyValueIterator<String, EventResultDetails> iter = kvStore.all();
 		while (iter.hasNext()) {
 			KeyValue<String, EventResultDetails> keyValue = iter.next();
-			resultMapForEvent.put(keyValue.key, keyValue.value);
+			long userTotalTime = Long.valueOf(keyValue.value.getRunTotalTime());
+			double userTotalDistance = keyValue.value.getRunDistance();
+			if (userTotalDistance > (eventMetricValue * 1000)) {
+				userTotalTime = (long) ((userTotalTime / userTotalDistance) * (eventMetricValue*1000));
+			}
+			sortedMapOfTimeAndEventResults.putIfAbsent(userTotalTime, new ArrayList<EventResultDetails>());
+			sortedMapOfTimeAndEventResults.get(userTotalTime).add(keyValue.value);
 		}
 		iter.close();
 
-		List<String> listOfUsers = new ArrayList<String>();
-		Map<Long, Long> mapOfRankAndTime = new HashMap<Long, Long>();
-
-		resultMapForEvent.entrySet().stream().sorted((e1,
-				e2) -> Long.valueOf(e2.getValue().getRunTotalTime()) - Long.valueOf(e1.getValue().getRunTotalTime()) > 0
-						? 1
-						: -1)
-				.map((e) -> {
-					long currentUserTotalTime = Long.valueOf(e.getValue().getRunTotalTime());
-					if (!mapOfRankAndTime.containsKey(currentUserTotalTime)) {
-						listOfUsers.add(e.getKey());
-						long calculatedUserRank = (long) listOfUsers.size();
-						e.getValue().setUserRank(calculatedUserRank);
-						mapOfRankAndTime.put(currentUserTotalTime, calculatedUserRank);
-					} else {
-						e.getValue().setUserRank(mapOfRankAndTime.get(currentUserTotalTime));
-					}
-					return e;
-				}).parallel().forEach(e -> {
-					kvStore.put(e.getKey(), e.getValue());
-				});
-
+		// Iterate over the sorted tree map and populate the calculated rank
+		Iterator<Entry<Long, List<EventResultDetails>>> iter1 = sortedMapOfTimeAndEventResults.entrySet().iterator();
+		long userRank = 0;
+		while (iter1.hasNext()) {
+			List<EventResultDetails> listOfEventResults = iter1.next().getValue();
+			for (EventResultDetails eventResult : listOfEventResults) {
+				userRank++;
+				eventResult.setUserRank(userRank);
+				kvStore.put(eventResult.getUserId(),eventResult);
+			}
+		}
 	}
 
 	@Override
