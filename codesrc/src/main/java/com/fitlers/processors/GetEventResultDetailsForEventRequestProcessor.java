@@ -16,9 +16,11 @@ import org.springframework.util.CollectionUtils;
 import com.fitlers.constants.EncryptionKeys;
 import com.fitlers.core.encryption.Decrypter;
 import com.fitlers.core.processor.RequestProcessor;
+import com.fitlers.entities.EventDetails;
 import com.fitlers.entities.EventResultDetailsWithUserDetails;
 import com.fitlers.model.request.GetEventResultDetailsForEventRequest;
 import com.fitlers.model.response.GetEventResultDetailsForEventResponse;
+import com.fitlers.repo.EventDetailsRepository;
 import com.fitlers.repo.EventResultDetailsWithUserDetailsRepo;
 
 @Component
@@ -27,6 +29,9 @@ public class GetEventResultDetailsForEventRequestProcessor
 
 	@Autowired
 	private EventResultDetailsWithUserDetailsRepo eventResultDetailsWithUserDetailsRepository;
+
+	@Autowired
+	private EventDetailsRepository eventDetailsRepo;
 
 	@Autowired
 	private Decrypter decrypter;
@@ -58,12 +63,22 @@ public class GetEventResultDetailsForEventRequestProcessor
 			eventResultDetailsWithUserDetailsList = page.getContent();
 		}
 
+		EventDetails eventDetails = eventDetailsRepo.findById(Long.parseLong(request.getEventId())).get();
+		double eventMetricValue = Double.parseDouble(eventDetails.getEventMetricValue());
+
 		// This is needed because it's a view
 		eventResultDetailsWithUserDetailsList.stream().forEach(eventResult -> {
 			String firstName = decrypter.decrypt(EncryptionKeys.ENCRYPTION_KEY_NAME, eventResult.getUserFirstName());
 			String lastName = decrypter.decrypt(EncryptionKeys.ENCRYPTION_KEY_NAME, eventResult.getUserLastName());
 			eventResult.setUserFirstName(firstName);
 			eventResult.setUserLastName(lastName);
+
+			long userTotalTime = Long.valueOf(eventResult.getRunTotalTime());
+			double userTotalDistance = eventResult.getRunDistance();
+			if (userTotalDistance > (eventMetricValue * 1000)) {
+				userTotalTime = (long) ((userTotalTime / userTotalDistance) * (eventMetricValue * 1000));
+			}
+			eventResult.setRunTotalTime(String.valueOf(userTotalTime));
 		});
 
 		response.setEventResultDetailsWithUserDetails(eventResultDetailsWithUserDetailsList);

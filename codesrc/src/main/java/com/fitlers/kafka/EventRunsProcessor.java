@@ -84,9 +84,9 @@ public class EventRunsProcessor implements Processor<String, RunDetails> {
 		Iterator<Entry<Long, List<EventResultDetails>>> iter1 = sortedMapOfTimeAndEventResults.entrySet().iterator();
 		long userRank = 0;
 		while (iter1.hasNext()) {
+			userRank++;
 			List<EventResultDetails> listOfEventResults = iter1.next().getValue();
 			for (EventResultDetails eventResult : listOfEventResults) {
-				userRank++;
 				eventResult.setUserRank(userRank);
 				kvStore.put(eventResult.getUserId(),eventResult);
 			}
