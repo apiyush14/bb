@@ -2,8 +2,13 @@
  name: Install Kafka
  hosts: webservers
  tasks:
-   - name: Install Kafka
+   - name: Copy Kafka TAR
      get_url: 
        url: http://www-us.apache.org/dist/kafka/2.7.0/kafka_2.13-2.7.0.tgz
        dest: /home/osboxes/Softwares
+     become: yes
+   - name: Extract files
+     unarchive: 
+       src: kafka_2.13-2.7.0.tgz
+       dest: /usr/local/kafka
      become: yes
