@@ -17,3 +17,6 @@
        src: /home/osboxes/Softwares/kafka_2.13-2.7.0.tgz
        dest: /usr/local/kafka
      become: yes
+   - name: Rename
+     command: mv /usr/local/kafka/kafka_2.13-2.7.0 /usr/local/kafka
+     become: yes
