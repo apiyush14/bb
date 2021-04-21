@@ -15,8 +15,8 @@
    - name: Extract files
      unarchive: 
        src: /home/osboxes/Softwares/kafka_2.13-2.7.0.tgz
-       dest: /usr/local/kafka
+       dest: /home/osboxes/Softwares
      become: yes
-   - name: Rename
-     command: mv /usr/local/kafka/kafka_2.13-2.7.0 /usr/local/kafka
+   - name: Move files
+     command: mv /home/osboxes/Softwares/kafka_2.13-2.7.0 /usr/local/kafka
      become: yes
