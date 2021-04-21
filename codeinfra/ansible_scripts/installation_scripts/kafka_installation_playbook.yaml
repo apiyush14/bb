@@ -7,11 +7,6 @@
        url: http://www-us.apache.org/dist/kafka/2.7.0/kafka_2.13-2.7.0.tgz
        dest: /home/osboxes/Softwares
      become: yes
-   - name: Create directory for kafka
-     file: 
-       path: /usr/local/kafka
-       state: directory
-     become: yes
    - name: Extract files
      unarchive: 
        src: /home/osboxes/Softwares/kafka_2.13-2.7.0.tgz
