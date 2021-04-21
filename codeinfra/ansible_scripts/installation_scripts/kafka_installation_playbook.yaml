@@ -3,7 +3,7 @@
  hosts: webservers
  tasks:
    - name: Install Kafka
-     become: yes
      get_url: 
        url: http://www-us.apache.org/dist/kafka/2.7.0/kafka_2.13-2.7.0.tgz
        dest: /home/osboxes/Softwares
+     become: yes
