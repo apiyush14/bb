@@ -9,6 +9,6 @@
      become: yes
    - name: Extract files
      unarchive: 
-       src: kafka_2.13-2.7.0.tgz
+       src: /home/osboxes/Softwares/kafka_2.13-2.7.0.tgz
        dest: /usr/local/kafka
      become: yes
