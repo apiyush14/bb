@@ -1,6 +1,6 @@
 -
  name: Install Kafka
- hosts: webservers
+ hosts: localhost
  tasks:
    - name: Copy Kafka TAR
      get_url: 

@@ -1,6 +1,6 @@
 -
  name: Install MySQL Server
- hosts: dbservers
+ hosts: localhost
  tasks:
    - name: Install MySQL
      apt:

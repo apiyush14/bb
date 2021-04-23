@@ -1,6 +1,6 @@
 -
  name: Create Database Remote User
- hosts: dbservers
+ hosts: localhost
  tasks:
    - name: Create root user
      become: yes
