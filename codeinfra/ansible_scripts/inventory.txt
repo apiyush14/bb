@@ -1,3 +1,3 @@
-webservers ansible_host=192.168.1.86 ansible_ssh_pass=osboxes.org
+webservers ansible_host=35.154.244.241
 dbservers ansible_host=192.168.1.86 ansible_ssh_pass=osboxes.org
 ansible_become_pass=osboxes.org
