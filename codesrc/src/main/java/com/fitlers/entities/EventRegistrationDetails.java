@@ -31,7 +31,6 @@ public class EventRegistrationDetails {
 	@Column(name = "USER_ID")
 	private String userId;
 
-	@Id
 	@Column(name = "RUN_ID")
 	private Long runId;
 
@@ -51,7 +50,6 @@ public class EventRegistrationDetails {
 	@JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID")
 	private UserDetails userDetails;
 
-	@JsonIgnore
 	@ManyToOne
 	@MapsId("eventId")
 	@JoinColumn(name = "EVENT_ID", referencedColumnName = "EVENT_ID")
@@ -111,6 +109,31 @@ public class EventRegistrationDetails {
 
 	public void setEventDetails(EventDetails eventDetails) {
 		this.eventDetails = eventDetails;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (userId + "_" + this.getEventId()).hashCode();
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		EventRegistrationDetails other = (EventRegistrationDetails) obj;
+		if (userId == null) {
+			if (other.userId != null)
+				return false;
+		} else if (!(userId + "_" + this.getEventId()).equals((other.userId + "_" + other.getEventId())))
+			return false;
+		return true;
 	}
 
 }

@@ -1,6 +1,5 @@
 package com.fitlers.processors;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -16,15 +15,14 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import com.fitlers.core.processor.RequestProcessor;
-import com.fitlers.entities.EventDetails;
 import com.fitlers.entities.EventRegistrationDetails;
 import com.fitlers.model.request.GetEventsRequest;
-import com.fitlers.model.response.GetEventDetailsResponse;
+import com.fitlers.model.response.GetEventRegistrationDetailsResponse;
 import com.fitlers.repo.EventRegistrationDetailsRepository;
 
 @Component
 public class GetRegisteredEventsForUserRequestProcessor
-		extends RequestProcessor<GetEventsRequest, GetEventDetailsResponse> {
+		extends RequestProcessor<GetEventsRequest, GetEventRegistrationDetailsResponse> {
 
 	@Autowired
 	EventRegistrationDetailsRepository eventRegistrationRepository;
@@ -32,10 +30,10 @@ public class GetRegisteredEventsForUserRequestProcessor
 	public static final Logger logger = LoggerFactory.getLogger(GetRegisteredEventsForUserRequestProcessor.class);
 
 	@Override
-	public GetEventDetailsResponse doProcessing(GetEventsRequest request) throws Exception {
+	public GetEventRegistrationDetailsResponse doProcessing(GetEventsRequest request) throws Exception {
 		logger.info(
 				"GetRegisteredEventsForUserRequestProcessor doProcessing Started for User Id " + request.getUserId());
-		GetEventDetailsResponse response = new GetEventDetailsResponse();
+		GetEventRegistrationDetailsResponse response = new GetEventRegistrationDetailsResponse();
 		EventRegistrationDetails eventRegistrationDetailsQueryObj = new EventRegistrationDetails();
 		eventRegistrationDetailsQueryObj.setUserId(request.getUserId());
 		Example<EventRegistrationDetails> eventRegistrationDetailsQueryExample = Example
@@ -54,12 +52,12 @@ public class GetRegisteredEventsForUserRequestProcessor
 		}
 
 		if (!Objects.isNull(eventRegistrationDetailsList) && (!eventRegistrationDetailsList.isEmpty())) {
-			List<EventDetails> eventDetailsList = eventRegistrationDetailsList.stream()
-					.map(event -> event.getEventDetails()).collect(Collectors.toList());
-			response.setEventDetails(eventDetailsList);
-		} else {
-			response.setEventDetails(new ArrayList<EventDetails>());
+			eventRegistrationDetailsList = eventRegistrationDetailsList.stream()
+					.filter(eventDetails -> eventDetails.getUserId().equals(request.getUserId()))
+					.collect(Collectors.toList());
 		}
+		
+		response.setEventRegistrationDetails(eventRegistrationDetailsList);
 		if (CollectionUtils.isEmpty(eventRegistrationDetailsList) || eventRegistrationDetailsList.size() < 10) {
 			response.setMoreContentAvailable(false);
 		} else {

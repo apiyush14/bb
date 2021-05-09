@@ -22,8 +22,7 @@ public class EventRegistrationDetailsId implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((eventId == null) ? 0 : eventId.hashCode());
-		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
+		result = prime * result + (userId + "_" + eventId).hashCode();
 		return result;
 	}
 
@@ -36,15 +35,10 @@ public class EventRegistrationDetailsId implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		EventRegistrationDetailsId other = (EventRegistrationDetailsId) obj;
-		if (eventId == null) {
-			if (other.eventId != null)
-				return false;
-		} else if (!eventId.equals(other.eventId))
-			return false;
 		if (userId == null) {
 			if (other.userId != null)
 				return false;
-		} else if (!userId.equals(other.userId))
+		} else if (!(userId + "_" + eventId).equals((other.userId + "_" + other.eventId)))
 			return false;
 		return true;
 	}

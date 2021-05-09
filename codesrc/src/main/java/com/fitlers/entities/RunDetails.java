@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
@@ -61,7 +62,8 @@ public class RunDetails {
 	@Column(name = "RUN_DAY")
 	private String runDay;
 
-	@Column(name = "RUN_PATH", columnDefinition = "TEXT", length = 65535)
+	@Column(name = "RUN_PATH")
+	@Lob
 	private String runPath;
 
 	@Column(name = "RUN_TRACK_SNAP_URL")
