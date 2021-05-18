@@ -8,11 +8,15 @@ import java.util.Arrays;
 
 import javax.crypto.spec.SecretKeySpec;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.AnnotationUtils;
 
 import com.fitlers.core.annotations.Encrypted;
 
 public class EncryptionUtils {
+
+	public static final Logger logger = LoggerFactory.getLogger(EncryptionUtils.class);
 
 	public static boolean isFieldEncrypted(Field field) {
 		return AnnotationUtils.findAnnotation(field, Encrypted.class) != null;
@@ -37,9 +41,9 @@ public class EncryptionUtils {
 			key = Arrays.copyOf(key, 16);
 			return new SecretKeySpec(key, "AES");
 		} catch (NoSuchAlgorithmException e) {
-
+			logger.error(e.getMessage());
 		} catch (UnsupportedEncodingException e) {
-
+			logger.error(e.getMessage());
 		}
 		return null;
 	}

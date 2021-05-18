@@ -11,6 +11,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -30,6 +32,8 @@ public class AuthenticationFilterImpl extends OncePerRequestFilter {
 
 	@Value("#{'${whitelistedPaths}'.split(',')}")
 	private List<String> listOfWhitelistedPaths;
+	
+	public static final Logger logger = LoggerFactory.getLogger(AuthenticationFilterImpl.class);
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -45,12 +49,13 @@ public class AuthenticationFilterImpl extends OncePerRequestFilter {
 				String userId = request.getHeader("USER_ID");
 				String requestTimeStamp = request.getHeader("REQUEST_TIMESTAMP");
 				if (!isValid(userId, requestTimeStamp, xAuth)) {
+					logger.error("Authentication Filter failed for user : " + userId + " for URL : " + path);
 					throw new SecurityException();
 				}
-
 				filterChain.doFilter(request, response);
 			}
 		} catch (Exception e) {
+			logger.error("Authentication Filter failed");
 			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
 		}
 	}
