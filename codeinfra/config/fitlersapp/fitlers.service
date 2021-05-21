@@ -1,0 +1,13 @@
+[Unit]
+Description=Fitlers App Server
+Documentation=http://kafka.apache.org/documentation.html
+Requires=kafka.service
+
+[Service]
+Type=simple
+Environment="JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64"
+ExecStart=/usr/local/bin/fitlers_start.sh
+ExecStop=/usr/local/bin/fitlers_stop.sh
+
+[Install]
+WantedBy=multi-user.target
