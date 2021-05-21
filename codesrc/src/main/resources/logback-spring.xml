@@ -13,15 +13,15 @@
     <springProfile name="prod">
 
         <appender name="FILE-ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
-            <file>app.log</file>
+            <file>fitlers_server.log</file>
             <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-                <fileNamePattern>logs/archived/app.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+                <fileNamePattern>logs/archived/fitlers_server.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
                 <!-- each archived file, size max 10MB -->
                 <maxFileSize>10MB</maxFileSize>
-                <!-- total size of all archive files, if total size > 20GB, it will delete old archived file -->
-                <totalSizeCap>20GB</totalSizeCap>
-                <!-- 60 days to keep -->
-                <maxHistory>60</maxHistory>
+                <!-- total size of all archive files, if total size > 2GB, it will delete old archived file -->
+                <totalSizeCap>2GB</totalSizeCap>
+                <!-- 10 days to keep -->
+                <maxHistory>10</maxHistory>
             </rollingPolicy>
             <encoder>
                 <pattern>%d %p %c{1.} [%t] %m%n</pattern>
@@ -29,15 +29,15 @@
         </appender>
         
          <appender name="CLIENT_LOGGER" class="ch.qos.logback.core.rolling.RollingFileAppender">
-            <file>client.log</file>
+            <file>fitlers_client.log</file>
             <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-                <fileNamePattern>logs/archived/client.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+                <fileNamePattern>logs/archived/fitlers_client.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
                 <!-- each archived file, size max 10MB -->
                 <maxFileSize>10MB</maxFileSize>
-                <!-- total size of all archive files, if total size > 20GB, it will delete old archived file -->
-                <totalSizeCap>20GB</totalSizeCap>
-                <!-- 60 days to keep -->
-                <maxHistory>60</maxHistory>
+                <!-- total size of all archive files, if total size > 2GB, it will delete old archived file -->
+                <totalSizeCap>2GB</totalSizeCap>
+                <!-- 10 days to keep -->
+                <maxHistory>10</maxHistory>
             </rollingPolicy>
             <encoder>
                 <pattern>%d %p %c{1.} [%t] %m%n</pattern>
