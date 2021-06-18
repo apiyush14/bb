@@ -58,7 +58,7 @@ public class GetOTPForMSISDNRequestProcessor extends RequestProcessor<GetOTPForM
 
 		Random random = new Random();
 		int otpCode = 1000 + random.nextInt(9999 - 1000 + 1);
-		boolean status = callSMSGateway(request, otpCode);
+		boolean status = true;//callSMSGateway(request, otpCode);
 		if (status) {
 			updateOrCreateUserAuthenticationDetails(request, response, otpCode);
 		} else {

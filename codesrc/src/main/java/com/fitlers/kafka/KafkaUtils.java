@@ -107,7 +107,7 @@ public class KafkaUtils {
 		try {
 			Properties props = new Properties();
 			props.put(StreamsConfig.APPLICATION_ID_CONFIG, "FITLERS_ID_"+eventId);
-			props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+			props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "192.168.1.64:9092");
 			props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 
 			EventDetails eventDetails = eventDetailsRepo.findById(eventId).get();

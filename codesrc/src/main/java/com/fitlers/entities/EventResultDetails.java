@@ -62,7 +62,7 @@ public class EventResultDetails {
 	@JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID")
 	private UserDetails userDetails;
 
-	@JsonIgnore
+	//@JsonIgnore
 	@ManyToOne
 	@MapsId("eventId")
 	@JoinColumn(name = "EVENT_ID", referencedColumnName = "EVENT_ID")
