@@ -13,9 +13,12 @@
     <springProfile name="prod">
 
         <appender name="FILE-ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
-            <file>/home/ubuntu/fitlersapp/logs/fitlers_server.log</file>
+       <!--    <file>/home/ubuntu/fitlersapp/logs/fitlers_server.log</file> -->
+            <file>/Users/souravchandan/fitlersapp/logs/fitlers_server.log</file>
             <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-                <fileNamePattern>/home/ubuntu/fitlersapp/logs/archived/fitlers_server.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+           <!-- <fileNamePattern>/home/ubuntu/fitlersapp/logs/archived/fitlers_server.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            -->     
+            <fileNamePattern>fitlers_server.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
                 <!-- each archived file, size max 10MB -->
                 <maxFileSize>10MB</maxFileSize>
                 <!-- total size of all archive files, if total size > 2GB, it will delete old archived file -->
@@ -29,9 +32,11 @@
         </appender>
         
          <appender name="CLIENT_LOGGER" class="ch.qos.logback.core.rolling.RollingFileAppender">
-            <file>/home/ubuntu/fitlersapp/logs/fitlers_client.log</file>
+           <!-- <file>/home/ubuntu/fitlersapp/logs/fitlers_client.log</file>-->
+           <file>/Users/souravchandan/fitlersapp/logs/fitlers_client.log</file>
             <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-                <fileNamePattern>/home/ubuntu/fitlersapp/logs/archived/fitlers_client.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+                <fileNamePattern>/Users/souravchandan/fitlersapp/logs/fitlers_client.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+               <!--   <fileNamePattern>/home/ubuntu/fitlersapp/logs/archived/fitlers_client.%d{yyyy-MM-dd}.%i.log</fileNamePattern>-->
                 <!-- each archived file, size max 10MB -->
                 <maxFileSize>10MB</maxFileSize>
                 <!-- total size of all archive files, if total size > 2GB, it will delete old archived file -->

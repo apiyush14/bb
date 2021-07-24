@@ -14,4 +14,6 @@ public interface ShortMessageServiceClient {
 	@RequestMapping(method = RequestMethod.POST, value = "/dev/bulkV2")
 	public ShortMessageServiceResponse sendShortMessage(@RequestHeader("authorization") String authorizationKey,
 			ShortMessageServiceRequest request);
+	
+	
 }
