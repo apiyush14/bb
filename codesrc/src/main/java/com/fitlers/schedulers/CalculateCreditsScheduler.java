@@ -29,7 +29,6 @@ import com.fitlers.repo.RunSummaryRepository;
 public class CalculateCreditsScheduler  {
 
 	
-	private static final int totalCreditsForEvent = 5000;
 
 	@Autowired
 	EventDetailsRepository eventDetailsRepository;
