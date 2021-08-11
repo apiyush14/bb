@@ -45,6 +45,11 @@ public class EventResultDetails {
 
 	@Column(name = "PARTITION_KEY")
 	private String partitionKey;
+	
+	@Column(name = "RUN_CREDITS")
+	private Double runCredits;
+
+	
 
 	@CreationTimestamp
 	@Column(name = "CREATED_DATE")
@@ -168,5 +173,15 @@ public class EventResultDetails {
 	public void setEventDetails(EventDetails eventDetails) {
 		this.eventDetails = eventDetails;
 	}
+
+	public Double getRunCredits() {
+		return runCredits;
+	}
+
+	public void setRunCredits(Double runCredits) {
+		this.runCredits = runCredits;
+	}
+	
+	
 
 }

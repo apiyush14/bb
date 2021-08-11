@@ -67,6 +67,9 @@ public class EventDetails {
 	
 	@Column(name = "IS_EVENT_APPROVED")
 	private String isEventApproved;
+	
+	@Column(name = "IS_CREDIT_CALCULATED")
+	private String isCreditCalculated;
 
 	@CreationTimestamp
 	@Column(name = "CREATED_DATE")
@@ -204,6 +207,14 @@ public class EventDetails {
 
 	public void setEventResultDetails(Set<EventResultDetails> eventResultDetails) {
 		this.eventResultDetails = eventResultDetails;
+	}
+
+	public String getIsCreditCalculated() {
+		return isCreditCalculated;
+	}
+
+	public void setIsCreditCalculated(String isCreditCalculated) {
+		this.isCreditCalculated = isCreditCalculated;
 	}
 
 }
