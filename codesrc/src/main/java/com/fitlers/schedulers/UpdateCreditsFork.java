@@ -28,17 +28,6 @@ public class UpdateCreditsFork extends RecursiveAction {
 		this.runDetailsList=runDetailsList;
 		
 	}
-
-	// Average pixels from source, write results into destination.
-    protected void computeDirectly() {
-    	
-    	
-    	System.out.println("Starting Executing computeDirectly Start at "+new Date());
-    	
-    	updateCredits( runDetailsList, runSummaryList, eventResultDetailsList, eventResultDetails);
-    	System.out.println("Completed Executing computeDirectly End at "+new Date());
-    	
-        }
     
 
     @Override
@@ -55,7 +44,7 @@ public class UpdateCreditsFork extends RecursiveAction {
            
     	}
     	else
-    	computeDirectly();
+    		updateCredits( runDetailsList, runSummaryList, eventResultDetailsList, eventResultDetails);
        
     }
 
