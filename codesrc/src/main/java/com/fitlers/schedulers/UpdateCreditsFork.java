@@ -7,11 +7,18 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.RecursiveAction;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.fitlers.entities.EventResultDetails;
 import com.fitlers.entities.RunDetails;
 import com.fitlers.entities.RunSummary;
+import com.fitlers.repo.EventResultDetailsRepository;
+import com.fitlers.repo.RunDetailsRepository;
+import com.fitlers.repo.RunSummaryRepository;
 
 public class UpdateCreditsFork extends RecursiveAction {
+	
+
 
 	private static final int totalCreditsForEvent = 5000;
 	private EventResultDetails eventResultDetails;
@@ -28,6 +35,7 @@ public class UpdateCreditsFork extends RecursiveAction {
 		this.runDetailsList=runDetailsList;
 		
 	}
+
     
 
     @Override

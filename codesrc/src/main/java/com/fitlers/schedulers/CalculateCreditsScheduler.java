@@ -31,16 +31,16 @@ public class CalculateCreditsScheduler  {
 	
 
 	@Autowired
-	EventDetailsRepository eventDetailsRepository;
+	private EventDetailsRepository eventDetailsRepository;
 	
 	@Autowired
 	private RunDetailsRepository runDetailsRepo;
 	
 	@Autowired
-	RunSummaryRepository runSummaryRepository;
+	private RunSummaryRepository runSummaryRepository;
 	
 	@Autowired
-	EventResultDetailsRepository eventResultDetailsRepository;
+	private EventResultDetailsRepository eventResultDetailsRepository;
 
         TaskScheduler taskScheduler;
         private List<RunSummary> runSummaryList;
@@ -67,7 +67,7 @@ public class CalculateCreditsScheduler  {
     				eventResultDetailsList.forEach(eventResultDetails-> populateRunDetailsList(eventResultDetails));
     				UpdateCreditsFork updateCreditsForkObj = new UpdateCreditsFork(null, eventResultDetailsList,runSummaryList,runDetailsList);
     				 
-    		        ForkJoinPool pool = new ForkJoinPool();
+    		        ForkJoinPool pool = new ForkJoinPool(100);
     		        System.out.println("ProcessStarted at :"+new Date());
     		    
     		        pool.invoke(updateCreditsForkObj);
@@ -78,7 +78,7 @@ public class CalculateCreditsScheduler  {
     			 
 			}
     			
-       			saveAll(); // Commit all data in same transaction
+       			saveAll(completedEvent); // Commit all data in same transaction
 			}
 			
 			
@@ -101,11 +101,18 @@ public class CalculateCreditsScheduler  {
 }
 
 		@Transactional
-        public void saveAll(){
-        	if(!completedEventsList.isEmpty()) eventDetailsRepository.saveAll(completedEventsList);
-        	if(!eventResultDetailsList.isEmpty())  eventResultDetailsRepository.saveAll(eventResultDetailsList);
-        	if(!runDetailsList.isEmpty())  runDetailsRepo.saveAll(runDetailsList);
-        	if(!runSummaryList.isEmpty())  runSummaryRepository.saveAll(runSummaryList);
+        public void saveAll(EventDetails completedEvent){
+			
+			SaveCreditsFork saveCreditsFork = new SaveCreditsFork(true, eventResultDetailsList,runSummaryList,runDetailsList, eventResultDetailsRepository, runDetailsRepo, runSummaryRepository);
+			 
+	        ForkJoinPool pool = new ForkJoinPool(20);
+	        System.out.println("Save Process Started at :"+new Date());
+	    
+	        pool.invoke(saveCreditsFork);
+	        while( !pool.isQuiescent());
+        	if(completedEvent!=null) eventDetailsRepository.save(completedEvent);
+        	System.out.println("Save Process Ended at :"+new Date());
+        	
         	}
 
 
@@ -118,10 +125,11 @@ public class CalculateCreditsScheduler  {
                        completedEventsList=new ArrayList();
            			completedEventsList = eventDetailsRepository.findAllCompletedEvents();
            			if(!completedEventsList.isEmpty()) {
-                     System.out.println(Thread.currentThread().getName()+" The Task2 executed at "+ new Date());
+           			  calculateCreditsForUserRun();
+                     System.out.println(Thread.currentThread().getName()+" The Task executed at "+ new Date());
                    
            			}
-           		  calculateCreditsForUserRun();
+           		
                      
                       }
 
