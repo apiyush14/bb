@@ -5,9 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.fitlers.model.request.GetUserGoogleFitDataRequest;
-import com.fitlers.model.response.GetUserGoogleFitDataResponse;
-
 public abstract class RequestProcessor<req extends Object, res extends Object> {
 
 	private req request;

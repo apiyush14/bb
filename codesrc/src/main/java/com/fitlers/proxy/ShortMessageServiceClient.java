@@ -15,5 +15,4 @@ public interface ShortMessageServiceClient {
 	public ShortMessageServiceResponse sendShortMessage(@RequestHeader("authorization") String authorizationKey,
 			ShortMessageServiceRequest request);
 	
-	
 }
