@@ -7,25 +7,49 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.RecursiveAction;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.fitlers.entities.EventResultDetails;
 import com.fitlers.entities.RunDetails;
 import com.fitlers.entities.RunSummary;
+import com.fitlers.repo.EventResultDetailsRepository;
+import com.fitlers.repo.RunDetailsRepository;
+import com.fitlers.repo.RunSummaryRepository;
 
 public class UpdateCreditsFork extends RecursiveAction {
 
+	
+	private RunDetailsRepository runDetailsRepo;
+
+	private RunSummaryRepository runSummaryRepository;
+
+	private EventResultDetailsRepository eventResultDetailsRepository;
+	
 	private static final int totalCreditsForEvent = 5000;
 	private EventResultDetails eventResultDetails;
 	private List<EventResultDetails> eventResultDetailsList;
 	private List<RunSummary> runSummaryList;
 	private List<RunDetails> runDetailsList;
+	private RunDetails runDetailsObj;
+	private RunSummary runSummary;
+	
+	
+	public static final Logger logger = LoggerFactory.getLogger(UpdateCreditsFork.class);
 
-	public UpdateCreditsFork(EventResultDetails eventResultDetails, List<EventResultDetails> eventResultDetailsList,
-			List<RunSummary> runSummaryList, List<RunDetails> runDetailsList) {
+	public UpdateCreditsFork(EventResultDetails eventResultDetails, RunDetails runDetailsObj, RunSummary existingRunSummary, List<EventResultDetails> eventResultDetailsList,
+			List<RunSummary> runSummaryList, List<RunDetails> runDetailsList,EventResultDetailsRepository eventResultDetailsRepository, RunDetailsRepository runDetailsRepo,
+			RunSummaryRepository runSummaryRepository) {
 		this.eventResultDetails = eventResultDetails;
 		this.eventResultDetailsList = eventResultDetailsList;
 		this.runSummaryList = runSummaryList;
 		this.runDetailsList = runDetailsList;
-
+		this.runSummary=existingRunSummary;
+		this.runDetailsObj =runDetailsObj;
+		this.eventResultDetailsRepository = eventResultDetailsRepository;
+		this.runDetailsRepo = runDetailsRepo;
+		this.runSummaryRepository = runSummaryRepository;
 	}
 
 	
@@ -41,7 +65,7 @@ public class UpdateCreditsFork extends RecursiveAction {
 			}
 
 		} else
-			updateCredits(runDetailsList, runSummaryList, eventResultDetailsList, eventResultDetails);
+			updateCredits( runDetailsObj, runSummary, eventResultDetailsList, eventResultDetails);
 	}
 
 	private Collection<? extends UpdateCreditsFork> createSubtasks() {
@@ -50,19 +74,35 @@ public class UpdateCreditsFork extends RecursiveAction {
 
 		for (EventResultDetails erd : this.eventResultDetailsList) {
 
-			UpdateCreditsFork subtask = new UpdateCreditsFork(erd, eventResultDetailsList, runSummaryList,
-					runDetailsList);
+			RunDetails runDetailsObj = null ;
+			RunSummary existingRunSummary = null;
+			Optional<RunDetails> runDetails = runDetailsList.stream()
+					.filter(runDet -> (runDet.getUserId().equals(erd.getUserId())
+							&& runDet.getRunId().equals(erd.getRunId())))
+					.findFirst();
+			if (runDetails.isPresent()) {
+				 runDetailsObj =runDetails.get();
+			}
+			
+			Optional<RunSummary> existingRunSummaryOptional = runSummaryList.stream()
+					.filter(runSum -> (runSum.getUserId().equals(erd.getUserId()))).findFirst();
+			if (existingRunSummaryOptional.isPresent()) {
+				 existingRunSummary = existingRunSummaryOptional.get();
+				
+			}
+			UpdateCreditsFork subtask = new UpdateCreditsFork(erd, runDetailsObj, existingRunSummary, eventResultDetailsList, runSummaryList,
+					runDetailsList,eventResultDetailsRepository, runDetailsRepo, runSummaryRepository);
 			subtasks.add(subtask);
 		}
 
 		return subtasks;
 	}
 
-	private void updateCredits(List<RunDetails> runDetailsList2, List<RunSummary> runSummaryList2,
+	private void updateCredits( RunDetails runDetailsObj, RunSummary runSummary, 
 			List<EventResultDetails> eventResultDetailsList, EventResultDetails eventResultDetailsObj) {
 
-		//TODO To use loggers
-		System.out.println(Thread.currentThread().getName() + "START - Updating Credits for User ID - "
+
+		logger.info(Thread.currentThread().getName() + "START - Updating Credits for User ID - "
 				+ eventResultDetailsObj.getUserId() + "for event id - " + eventResultDetailsObj.getEventId() + " at "
 				+ new Date());
 		Long userRank = eventResultDetailsObj.getUserRank();
@@ -73,28 +113,27 @@ public class UpdateCreditsFork extends RecursiveAction {
 		eventResultDetailsObj.setRunCredits(runCreditsForUser);
 
 		/* Starting run details and run summary credit calculation */
+		
+		runDetailsObj.setRunCredits(runCreditsForUser);
 
-		//TODO All this data can be fetched out before submitting to worker and then submitted to the worker 
-		Optional<RunDetails> runDetails = runDetailsList2.stream()
-				.filter(runDet -> (runDet.getUserId().equals(eventResultDetailsObj.getUserId())
-						&& runDet.getRunId().equals(eventResultDetailsObj.getRunId())))
-				.findFirst();
-		if (runDetails.isPresent()) {
-			runDetails.get().setRunCredits(runCreditsForUser);
-		}
-
-		//TODO All this data can be fetched out before submitting to worker and then submitted to the worker
-		Optional<RunSummary> existingRunSummaryOptional = runSummaryList2.stream()
-				.filter(runSum -> (runSum.getUserId().equals(eventResultDetailsObj.getUserId()))).findFirst();
-		if (existingRunSummaryOptional.isPresent()) {
-			RunSummary existingRunSummary = existingRunSummaryOptional.get();
-			existingRunSummary.setTotalCredits(existingRunSummary.getTotalCredits() + runCreditsForUser);
-		}
+		runSummary.setTotalCredits(runSummary.getTotalCredits() + runCreditsForUser);
+		
+		saveCredits();
 
 		/* Ending run details and run summary credit calculation */
-		System.out.println(Thread.currentThread().getName() + "END - Updating Credits for User ID - "
+		logger.info(Thread.currentThread().getName() + "END - Updating Credits for User ID - "
 				+ eventResultDetailsObj.getUserId() + "for event id - " + eventResultDetailsObj.getEventId() + " at "
 				+ new Date());
 	}
+
+
+	@Transactional
+	private void saveCredits() {
+		eventResultDetailsRepository.save(this.eventResultDetails);
+		runSummaryRepository.save(this.runSummary);
+		runDetailsRepo.save(this.runDetailsObj);
+	}
+	
+	
 
 }

@@ -62,8 +62,9 @@ public class CalculateCreditsScheduler {
                 
 				//TODO Rather than using forEach, we should get all RunDetails and Run Summaries at once using findAll
 				eventResultDetailsList.forEach(eventResultDetails -> populateRunDetailsList(eventResultDetails));
-				UpdateCreditsFork updateCreditsForkObj = new UpdateCreditsFork(null, eventResultDetailsList,
-						runSummaryList, runDetailsList);
+				//runDetailsRepo.findAllById(null)
+				UpdateCreditsFork updateCreditsForkObj = new UpdateCreditsFork(null, null, null, eventResultDetailsList,
+						runSummaryList, runDetailsList,eventResultDetailsRepository, runDetailsRepo, runSummaryRepository);
 
 				ForkJoinPool pool = new ForkJoinPool(100);
 				logger.info("ProcessStarted at :" + new Date());
@@ -76,7 +77,9 @@ public class CalculateCreditsScheduler {
 
 			}
 
-			saveAll(completedEvent); // Commit all data in same transaction
+			if (completedEvent != null)
+				eventDetailsRepository.save(completedEvent);
+		
 		}
 
 	}
@@ -95,22 +98,10 @@ public class CalculateCreditsScheduler {
 		}
 	}
 
-	//TODO We dont need two forkjoins to update and save credits separately and transactional can be applied while saving it within threads
-	@Transactional
-	public void saveAll(EventDetails completedEvent) {
-		SaveCreditsFork saveCreditsFork = new SaveCreditsFork(true, eventResultDetailsList, runSummaryList,
-				runDetailsList, eventResultDetailsRepository, runDetailsRepo, runSummaryRepository);
+	
 
-		ForkJoinPool pool = new ForkJoinPool(20);
-		logger.info("Save Process Started at :" + new Date());
-		pool.invoke(saveCreditsFork);
-		while (!pool.isQuiescent());
-		if (completedEvent != null)
-			eventDetailsRepository.save(completedEvent);
-		logger.info("Save Process Ended at :" + new Date());
-	}
 
-	@Scheduled(cron = "* 0/30 * * * ?")
+	@Scheduled(cron = "0/30 * * * * ?")
 	public void scheduledTaskForClass() {
 		eventResultDetailsList = new ArrayList<EventResultDetails>();
 		completedEventsList = new ArrayList<EventDetails>();
