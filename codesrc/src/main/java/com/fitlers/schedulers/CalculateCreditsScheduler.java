@@ -13,7 +13,6 @@ import org.springframework.data.domain.Example;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.fitlers.entities.EventDetails;
 import com.fitlers.entities.EventResultDetails;
@@ -60,16 +59,46 @@ public class CalculateCreditsScheduler {
 				runSummaryList = new ArrayList<RunSummary>();
 				runDetailsList = new ArrayList<RunDetails>();
                 
-				//TODO Rather than using forEach, we should get all RunDetails and Run Summaries at once using findAll
-				eventResultDetailsList.forEach(eventResultDetails -> populateRunDetailsList(eventResultDetails));
-				//runDetailsRepo.findAllById(null)
-				UpdateCreditsFork updateCreditsForkObj = new UpdateCreditsFork(null, null, null, eventResultDetailsList,
-						runSummaryList, runDetailsList,eventResultDetailsRepository, runDetailsRepo, runSummaryRepository);
+				
+				List<RunDetailsId> runDetailsIdList = new ArrayList();
+				List<String> userIdList = new ArrayList();
+				eventResultDetailsList.forEach(eventResultDetails -> populateRunDetailsList(eventResultDetails,runDetailsIdList,userIdList));
+				runDetailsList = runDetailsRepo.findAllById(runDetailsIdList);
+				runSummaryList = runSummaryRepository.findAllById(userIdList);
 
+			
+			List<UpdateUserCreditsFork> listTestFork = new ArrayList();
+			
+			
+			for (EventResultDetails erd : this.eventResultDetailsList) {
+
+				RunDetails runDetailsObj = null ;
+				RunSummary existingRunSummary = null;
+				Optional<RunDetails> runDetails = runDetailsList.stream()
+						.filter(runDet -> (runDet.getUserId().equals(erd.getUserId())
+								&& runDet.getRunId().equals(erd.getRunId())))
+						.findFirst();
+				if (runDetails.isPresent()) {
+					 runDetailsObj =runDetails.get();
+				}
+				
+				Optional<RunSummary> existingRunSummaryOptional = runSummaryList.stream()
+						.filter(runSum -> (runSum.getUserId().equals(erd.getUserId()))).findFirst();
+				if (existingRunSummaryOptional.isPresent()) {
+					 existingRunSummary = existingRunSummaryOptional.get();
+					
+				}
+				UpdateUserCreditsFork subtask = new UpdateUserCreditsFork(erd, runDetailsObj, existingRunSummary, eventResultDetailsList.size(),
+						eventResultDetailsRepository, runDetailsRepo, runSummaryRepository);
+				listTestFork.add(subtask);
+			}
+			
+			
 				ForkJoinPool pool = new ForkJoinPool(100);
 				logger.info("ProcessStarted at :" + new Date());
 
-				pool.invoke(updateCreditsForkObj);
+				pool.invokeAll(listTestFork);
+				
 				while (!pool.isQuiescent());
 
 				logger.info("ProcessCompleted at :" + new Date());
@@ -84,24 +113,19 @@ public class CalculateCreditsScheduler {
 
 	}
 
-	private void populateRunDetailsList(EventResultDetails eventResultDetails) {
+	private void populateRunDetailsList(EventResultDetails eventResultDetails, List<RunDetailsId> runDetailsIdList, List<String> userIdList) {
 		RunDetailsId runDetailsId = new RunDetailsId(eventResultDetails.getRunId(), eventResultDetails.getUserId());
 		
-		Optional<RunDetails> runDetails = runDetailsRepo.findById(runDetailsId);
-		if (runDetails.isPresent()) {
-			runDetailsList.add(runDetails.get());
-		}
+		runDetailsIdList.add(runDetailsId);
 
-		Optional<RunSummary> runSummary = runSummaryRepository.findById(eventResultDetails.getUserId());
-		if (runSummary.isPresent()) {
-			runSummaryList.add(runSummary.get());
-		}
+		userIdList.add(eventResultDetails.getUserId());
+		
 	}
 
 	
 
 
-	@Scheduled(cron = "0/30 * * * * ?")
+	@Scheduled(cron = "* 0/30 * * * ?")
 	public void scheduledTaskForClass() {
 		eventResultDetailsList = new ArrayList<EventResultDetails>();
 		completedEventsList = new ArrayList<EventDetails>();
