@@ -3,8 +3,10 @@ package com.fitlers.schedulers;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ForkJoinPool;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +15,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import com.fitlers.entities.EventDetails;
 import com.fitlers.entities.EventResultDetails;
@@ -23,7 +26,6 @@ import com.fitlers.repo.EventDetailsRepository;
 import com.fitlers.repo.EventResultDetailsRepository;
 import com.fitlers.repo.RunDetailsRepository;
 import com.fitlers.repo.RunSummaryRepository;
-
 
 @Component
 public class CalculateCreditsScheduler {
@@ -39,7 +41,7 @@ public class CalculateCreditsScheduler {
 
 	@Autowired
 	private EventResultDetailsRepository eventResultDetailsRepository;
-	
+
 	public static final Logger logger = LoggerFactory.getLogger(CalculateCreditsScheduler.class);
 
 	TaskScheduler taskScheduler;
@@ -55,51 +57,41 @@ public class CalculateCreditsScheduler {
 			Example<EventResultDetails> eventResultDetailsQueryExample = Example.of(eventResultDetailsQueryObj);
 
 			eventResultDetailsList = eventResultDetailsRepository.findAll(eventResultDetailsQueryExample);
-			if (eventResultDetailsList != null && !eventResultDetailsList.isEmpty()) {
-				runSummaryList = new ArrayList<RunSummary>();
-				runDetailsList = new ArrayList<RunDetails>();
-                
-				
-				List<RunDetailsId> runDetailsIdList = new ArrayList();
-				List<String> userIdList = new ArrayList();
-				eventResultDetailsList.forEach(eventResultDetails -> populateRunDetailsList(eventResultDetails,runDetailsIdList,userIdList));
+			if (!CollectionUtils.isEmpty(eventResultDetailsList)) {
+				List<RunDetailsId> runDetailsIdList = new ArrayList<RunDetailsId>();
+				List<String> userIdList = new ArrayList<String>();
+				eventResultDetailsList.forEach(
+						eventResultDetails -> populateRunDetailsList(eventResultDetails, runDetailsIdList, userIdList));
 				runDetailsList = runDetailsRepo.findAllById(runDetailsIdList);
 				runSummaryList = runSummaryRepository.findAllById(userIdList);
 
-			
-			List<UpdateUserCreditsFork> listTestFork = new ArrayList();
-			
-			
-			for (EventResultDetails erd : this.eventResultDetailsList) {
+				Map<String, RunDetails> runDetailsMap = runDetailsList.stream()
+						.collect(Collectors.toMap(runDet -> runDet.getUserId(), runDet -> runDet));
+				Map<String, RunSummary> runSummaryMap = runSummaryList.stream()
+						.collect(Collectors.toMap(runSum -> runSum.getUserId(), runSum -> runSum));
 
-				RunDetails runDetailsObj = null ;
-				RunSummary existingRunSummary = null;
-				Optional<RunDetails> runDetails = runDetailsList.stream()
-						.filter(runDet -> (runDet.getUserId().equals(erd.getUserId())
-								&& runDet.getRunId().equals(erd.getRunId())))
-						.findFirst();
-				if (runDetails.isPresent()) {
-					 runDetailsObj =runDetails.get();
+				List<UpdateUserCreditsFork> updateUserCreditsTasksList = new ArrayList<UpdateUserCreditsFork>();
+
+				for (EventResultDetails erd : this.eventResultDetailsList) {
+
+					RunDetails runDetails = runDetailsMap.get(erd.getUserId());
+					RunSummary runSummary = runSummaryMap.get(erd.getUserId());
+
+					if (!Objects.isNull(runDetails) && (!Objects.isNull(runSummary))) {
+						UpdateUserCreditsFork subtask = new UpdateUserCreditsFork(erd, runDetails, runSummary,
+								eventResultDetailsList.size(), eventResultDetailsRepository, runDetailsRepo,
+								runSummaryRepository);
+						updateUserCreditsTasksList.add(subtask);
+					}
 				}
-				
-				Optional<RunSummary> existingRunSummaryOptional = runSummaryList.stream()
-						.filter(runSum -> (runSum.getUserId().equals(erd.getUserId()))).findFirst();
-				if (existingRunSummaryOptional.isPresent()) {
-					 existingRunSummary = existingRunSummaryOptional.get();
-					
-				}
-				UpdateUserCreditsFork subtask = new UpdateUserCreditsFork(erd, runDetailsObj, existingRunSummary, eventResultDetailsList.size(),
-						eventResultDetailsRepository, runDetailsRepo, runSummaryRepository);
-				listTestFork.add(subtask);
-			}
-			
-			
-				ForkJoinPool pool = new ForkJoinPool(100);
+
+				ForkJoinPool pool = new ForkJoinPool(20);
 				logger.info("ProcessStarted at :" + new Date());
 
-				pool.invokeAll(listTestFork);
-				
-				while (!pool.isQuiescent());
+				pool.invokeAll(updateUserCreditsTasksList);
+
+				while (!pool.isQuiescent())
+					;
 
 				logger.info("ProcessCompleted at :" + new Date());
 				completedEvent.setIsCreditCalculated("Y");
@@ -108,27 +100,21 @@ public class CalculateCreditsScheduler {
 
 			if (completedEvent != null)
 				eventDetailsRepository.save(completedEvent);
-		
+
 		}
 
 	}
 
-	private void populateRunDetailsList(EventResultDetails eventResultDetails, List<RunDetailsId> runDetailsIdList, List<String> userIdList) {
+	private void populateRunDetailsList(EventResultDetails eventResultDetails, List<RunDetailsId> runDetailsIdList,
+			List<String> userIdList) {
 		RunDetailsId runDetailsId = new RunDetailsId(eventResultDetails.getRunId(), eventResultDetails.getUserId());
-		
 		runDetailsIdList.add(runDetailsId);
-
 		userIdList.add(eventResultDetails.getUserId());
-		
 	}
-
-	
-
 
 	@Scheduled(cron = "* 0/30 * * * ?")
 	public void scheduledTaskForClass() {
 		eventResultDetailsList = new ArrayList<EventResultDetails>();
-		completedEventsList = new ArrayList<EventDetails>();
 		completedEventsList = eventDetailsRepository.findAllCompletedEvents();
 		if (!completedEventsList.isEmpty()) {
 			calculateCreditsForUserRun();
@@ -137,4 +123,3 @@ public class CalculateCreditsScheduler {
 	}
 
 }
-
