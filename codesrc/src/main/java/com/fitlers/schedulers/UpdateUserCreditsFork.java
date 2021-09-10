@@ -51,8 +51,8 @@ public class UpdateUserCreditsFork implements Callable<Boolean> {
 		/* Starting run details and run summary credit calculation */
 		Long userRank = eventResultDetailsObj.getUserRank();
 		double multiplier = 0.6;
-		Double runCreditsForUser = ((1 - multiplier) / (1 - Math.pow(multiplier, size))
-				* Math.pow(multiplier, (userRank - 1))) * totalCreditsForEvent;
+		Integer runCreditsForUser = (int)Math.round(((1 - multiplier) / (1 - Math.pow(multiplier, size))
+				* Math.pow(multiplier, (userRank - 1))) * totalCreditsForEvent);
 
 		eventResultDetailsObj.setRunCredits(runCreditsForUser);
 		runDetailsObj.setRunCredits(runCreditsForUser);

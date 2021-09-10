@@ -32,7 +32,7 @@ public class RunSummary {
 	public Double totalDistance;
 
 	@Column(name = "TOTAL_CREDITS")
-	public Double totalCredits;
+	public Integer totalCredits;
 
 	@Column(name = "AVERAGE_PACE")
 	public Double averagePace;
@@ -104,11 +104,11 @@ public class RunSummary {
 		this.totalDistance = totalDistance;
 	}
 
-	public Double getTotalCredits() {
+	public Integer getTotalCredits() {
 		return totalCredits;
 	}
 
-	public void setTotalCredits(Double totalCredits) {
+	public void setTotalCredits(Integer totalCredits) {
 		this.totalCredits = totalCredits;
 	}
 

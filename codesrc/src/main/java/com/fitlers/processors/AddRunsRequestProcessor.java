@@ -133,7 +133,7 @@ public class AddRunsRequestProcessor extends RequestProcessor<AddRunDetailsReque
 		double avgCaloriesBurnt = (request.getRunDetailsList().stream().mapToDouble(run -> run.getRunCaloriesBurnt()).sum())
 				/ runSummaryNew.getTotalRuns();
 		runSummaryNew.setAverageCaloriesBurnt(avgCaloriesBurnt);
-		runSummaryNew.setTotalCredits(0.0);
+		runSummaryNew.setTotalCredits(0);
 		runSummaryRepository.save(runSummaryNew);
 	}
 
@@ -159,7 +159,7 @@ public class AddRunsRequestProcessor extends RequestProcessor<AddRunDetailsReque
 		existingRunSummary.setTotalRuns(existingRunSummary.getTotalRuns() + request.getRunDetailsList().size());
 		existingRunSummary
 				.setAverageDistance(existingRunSummary.getTotalDistance() / existingRunSummary.getTotalRuns());
-		existingRunSummary.setTotalCredits(0.0);
+		existingRunSummary.setTotalCredits(0);
 		runSummaryRepository.save(existingRunSummary);
 	}
 
