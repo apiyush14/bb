@@ -112,7 +112,7 @@ public class CalculateCreditsScheduler {
 		userIdList.add(eventResultDetails.getUserId());
 	}
 
-	@Scheduled(cron = "0/30 * * * * ?")
+	@Scheduled(cron = "* 0/30 * * * ?")
 	public void scheduledTaskForClass() {
 		eventResultDetailsList = new ArrayList<EventResultDetails>();
 		completedEventsList = eventDetailsRepository.findAllCompletedEvents();
