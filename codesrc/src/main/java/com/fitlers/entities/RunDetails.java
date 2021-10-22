@@ -49,7 +49,7 @@ public class RunDetails {
 	private Double runCaloriesBurnt;
 
 	@Column(name = "RUN_CREDITS")
-	private Double runCredits;
+	private Integer runCredits;
 
 	@Column(name = "RUN_START_DATE_TIME")
 	@Temporal(value = TemporalType.TIMESTAMP)
@@ -148,11 +148,11 @@ public class RunDetails {
 		this.runCaloriesBurnt = runCaloriesBurnt;
 	}
 
-	public Double getRunCredits() {
+	public Integer getRunCredits() {
 		return runCredits;
 	}
 
-	public void setRunCredits(Double runCredits) {
+	public void setRunCredits(Integer runCredits) {
 		this.runCredits = runCredits;
 	}
 

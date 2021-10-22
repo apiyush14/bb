@@ -47,7 +47,7 @@ public class EventResultDetails {
 	private String partitionKey;
 	
 	@Column(name = "RUN_CREDITS")
-	private Double runCredits;
+	private Integer runCredits;
 
 	
 
@@ -174,11 +174,11 @@ public class EventResultDetails {
 		this.eventDetails = eventDetails;
 	}
 
-	public Double getRunCredits() {
+	public Integer getRunCredits() {
 		return runCredits;
 	}
 
-	public void setRunCredits(Double runCredits) {
+	public void setRunCredits(Integer runCredits) {
 		this.runCredits = runCredits;
 	}
 	
