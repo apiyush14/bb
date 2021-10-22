@@ -260,7 +260,7 @@
         <div class="fix-12-12">
           <ul class="flex fixedSpaces verticalCenter reverse">
             <li class="wide">
-              <iframe id="termsframe" src="assets/files/Terms_Conditions.txt" frameborder="0" width="95%" height="500"></iframe>
+              <iframe id="termsframe" src="assets/files/Terms_Conditions.html" style="border:3px solid royalblue;" width="95%" height="500"></iframe>
             </li>
           </ul>
         </div>
@@ -278,7 +278,7 @@
         <div class="fix-12-12">
           <ul class="flex fixedSpaces verticalCenter reverse">
             <li class="wide">
-              <iframe id="privacyframe" src="assets/files/Privacy_Policy.txt" frameborder="0" width="95%" height="500"></iframe>
+              <iframe id="privacyframe" src="assets/files/Privacy_Policy.html" style="border:3px solid royalblue;" width="95%" height="500"></iframe>
             </li>
           </ul>
         </div>
@@ -302,19 +302,19 @@
 var termsframe = document.getElementById('termsframe');
     termsframe.onload = function () {
         var body = termsframe.contentWindow.document.querySelector('body');
-        body.style.color = 'springgreen';
+        body.style.color = 'black';
         body.style.fontSize = '15px';
         body.style.lineHeight = '15px';
-        body.style.backgroundColor = "black"
+        body.style.backgroundColor = "lightgrey"
     };
 
 var privacyframe = document.getElementById('privacyframe');
     privacyframe.onload = function () {
         var body = privacyframe.contentWindow.document.querySelector('body');
-        body.style.color = 'springgreen';
+        body.style.color = 'black';
         body.style.fontSize = '15px';
         body.style.lineHeight = '15px';
-        body.style.backgroundColor = "black"
+        body.style.backgroundColor = "lightgrey"
     };
 </script>
 		
